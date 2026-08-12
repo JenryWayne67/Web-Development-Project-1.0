@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, Calendar, ExternalLink, Search, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Award, Calendar, ExternalLink, Search, CheckCircle } from 'lucide-react';
 import { Scholarship, StudentProfile, Language } from '../types';
 
 interface ScholarshipListProps {
@@ -11,7 +11,7 @@ interface ScholarshipListProps {
 export const ScholarshipList: React.FC<ScholarshipListProps> = ({
   scholarships,
   studentProfile,
-  lang
+  lang: _lang
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 

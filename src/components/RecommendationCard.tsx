@@ -21,8 +21,8 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
   onViewDetails,
   isCompared,
   onToggleCompare,
-  isSaved,
-  onToggleSave
+  isSaved: _isSaved,
+  onToggleSave: _onToggleSave
 }) => {
   const t = translations[lang];
   const { program, university, matchScores, eligibilityStatus, aiExplanation } = recommendation;

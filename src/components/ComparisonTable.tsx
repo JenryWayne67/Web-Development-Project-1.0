@@ -1,7 +1,6 @@
 import React from 'react';
 import { Recommendation, Language } from '../types';
 import { ExternalLink, X, Scale, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
-import { translations } from '../data/translations';
 
 interface ComparisonTableProps {
   compared: Recommendation[];
@@ -14,7 +13,7 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
   onRemove,
   lang
 }) => {
-  const t = translations[lang];
+  void lang;
 
   if (compared.length === 0) {
     return (

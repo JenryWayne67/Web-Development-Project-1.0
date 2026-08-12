@@ -5,22 +5,15 @@ import {
   Language
 } from '../types';
 import {
-  User,
   Sparkles,
-  Award,
   CheckCircle,
   AlertTriangle,
   XCircle,
-  Bookmark,
-  Calendar,
-  Compass,
-  Filter,
   RefreshCw,
   MessageSquareText
 } from 'lucide-react';
 import { RecommendationCard } from '../components/RecommendationCard';
 import { CareerPathwayView } from '../components/CareerPathwayView';
-import { translations } from '../data/translations';
 
 interface DashboardPageProps {
   profile: StudentProfile;
@@ -47,7 +40,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   openChat,
   lang
 }) => {
-  const t = translations[lang];
+  void lang;
   const [filterSort, setFilterSort] = useState<'highest' | 'academic' | 'career'>('highest');
 
   // Filter recommendations based on sort

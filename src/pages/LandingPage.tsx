@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, GraduationCap, Compass, ArrowRight, ShieldCheck, CheckCircle2, Award, BookOpen, Layers } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 

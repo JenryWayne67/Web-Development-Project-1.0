@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   X,
-  Building,
   MapPin,
   ExternalLink,
   BookOpen,
@@ -9,9 +8,7 @@ import {
   AlertTriangle,
   XCircle,
   Award,
-  Calendar,
-  Compass,
-  GraduationCap
+  Compass
 } from 'lucide-react';
 import { Recommendation, Language } from '../types';
 import { translations } from '../data/translations';
@@ -30,7 +27,7 @@ export const UniversityDetailsModal: React.FC<UniversityDetailsModalProps> = ({
   if (!recommendation) return null;
 
   const t = translations[lang];
-  const { program, university, matchScores, eligibilityStatus, eligibilityDetails, aiExplanation, careerPathway, availableScholarships } = recommendation;
+  const { program, university, matchScores, eligibilityStatus, eligibilityDetails, careerPathway, availableScholarships } = recommendation;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fade-in overflow-y-auto">
