@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { AssessmentForm } from './components/AssessmentForm';
-import { ComparisonTable } from './components/ComparisonTable';
-import { UniversityDetailsModal } from './components/UniversityDetailsModal';
-import { ScholarshipList } from './components/ScholarshipList';
-import { DeadlineDashboard } from './components/DeadlineDashboard';
-import { AIAdvisorChatModal } from './components/AIAdvisorChatModal';
+import { Header, Footer } from './components/common';
+import { AssessmentForm } from './components/assessment';
+import { ComparisonTable, UniversityDetailsModal } from './components/university';
+import { ScholarshipList, DeadlineDashboard } from './components/scholarship';
+import { AIAdvisorChatModal } from './components/advisor';
 
-import { LandingPage } from './pages/LandingPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { ProgramsPage } from './pages/ProgramsPage';
+import { LandingPage, DashboardPage, ProgramsPage } from './pages';
 
 import {
   StudentProfile,

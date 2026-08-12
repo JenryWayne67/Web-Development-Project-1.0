@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, AlertTriangle, CheckCircle2, Hourglass, Building } from 'lucide-react';
+import { Calendar, AlertTriangle, CheckCircle2, Hourglass, Building } from 'lucide-react';
 import { ApplicationDeadline, Language } from '../types';
 
 interface DeadlineDashboardProps {

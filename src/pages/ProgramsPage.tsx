@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Filter, BookOpen, Clock, Building, ExternalLink, ChevronRight } from 'lucide-react';
+import { Search, MapPin, ChevronRight } from 'lucide-react';
 import { Program, University, Language, Recommendation, StudentProfile } from '../types';
-import { calculateProgramMatch } from '../utils/calculator';
+import { calculateProgramMatch } from '../../ai/recommendation/scoring';
 import { translations } from '../data/translations';
 
 interface ProgramsPageProps {

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquareText, Send, X, Bot, User, Sparkles, AlertCircle } from 'lucide-react';
+import { Send, X, Bot, User, Sparkles, AlertCircle } from 'lucide-react';
 import { ChatMessage, StudentProfile, Language } from '../types';
 import { sendAdvisorChatMessage } from '../services/api';
-import { translations } from '../data/translations';
 
 interface AIAdvisorChatModalProps {
   isOpen: boolean;
@@ -23,11 +22,10 @@ export const AIAdvisorChatModal: React.FC<AIAdvisorChatModalProps> = ({
   isOpen,
   onClose,
   studentProfile,
-  lang
+  lang: _lang
 }) => {
   if (!isOpen) return null;
 
-  const t = translations[lang];
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',

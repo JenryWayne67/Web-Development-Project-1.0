@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, GraduationCap, Layers, Briefcase, Wrench, Sparkles } from 'lucide-react';
+import { GraduationCap, Layers, Briefcase, Wrench, Sparkles } from 'lucide-react';
 import { Recommendation } from '../types';
 
 interface CareerPathwayViewProps {

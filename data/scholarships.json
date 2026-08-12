@@ -1,0 +1,58 @@
+[
+  {
+    "id": "moe-stem-scholarship",
+    "name": "Myanmar National STEM Excellence Scholarship",
+    "provider": "Ministry of Education & Tech Board",
+    "universityId": "uit-yangon",
+    "universityName": "UIT Yangon / YTU / UCSY",
+    "eligibilityCriteria": "Top matriculation scorers in Mathematics and Science (> 500 total marks).",
+    "academicRequirements": "Matriculation Total ≥ 500, Math ≥ 85, Physics ≥ 85",
+    "minTotalMarks": 500,
+    "applicationDeadline": "2026-10-15",
+    "description": "Covers full tuition fees and monthly living stipend for high-achieving STEM students enrolled in public technology institutes.",
+    "officialLink": "https://www.moe.gov.mm/scholarships/stem-2026",
+    "isDemoData": true
+  },
+  {
+    "id": "uit-merit-grant",
+    "name": "UIT Future Innovators Tech Grant",
+    "provider": "UIT Alumni & Tech Industry Alliance",
+    "universityId": "uit-yangon",
+    "universityName": "University of Information Technology (UIT Yangon)",
+    "eligibilityCriteria": "Admitted to B.C.Sc. or B.C.Tech. at UIT with outstanding Math score (> 85).",
+    "academicRequirements": "Math ≥ 85, Total Marks ≥ 490",
+    "minTotalMarks": 490,
+    "applicationDeadline": "2026-11-01",
+    "description": "Provides laptop allowance and partial tuition coverage for promising software engineering candidates.",
+    "officialLink": "https://www.uit.edu.mm/scholarships",
+    "isDemoData": true
+  },
+  {
+    "id": "asean-undergrad-myanmar",
+    "name": "ASEAN Undergraduate Fellowship Program",
+    "provider": "ASEAN Education Foundation",
+    "universityId": "yu-yangon",
+    "universityName": "University of Yangon / YUEco / YTU",
+    "eligibilityCriteria": "High academic standing with strong leadership potential and proficiency in English.",
+    "academicRequirements": "English ≥ 80, Total Marks ≥ 470",
+    "minTotalMarks": 470,
+    "applicationDeadline": "2026-09-30",
+    "description": "Prestigious fellowship for outstanding Myanmar students pursuing degrees in Science, Economics, or Law.",
+    "officialLink": "https://asean.org/opportunities/scholarships",
+    "isDemoData": true
+  },
+  {
+    "id": "vuc-early-bird-scholarship",
+    "name": "Victoria International Women in Tech & Business Award",
+    "provider": "Victoria University College",
+    "universityId": "victoria-college",
+    "universityName": "Victoria University College",
+    "eligibilityCriteria": "50% tuition reduction for female applicants entering IT or Business undergraduate degrees.",
+    "academicRequirements": "Matriculation Pass with English ≥ 65",
+    "minTotalMarks": 320,
+    "applicationDeadline": "2026-08-31",
+    "description": "Empowers female high-school graduates entering computer science or business administration.",
+    "officialLink": "https://www.victoria.edu.mm/grants",
+    "isDemoData": true
+  }
+]

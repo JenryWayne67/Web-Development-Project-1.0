@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraduationCap, Compass, Bookmark, MessageSquareText, Calendar, Award, Languages } from 'lucide-react';
+import { GraduationCap, Bookmark, MessageSquareText, Calendar, Award, Languages } from 'lucide-react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 
