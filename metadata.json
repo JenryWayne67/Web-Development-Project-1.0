@@ -1,6 +1,0 @@
-{
-  "name": "AI University Advisor for Myanmar Students",
-  "description": "Personalized university guidance platform for Myanmar students based on Matriculation results, interests, career goals, and learning preferences.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
