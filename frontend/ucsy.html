@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>University Details - AI University Advisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e1e3e4",
+                        "advisor-blue-light": "#F0F7FF",
+                        "on-secondary-fixed-variant": "#3e4854",
+                        "tertiary": "#000e02",
+                        "secondary-fixed": "#d9e3f3",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-container": "#5b6572",
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-tertiary-container": "#1a9d3d",
+                        "surface-dim": "#d9dadb",
+                        "tertiary-fixed-dim": "#67df75",
+                        "surface-container": "#edeeef",
+                        "primary": "#000a1e",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-variant": "#e1e3e4",
+                        "glass-bg": "rgba(255, 255, 255, 0.85)",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#002147",
+                        "inverse-on-surface": "#f0f1f2",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d9e3f3",
+                        "success-green": "#199D3D",
+                        "on-background": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-tertiary-fixed": "#002106",
+                        "inverse-primary": "#aec7f6",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "tertiary-fixed": "#83fc8e",
+                        "secondary": "#555f6c",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#44474e",
+                        "on-primary-container": "#708ab5",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#465f88",
+                        "background": "#f8f9fa",
+                        "outline": "#74777f",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001b3d",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "tertiary-container": "#002808",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#121c27",
+                        "glass-border": "rgba(255, 255, 255, 0.3)",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "outline-variant": "#c4c6cf",
+                        "on-error-container": "#93000a",
+                        "brand-gold": "#FFB800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit-12": "48px",
+                        "margin-mobile": "16px",
+                        "unit-6": "24px",
+                        "unit-8": "32px",
+                        "unit-1": "4px",
+                        "unit-16": "64px",
+                        "unit-4": "16px",
+                        "unit-2": "8px",
+                        "content-width-optimal": "900px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 10, 30, 0.05);
+        }
+        .pulse-badge {
+            animation: pulse-shadow 2s infinite;
+        }
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(25, 157, 61, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(25, 157, 61, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(25, 157, 61, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface-container-highest docked full-width top-0 shadow-sm z-50 sticky">
+<div class="flex justify-between items-center px-margin-mobile md:px-unit-8 h-16 w-full max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-unit-2">
+<span class="material-symbols-outlined text-primary text-2xl" data-weight="fill">school</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">AI University Advisor</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-unit-6 font-body-md text-body-md">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Home</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 scale-95 transition-transform" href="#">Universities</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">AI Advisor</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-unit-4">
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">EN/MM</button>
+<button class="text-primary dark:text-inverse-primary hover:text-primary transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-unit-8 pb-unit-16 flex flex-col items-center">
+<!-- Hero Banner -->
+<div class="w-full relative mt-unit-8 rounded-xl overflow-hidden mb-unit-8 shadow-sm">
+<div class="bg-cover bg-center w-full h-[340px] relative" data-alt="A sweeping, high-quality architectural photograph of a modern university campus in Yangon, Myanmar during golden hour. The scene features contemporary glass and steel buildings interspersed with lush green trees. Soft, warm sunlight reflects off the sleek facades, creating a bright, optimistic light-mode aesthetic. A few students are visible in the foreground, carrying backpacks and laptops, emphasizing an active academic environment. The color palette highlights bright blues, greens, and warm sunlight tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAMaqZP2P8W3xB9mWwCdvQx9ZIdLEBolP4mfnYI30fJlsraDD5hHD_bXCaTnWSWU7HJUV4axFIGtrXCAMwsZrLSq89cWg1kDq24fnqIabNLh4gp0FrniFicwQNRoPl7jm-lyoEMkjbqVTwbli62vVuuMqiWR5TrdKLYjeP0KsbcO85pHyDgTEEMeMW41PmOcPf4jPqtpNxx95p1pcIDmIzuCOYm0Dru-iwM2O8fbAbZFvzfWnCqQM1O9g')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-unit-8 w-full flex flex-col md:flex-row justify-between items-end gap-unit-4">
+<div class="text-on-primary">
+<h1 class="font-display text-display mb-unit-2">University of Computer Studies (UCSY)</h1>
+<div class="flex flex-wrap items-center gap-unit-4 font-body-lg text-body-lg opacity-90">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xl">location_on</span> Yangon, Myanmar</span>
+<span>•</span>
+<span>Public University • Established 1995</span>
+</div>
+</div>
+<button class="glass-bg text-primary font-label-md text-label-md px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-white transition-colors">
+<span class="material-symbols-outlined">add_a_photo</span>
+                        Click to Upload Photo
+                    </button>
+</div>
+</div>
+</div>
+<!-- Content Container -->
+<div class="w-full max-w-content-optimal flex flex-col gap-unit-8">
+<!-- Quick Actions -->
+<div class="flex flex-wrap gap-unit-4">
+<button class="flex items-center gap-2 px-6 py-3 border border-primary-container text-primary-container rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">bar_chart</span> Compare University
+                </button>
+<button class="flex items-center gap-2 px-6 py-3 bg-brand-gold text-primary-container rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined">smart_toy</span> Ask AI Advisor
+                </button>
+</div>
+<!-- Not Assessed Banner -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-unit-6 flex flex-col sm:flex-row items-center justify-between gap-unit-6 shadow-sm">
+<div class="flex items-start gap-unit-4">
+<div class="p-3 bg-surface-container-high rounded-full text-secondary">
+<span class="material-symbols-outlined text-3xl">assignment_late</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">📋 Not Yet Assessed</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">You haven't completed the assessment for this university yet. Complete your profile to get personalized match scores and recommendations.</p>
+</div>
+</div>
+<button class="whitespace-nowrap px-6 py-3 bg-brand-gold text-primary-container rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center gap-2">
+                    Complete Assessment <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-unit-8">
+<!-- Left Column (Wider) -->
+<div class="md:col-span-2 flex flex-col gap-unit-8">
+<!-- About Section -->
+<div class="glass-card rounded-xl p-unit-6">
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-4 border-b border-surface-variant pb-2">About University of Computer Studies (UCSY)</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            The University of Computer Studies, Yangon (UCSY) is the premier university for computer science and information technology in Myanmar. Established to foster technological advancement, UCSY offers a rigorous curriculum designed to prepare students for the rapidly evolving tech landscape. With state-of-the-art facilities and a commitment to research and innovation, UCSY stands as a beacon for aspiring IT professionals across the nation.
+                        </p>
+</div>
+<!-- Available Programs -->
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-4">Available Programs</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-unit-4">
+<div class="bg-surface-lowest border border-outline-variant rounded-lg p-unit-4 hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-2 text-2xl">code</span>
+<h4 class="font-label-md text-label-md text-on-surface">B.C.Sc</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">(Computer Science)</p>
+</div>
+<div class="bg-surface-lowest border border-outline-variant rounded-lg p-unit-4 hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-2 text-2xl">dns</span>
+<h4 class="font-label-md text-label-md text-on-surface">B.C.Tech</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">(Information Technology)</p>
+</div>
+<div class="bg-surface-lowest border border-outline-variant rounded-lg p-unit-4 hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-2 text-2xl">database</span>
+<h4 class="font-label-md text-label-md text-on-surface">B.Sc</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">(Data Science)</p>
+</div>
+</div>
+</div>
+<!-- Admission Requirements -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="bg-brand-gold/10 px-unit-6 py-3 border-b border-brand-gold/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-gold">verified</span>
+<span class="font-label-md text-label-md text-primary-container">Verified Requirements for 2024 Intake</span>
+</div>
+<div class="p-unit-6">
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-4">Admission Requirements</h2>
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="border-b-2 border-surface-variant text-on-surface">
+<th class="py-3 font-semibold">Subject</th>
+<th class="py-3 font-semibold">Min. Requirement</th>
+<th class="py-3 font-semibold text-center">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors">
+<td class="py-3">Mathematics</td>
+<td class="py-3">75 Marks</td>
+<td class="py-3 text-center"><span class="material-symbols-outlined text-success-green">check_circle</span></td>
+</tr>
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors">
+<td class="py-3">English</td>
+<td class="py-3">70 Marks</td>
+<td class="py-3 text-center"><span class="material-symbols-outlined text-success-green">check_circle</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3">Computer Studies</td>
+<td class="py-3">70 Marks</td>
+<td class="py-3 text-center"><span class="material-symbols-outlined text-success-green">check_circle</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column (Sidebar) -->
+<div class="flex flex-col gap-unit-6">
+<!-- Fantastic Facts -->
+<div class="bg-primary-container rounded-xl p-unit-6 text-on-primary shadow-sm border border-primary">
+<h3 class="font-headline-md text-headline-md text-brand-gold mb-unit-4">Fast Facts</h3>
+<ul class="space-y-4 font-body-lg text-body-lg text-on-primary/90">
+<li class="flex items-center gap-3"><span class="text-xl">🎓</span> 4,000+ Students</li>
+<li class="flex items-center gap-3"><span class="text-xl">📚</span> 15+ Programs</li>
+<li class="flex items-center gap-3"><span class="text-xl">🏆</span> #1 IT in Myanmar</li>
+<li class="flex items-center gap-3"><span class="text-xl">🌍</span> 20+ Int'l Partners</li>
+</ul>
+</div>
+<!-- Profile Match -->
+<div class="glass-card rounded-xl p-unit-6 text-center">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-4">Profile Match Score</h3>
+<div class="w-32 h-32 mx-auto rounded-full border-4 border-surface-variant flex items-center justify-center mb-4">
+<span class="font-display text-display text-on-surface-variant opacity-50">?</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Not Assessed</p>
+</div>
+<!-- Advisor Insight -->
+<div class="bg-advisor-blue-light border border-primary-container rounded-xl p-unit-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-primary-container">lightbulb</span>
+</div>
+<div class="flex items-center gap-2 mb-3 relative z-10">
+<span class="material-symbols-outlined text-primary-container">psychology</span>
+<h3 class="font-label-md text-label-md text-primary-container uppercase tracking-wider">Advisor Insight</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant relative z-10">
+                            UCSY is highly competitive. Focus on strong Mathematics and English scores in your matriculation exams to improve your chances of admission to their top B.C.Sc program.
+                        </p>
+</div>
+<!-- Career Opportunities -->
+<div class="bg-surface-lowest border border-outline-variant rounded-xl p-unit-6">
+<h3 class="font-headline-md text-headline-md text-primary mb-unit-4">Career Opportunities</h3>
+<div class="flex flex-col gap-2">
+<a class="px-4 py-2 bg-surface-container-low rounded hover:bg-surface-container-high transition-colors text-on-surface font-body-md text-body-md flex items-center justify-between" href="#">Software Engineer <span class="material-symbols-outlined text-sm text-secondary">arrow_forward</span></a>
+<a class="px-4 py-2 bg-surface-container-low rounded hover:bg-surface-container-high transition-colors text-on-surface font-body-md text-body-md flex items-center justify-between" href="#">Data Scientist <span class="material-symbols-outlined text-sm text-secondary">arrow_forward</span></a>
+<a class="px-4 py-2 bg-surface-container-low rounded hover:bg-surface-container-high transition-colors text-on-surface font-body-md text-body-md flex items-center justify-between" href="#">IT Consultant <span class="material-symbols-outlined text-sm text-secondary">arrow_forward</span></a>
+<a class="px-4 py-2 bg-surface-container-low rounded hover:bg-surface-container-high transition-colors text-on-surface font-body-md text-body-md flex items-center justify-between" href="#">Cybersecurity Analyst <span class="material-symbols-outlined text-sm text-secondary">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="mt-unit-8 pt-unit-8 border-t border-surface-variant flex flex-col sm:flex-row justify-between items-center gap-unit-4">
+<div class="flex gap-4 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-3 border border-primary-container text-primary-container rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span onclick="location.href='yourmatches.html'" class="material-symbols-outlined">arrow_back</span> Back to Matches
+                    </button>
+<button class="flex-1 sm:flex-none px-6 py-3 border border-brand-gold text-primary-container rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">bookmark_border</span> Save University
+                    </button>
+</div>
+<button onclick="location.href='admission.html'" class="w-full sm:w-auto px-8 py-3 bg-brand-gold text-primary-container font-bold rounded-lg h-12 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined">description</span> View Admission Guide <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component mapped to dark theme request) -->
+<footer class="bg-[#1A1A2E] w-full py-unit-8 px-margin-mobile md:px-unit-16 flex flex-col md:flex-row justify-between items-center gap-unit-6 text-on-primary mt-auto">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-gold text-2xl" data-weight="fill">school</span>
+<span class="font-headline-md text-headline-md font-bold text-brand-gold tracking-tight">AI University Advisor</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-primary/80">🇲🇲 Proudly serving students across Yangon and all of Myanmar</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-2 font-body-md text-body-md text-on-primary/80">
+<a class="hover:text-on-primary transition-opacity" href="home.html">Home</a>
+<a class="hover:text-on-primary transition-opacity" href="uniexp.html">Universities</a>
+<a class="hover:text-on-primary transition-opacity" href="assessment1.html">Assessment</a>
+<a class="hover:text-on-primary transition-opacity" href="about.html">About</a>
+<a class="hover:text-on-primary transition-opacity" href="contact.html">Contact</a>
+</div>
+<div class="font-label-sm text-label-sm text-on-primary/60 text-center md:text-right">
+            © 2024 AI University Advisor. Myanmar Student Success.
+        </div>
+</footer>
+</body></html>

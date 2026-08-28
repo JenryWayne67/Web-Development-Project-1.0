@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us - AI University Advisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "primary-container": "#002147",
+                        "primary": "#000a1e",
+                        "on-secondary-fixed": "#121c27",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "secondary-container": "#d9e3f3",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#708ab5",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-container": "#002808",
+                        "surface-container": "#edeeef",
+                        "surface-container-highest": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "glass-border": "rgba(255, 255, 255, 0.3)",
+                        "on-secondary-container": "#5b6572",
+                        "surface-dim": "#d9dadb",
+                        "primary-fixed": "#d6e3ff",
+                        "outline": "#74777f",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "advisor-blue-light": "#F0F7FF",
+                        "on-background": "#191c1d",
+                        "on-primary": "#ffffff",
+                        "glass-bg": "rgba(255, 255, 255, 0.85)",
+                        "on-tertiary-fixed": "#002106",
+                        "secondary": "#555f6c",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000e02",
+                        "on-secondary-fixed-variant": "#3e4854",
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "inverse-primary": "#aec7f6",
+                        "error": "#ba1a1a",
+                        "success-green": "#199D3D",
+                        "surface-tint": "#465f88",
+                        "background": "#f8f9fa",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-surface-variant": "#44474e",
+                        "secondary-fixed": "#d9e3f3",
+                        "on-tertiary-container": "#1a9d3d",
+                        "tertiary-fixed": "#83fc8e",
+                        "tertiary-fixed-dim": "#67df75",
+                        "gold-accent": "#D4AF37" // Added gold as requested
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "unit-2": "8px",
+                        "unit-1": "4px",
+                        "unit-8": "32px",
+                        "unit-16": "64px",
+                        "container-max": "1280px",
+                        "content-width-optimal": "900px",
+                        "unit-12": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "unit-4": "16px",
+                        "unit-6": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(rgba(0, 33, 71, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col relative overflow-x-hidden bg-pattern">
+<!-- Ambient Background Elements -->
+<div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-primary-fixed/20 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] rounded-full bg-advisor-blue-light/50 blur-[120px]"></div>
+</div>
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center h-unit-16 px-unit-6 max-w-container-max mx-auto bg-glass-bg dark:bg-primary-container backdrop-blur-md border-b border-glass-border shadow-sm duration-200 ease-in-out">
+<div class="font-headline-md text-headline-md font-bold text-gold-accent flex items-center gap-2">
+<span class="material-symbols-outlined text-[28px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">school</span>
+            AI University Advisor
+        </div>
+<nav class="hidden md:flex items-center gap-unit-6">
+<a class="text-on-secondary-container dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="home.html">Home</a>
+<a class="text-on-secondary-container dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="uniexp.html">University</a>
+<a class="text-on-secondary-container dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="assessment1.html">assessment</a>
+<a class="text-on-secondary-container dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="about.html">About</a>
+<a class="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary dark:border-primary-fixed pb-1 font-body-md text-body-md" href="#">Contact Us</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="font-label-md text-label-md text-on-secondary-container hover:text-primary transition-colors">EN/MM</button>
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">Sign In</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[120px] pb-unit-16 px-margin-mobile md:px-unit-6 max-w-container-max mx-auto w-full relative z-10">
+<!-- Page Header -->
+<div class="text-center mb-unit-12">
+<h1 class="font-display text-display text-primary-container mb-4">Contact Us</h1>
+<p class="font-body-lg text-body-lg text-on-secondary-container max-w-2xl mx-auto">
+                Have questions about your university matches? Need help with the assessment? Our team is here to help.
+            </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-unit-6">
+<!-- Contact Form Area (Takes up 7 cols on large screens) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-unit-6 md:p-unit-8 shadow-[0_4px_16px_rgba(0,10,30,0.1)] border border-surface-variant relative overflow-hidden group">
+<!-- Subtle top accent -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gold-accent/80"></div>
+<h2 class="font-headline-md text-headline-md text-primary-container mb-6">Get in Touch</h2>
+<form class="space-y-unit-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="fullName">Full Name</label>
+<input class="w-full rounded-lg border-outline-variant focus:border-primary-container focus:ring-primary-container bg-surface-bright text-on-surface font-body-md transition-colors" id="fullName" placeholder="Jane Doe" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="email">Email Address</label>
+<input class="w-full rounded-lg border-outline-variant focus:border-primary-container focus:ring-primary-container bg-surface-bright text-on-surface font-body-md transition-colors" id="email" placeholder="jane@example.com" type="email"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="subject">Subject</label>
+<select class="w-full rounded-lg border-outline-variant focus:border-primary-container focus:ring-primary-container bg-surface-bright text-on-surface font-body-md transition-colors" id="subject">
+<option>General Inquiry</option>
+<option>Technical Support</option>
+<option>University Match Help</option>
+<option>Other</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="message">Message</label>
+<textarea class="w-full rounded-lg border-outline-variant focus:border-primary-container focus:ring-primary-container bg-surface-bright text-on-surface font-body-md transition-colors resize-y" id="message" placeholder="How can we help you today?" rows="5"></textarea>
+</div>
+<div class="pt-2">
+<button class="w-full md:w-auto bg-[#D4AF37] hover:bg-[#C5A028] text-white px-unit-8 py-3 rounded-lg font-label-md text-label-md transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2" type="submit">
+<span>Send Message</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Side Info Area (Takes up 5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-unit-6">
+<!-- Contact Info Card -->
+<div class="bg-primary-container text-on-primary rounded-xl p-unit-6 md:p-unit-8 shadow-[0_4px_16px_rgba(0,10,30,0.15)] relative overflow-hidden">
+<!-- Glassmorphism decorative element -->
+<div class="absolute top-[-50px] right-[-50px] w-[150px] h-[150px] bg-white/5 rounded-full blur-2xl"></div>
+<h3 class="font-headline-md text-headline-md mb-6 relative z-10 text-white">Other Ways to Reach Us</h3>
+<div class="space-y-6 relative z-10">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-gold-accent">mail</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-primary-container mb-1">Email</p>
+<a class="font-body-md text-body-md text-white hover:text-gold-accent transition-colors break-all" href="mailto:support@aiuniversityadvisor.com">support@aiuniversityadvisor.com</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-gold-accent">call</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-primary-container mb-1">Phone</p>
+<a class="font-body-md text-body-md text-white hover:text-gold-accent transition-colors" href="tel:+95912345678">+95 (0) 9 1234 5678</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+<span class="material-symbols-outlined text-gold-accent">location_on</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-primary-container mb-1">Office</p>
+<p class="font-body-md text-body-md text-white">Yangon, Myanmar</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Advisor Insight Box (Response Time) -->
+<div class="bg-advisor-blue-light border border-primary-container rounded-xl p-unit-6 flex items-start gap-4 shadow-sm">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary-container text-[24px]">schedule</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary-container mb-1">Response Time</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">We typically respond within 24-48 hours during business days. For urgent assessment issues, please include "URGENT" in your subject line.</p>
+</div>
+</div>
+<!-- Map Image Placeholder -->
+<div class="h-48 rounded-xl overflow-hidden border border-surface-variant shadow-sm relative group cursor-pointer">
+<img alt="Map location in Yangon" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A highly detailed, professional map interface showing a sleek, modern pin located in Yangon, Myanmar. The map utilizes a clean, light-mode color palette with subtle deep navy and soft gray tones, conveying an academic, trustworthy, and technologically advanced atmosphere suitable for an educational advisor platform." data-location="Yangon, Myanmar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkakKKp_xt4-8pjfx4Xvcc7rf-TQEJ_7pKjSqPifaq1kMS63prmiPVEyXNSnvH9hNit7UMGyvrzBs09YBcNrW9l6GAbynaQRBQ5c28lYMsYc2v7Qnfd83g21bZeNLc3RlksaECWXzmkQwEdQ5yy4U_FdwH8dlDsYvZJO3GusegkiiO7vGJORTaqY8Pwb5lqru84lzRjavDWwo2cIbeRoobhgDOTemrZjJ_QrjXR8e12IH-ryabHh1nFw"/>
+<div class="absolute inset-0 bg-primary-container/0 group-hover:bg-primary-container/10 transition-colors flex items-center justify-center">
+<div class="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-md font-label-sm text-label-sm text-primary-container opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300">
+                             View on Map
+                         </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-unit-12 px-unit-6 flex flex-col md:flex-row justify-between items-center gap-unit-4 bg-primary dark:bg-surface-container-lowest transition-opacity duration-300 mt-auto">
+<div class="font-headline-lg text-headline-lg font-bold text-on-primary">
+            AI University Advisor
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-label-md text-label-md text-on-primary-container dark:text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors" href="#">Student Support</a>
+<a class="font-label-md text-label-md text-on-primary-container dark:text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors" href="#">Application Guide</a>
+<a class="font-label-md text-label-md text-on-primary-container dark:text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors" href="#">Contact MM Office</a>
+<a class="font-label-md text-label-md text-on-primary-container dark:text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="font-label-md text-label-md text-on-primary-container dark:text-on-surface-variant text-center md:text-right">
+            © 2024 AI University Advisor. Supporting Myanmar's Future Scholars.
+        </div>
+</footer>
+</body></html>

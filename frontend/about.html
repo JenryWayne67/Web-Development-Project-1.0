@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About - AI University Advisor</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-container": "#5b6572",
+                        "glass-border": "rgba(255, 255, 255, 0.3)",
+                        "on-primary-container": "#708ab5",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "primary-fixed": "#d6e3ff",
+                        "on-background": "#191c1d",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#aec7f6",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-fixed": "#001b3d",
+                        "glass-bg": "rgba(255, 255, 255, 0.85)",
+                        "primary-container": "#002147",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#121c27",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-tertiary-container": "#1a9d3d",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "inverse-surface": "#2e3132",
+                        "surface-tint": "#465f88",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d9e3f3",
+                        "tertiary-fixed": "#83fc8e",
+                        "outline": "#74777f",
+                        "tertiary": "#000e02",
+                        "secondary-fixed": "#d9e3f3",
+                        "on-secondary-fixed-variant": "#3e4854",
+                        "on-tertiary-fixed": "#002106",
+                        "on-surface-variant": "#44474e",
+                        "on-error": "#ffffff",
+                        "success-green": "#199D3D",
+                        "surface-container-low": "#f3f4f5",
+                        "advisor-blue-light": "#F0F7FF",
+                        "tertiary-container": "#002808",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "background": "#f8f9fa",
+                        "surface-container-high": "#e7e8e9",
+                        "primary": "#000a1e",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "secondary": "#555f6c",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed-dim": "#67df75",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        // Custom additions based on prompt
+                        "gold": "#D4AF37",
+                        "dark-navy": "#1A1A2E"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "content-width-optimal": "900px",
+                        "unit-12": "48px",
+                        "unit-16": "64px",
+                        "unit-4": "16px",
+                        "base": "4px",
+                        "unit-6": "24px",
+                        "container-max": "1280px",
+                        "unit-8": "32px",
+                        "unit-1": "4px",
+                        "unit-2": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "display": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "500" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .geometric-bg {
+            background-color: #F8F9FA;
+            background-image: radial-gradient(#e1e3e4 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md geometric-bg min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="bg-surface/80 dark:bg-primary/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-margin-mobile md:px-unit-8 max-w-container-max mx-auto h-unit-16">
+<div class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[32px] text-primary-container">school</span>
+<span class="text-primary-container">AI University Advisor</span>
+</div>
+<div class="hidden md:flex gap-unit-6 items-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors hover:bg-secondary-container/50 dark:hover:bg-primary-container/50 py-2 px-3 rounded-lg" href="home.html">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors hover:bg-secondary-container/50 dark:hover:bg-primary-container/50 py-2 px-3 rounded-lg" href="uniexp.html">Universities</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors hover:bg-secondary-container/50 dark:hover:bg-primary-container/50 py-2 px-3 rounded-lg" href="assessment1.html">Assessment</a>
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim font-bold border-b-2 border-primary dark:border-primary-fixed-dim pb-1 hover:bg-secondary-container/50 dark:hover:bg-primary-container/50 rounded-t-lg" href="about.html">About</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors hover:bg-secondary-container/50 dark:hover:bg-primary-container/50 py-2 px-3 rounded-lg" href="contact.html">Contact</a>
+</div>
+<div class="flex items-center gap-unit-4">
+<button class="font-label-md text-label-md text-primary-container bg-advisor-blue-light border border-primary-container px-4 py-2 rounded-lg hover:bg-secondary-container transition-colors">
+                Language: EN/MM
+            </button>
+<div class="flex gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">language</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+</div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, circular profile picture of a student looking determined in a modern library setting, high quality, bright lighting, representing an active user of the university advisor platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAByJlO2mqpsbBmedFZubehqCqiZeMqxPG0Wspve44afbY_2ah2PK3qE-vIEq5GY3Bt1-vxPsWNl_I11h7pJGfaKMwryASJZ5j2bLk9PXv5tJAYJWaAmfL0uZGvfQ-IA5d1_KK6jWBjBNmBy_YIlHroV5Kmf-DKJX3TI9uKkDVq4huNtIRBS044kg7_B3nXqIPd-8fD5pgcL2EBrZWhaVGikRMGcWmf18-BoF-UtyfBvHg3J0aiwpPCWw"/>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-unit-16 mt-unit-8 max-w-container-max mx-auto w-full px-margin-mobile md:px-unit-8">
+<!-- Hero Section -->
+<section class="text-center py-unit-12">
+<h1 class="font-display text-display text-primary-container mb-4">About AI University Advisor</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Empowering Myanmar students to make data-driven decisions for their academic future using advanced artificial intelligence.</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-unit-6 mb-unit-12">
+<!-- Our Mission (Large Span) -->
+<div class="md:col-span-8 bg-glass-bg backdrop-blur-md rounded-xl p-unit-6 border border-glass-border shadow-sm flex flex-col justify-center relative overflow-hidden">
+<div class="absolute -right-10 -top-10 text-gold opacity-10">
+<span class="material-symbols-outlined text-[200px]">explore</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary-container mb-unit-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-gold">rocket_launch</span>
+                    Our Mission
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant relative z-10 leading-relaxed">
+                    AI University Advisor is designed to help Myanmar students find their perfect university match. Using advanced AI technology, we analyze academic profiles, interests, and preferences to provide personalized university recommendations.
+                </p>
+</div>
+<!-- Our Vision (Smaller Span) -->
+<div class="md:col-span-4 bg-advisor-blue-light rounded-xl p-unit-6 border border-primary-container/20 shadow-sm flex flex-col justify-center">
+<h2 class="font-headline-md text-headline-md text-primary-container mb-unit-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-gold">visibility</span>
+                    Our Vision
+                </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    To empower every Myanmar student with the information and guidance they need to make informed decisions about their academic future.
+                </p>
+</div>
+<!-- How It Works (Full Width) -->
+<div class="md:col-span-12 bg-surface-container-lowest rounded-xl p-unit-8 border border-outline-variant/50 shadow-sm mt-unit-4">
+<h2 class="font-headline-md text-headline-md text-primary-container mb-unit-8 text-center">How It Works</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-unit-6">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300 shadow-sm">
+<span class="material-symbols-outlined text-3xl">edit_document</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary-container mb-2">1. Enter Results</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Input your academic achievements.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center group relative">
+<div class="hidden md:block absolute top-8 -left-1/2 w-full h-[2px] bg-gradient-to-r from-transparent via-outline-variant to-transparent -z-10"></div>
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300 shadow-sm">
+<span class="material-symbols-outlined text-3xl">favorite</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary-container mb-2">2. Share Interests</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Tell us what subjects inspire you.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center group relative">
+<div class="hidden md:block absolute top-8 -left-1/2 w-full h-[2px] bg-gradient-to-r from-transparent via-outline-variant to-transparent -z-10"></div>
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300 shadow-sm">
+<span class="material-symbols-outlined text-3xl">tune</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary-container mb-2">3. Set Preferences</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Define your location and budget.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center group relative">
+<div class="hidden md:block absolute top-8 -left-1/2 w-full h-[2px] bg-gradient-to-r from-transparent via-outline-variant to-transparent -z-10"></div>
+<div class="w-16 h-16 rounded-full bg-advisor-blue-light border-2 border-primary-container flex items-center justify-center mb-4 group-hover:bg-primary-container group-hover:text-white transition-colors duration-300 shadow-sm">
+<span class="material-symbols-outlined text-3xl text-primary-container group-hover:text-white">auto_awesome</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary-container mb-2">4. Get Matches</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Receive AI-driven recommendations.</p>
+</div>
+</div>
+</div>
+<!-- Why Choose Us -->
+<div class="md:col-span-12 bg-primary-container text-on-primary rounded-xl overflow-hidden shadow-lg flex flex-col md:flex-row items-center mt-unit-4">
+<div class="w-full md:w-1/2 h-64 md:h-full relative min-h-[300px]">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A bright, modern university campus in Myanmar, perhaps Yangon, with students walking between modern glass buildings, representing higher education opportunities, high quality architectural photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxa7t63WP-DCBddPEJizfmnm4fJk-CEdR5DeGBZ_gIxPdFOQ5Ca0jsWjFHKEqFkxlvgzqtwHPbbv2e5_Jvy3rFpdZ_bHcsZHOMZbWstMXo-zsZofy2FQcp06ZhLkx3Bl_L5kHTKBAWFMfjFOvZduPMeumR_j1jKlI7tsF8iYzHPBqrvT72OVAmkWRsOCmmBI78wheNkFRCAqbpgvOJpWGCedY150QtLU_YwqXIxMkTIbJiHGQfYDfUfg"/>
+</div>
+<div class="w-full md:w-1/2 p-unit-8 md:p-unit-12">
+<h2 class="font-headline-md text-headline-md text-gold mb-unit-4 flex items-center gap-2">
+<span class="material-symbols-outlined">verified</span>
+                        Why Choose Us
+                    </h2>
+<p class="font-body-lg text-body-lg text-surface-container-high leading-relaxed">
+                        We combine AI technology with local Myanmar university data to provide accurate, personalized recommendations for students across Yangon and all of Myanmar. Our platform bridges the gap between ambition and opportunity.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-dark-navy text-on-primary w-full mt-auto py-unit-8 px-margin-mobile md:px-unit-12">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-unit-4">
+<div class="font-headline-md text-headline-md font-bold text-gold flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]">school</span>
+                AI University Advisor
+            </div>
+<div class="flex flex-wrap justify-center gap-unit-4 font-label-sm text-label-sm">
+<a class="text-on-primary-fixed-variant hover:text-gold transition-colors underline" href="#">Home</a>
+<a class="text-on-primary-fixed-variant hover:text-gold transition-colors underline" href="#">Universities</a>
+<a class="text-on-primary-fixed-variant hover:text-gold transition-colors underline" href="#">Assessment</a>
+<a class="text-tertiary-fixed font-bold hover:text-gold transition-colors underline" href="#">About</a>
+<a class="text-on-primary-fixed-variant hover:text-gold transition-colors underline" href="#">Contact</a>
+</div>
+</div>
+<div class="max-w-container-max mx-auto text-center mt-unit-6 pt-unit-4 border-t border-outline/30">
+<p class="font-label-sm text-label-sm text-on-primary-fixed-variant">
+                © 2024 AI University Advisor. Myanmar Student Success.
+            </p>
+</div>
+</footer>
+</body></html>

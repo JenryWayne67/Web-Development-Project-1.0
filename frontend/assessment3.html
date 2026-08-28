@@ -1,0 +1,319 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Assessment Step 3: Preferences - Myanmar Scholar Advisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#000e02",
+                        "primary": "#000a1e",
+                        "surface-tint": "#465f88",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#555f6c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#002808",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed-dim": "#66df75",
+                        "surface": "#f8f9fa",
+                        "secondary-container": "#d9e3f2",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed": "#d6e3ff",
+                        "outline-variant": "#c4c6cf",
+                        "surface-dim": "#d9dadb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "primary-container": "#002147",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-tertiary-container": "#199d3d",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed-variant": "#3e4853",
+                        "on-primary-container": "#708ab5",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#74777f",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface-variant": "#44474e",
+                        "background": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "on-secondary-container": "#5b6572",
+                        "on-surface": "#191c1d",
+                        "on-secondary-fixed": "#131c27",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d9e3f2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#002106",
+                        "inverse-primary": "#aec7f6",
+                        "primary-fixed-dim": "#aec7f6",
+                        "tertiary-fixed": "#83fc8e",
+                        "gold": "#FFB800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit-8": "2rem",
+                        "margin-mobile": "16px",
+                        "base": "4px",
+                        "container-max": "1280px",
+                        "unit-1": "0.25rem",
+                        "unit-12": "3rem",
+                        "unit-4": "1rem",
+                        "unit-2": "0.5rem",
+                        "unit-16": "4rem",
+                        "unit-6": "1.5rem",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .7; transform: scale(1.05); }
+        }
+        .animate-pulse-custom {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-unit-12 h-16 bg-white shadow-sm border-b border-surface-variant">
+<div class="flex items-center gap-2">
+<span class="text-[18px] font-bold text-[#002147]">🎓 AI University Advisor</span>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="home.html">Home</a>
+<span class="text-[#6B7280]">|</span>
+<a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="uniexp.html">Universities</a>
+<span class="text-[#6B7280]">|</span>
+<a class="text-[15px] font-bold text-[#002147]" href="assessment1.html">Assessment</a>
+<span class="text-[#6B7280]">|</span>
+<a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="about.html">About</a>
+<span class="text-[#6B7280]">|</span>
+<a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[14px] font-bold text-[#6B7280] hover:text-[#002147] transition-colors">EN/MM</button>
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center cursor-pointer hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+</div>
+</nav>
+<!-- Progress Bar Section -->
+<div class="mt-16 w-full bg-[#F8F9FA] h-[64px] px-10 flex items-center justify-between border-b border-outline-variant shadow-sm z-40 relative">
+<div class="font-bold text-[18px] text-gold">
+        📍 Step 3 of 4: Preferences
+    </div>
+<div class="flex items-center gap-4 text-sm font-medium">
+<div class="flex items-center gap-2 text-gold">
+<span class="material-symbols-outlined text-sm">check</span>
+<span>📝 Academic Results</span>
+</div>
+<div class="w-8 h-[2px] bg-gold"></div>
+<div class="flex items-center gap-2 text-gold">
+<span class="material-symbols-outlined text-sm">check</span>
+<span>🎯 Your Interests</span>
+</div>
+<div class="w-8 h-[2px] bg-gold"></div>
+<div class="flex items-center gap-2 text-gold font-bold animate-pulse-custom text-base scale-105">
+<span>📍 Preferences</span>
+</div>
+<div class="w-8 h-[2px] bg-outline-variant"></div>
+<div class="flex items-center gap-2 text-outline-variant">
+<span>🎓 Your Matches</span>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-grow pt-8 pb-unit-12 px-margin-mobile md:px-gutter max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Main Form (65%) -->
+<div class="space-y-unit-8 md:col-span-8">
+<div class="bg-surface-container-lowest p-unit-8 rounded-xl shadow-sm border border-outline-variant">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-[#FFB800] bg-opacity-20 text-[#FFB800] rounded-full text-[14px] font-bold mb-3">📍 Step 3 of 4</span>
+<h1 class="text-[28px] font-bold text-[#002147] mb-2">What Are You Looking For?</h1>
+<p class="text-[#6B7280] text-base">Help us fine-tune your university matches by sharing your final preferences.</p>
+</div>
+<!-- Preferred Location -->
+<div class="mb-unit-8 mt-8">
+<h2 class="text-[18px] font-bold text-[#002147] mb-unit-4">📍 Preferred Location</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-unit-4">
+<!-- Selected Card -->
+<div class="relative p-unit-4 rounded-lg border-2 border-gold bg-surface-container-lowest cursor-pointer hover:shadow-md transition-shadow">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-gold" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+</div>
+<span class="material-symbols-outlined text-[#002147] mb-2 text-3xl">location_city</span>
+<h3 class="font-label-md text-label-md text-[#002147]">Yangon</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">Tech hubs &amp; urban campus</p>
+</div>
+<!-- Unselected Cards -->
+<div class="p-unit-4 rounded-lg border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-[#002147] transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mb-2 text-3xl">map</span>
+<h3 class="font-label-md text-label-md text-on-surface">Other Regions</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">Mandalay, Naypyitaw, etc.</p>
+</div>
+<div class="p-unit-4 rounded-lg border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-[#002147] transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mb-2 text-3xl">public</span>
+<h3 class="font-label-md text-label-md text-on-surface">No Preference</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">Open to all locations</p>
+</div>
+</div>
+</div>
+<!-- Learning Style -->
+<div>
+<div class="mb-unit-4">
+<h2 class="text-[18px] font-bold text-[#002147]">📚 Learning Style</h2>
+<p class="text-[14px] text-[#6B7280]">How do you learn best?</p>
+</div>
+<div class="flex flex-col gap-unit-4">
+<!-- Selected Card -->
+<div class="flex items-start p-unit-4 rounded-lg border-2 border-gold bg-surface-container-lowest cursor-pointer hover:shadow-md transition-shadow relative">
+<div class="absolute top-4 right-4">
+<span class="material-symbols-outlined text-gold" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+</div>
+<div class="mr-4 mt-1 bg-[#F0F7FF] p-2 rounded-full">
+<span class="material-symbols-outlined text-[#002147]">build</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-[#002147]">Practical / Hands-on</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">Focus on labs, projects, and real-world applications</p>
+</div>
+</div>
+<!-- Unselected Cards -->
+<div class="flex items-start p-unit-4 rounded-lg border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-[#002147] transition-colors">
+<div class="mr-4 mt-1 bg-surface p-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">menu_book</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Theory-focused</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">Deep dives into concepts, research, and academic literature.</p>
+</div>
+</div>
+<div class="flex items-start p-unit-4 rounded-lg border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-[#002147] transition-colors">
+<div class="mr-4 mt-1 bg-surface p-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">balance</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Balanced</h3>
+<p class="font-body-md text-body-md text-[#6B7280] mt-1 text-sm">A mix of theoretical foundations and practical application.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row justify-between items-center mt-unit-8 pt-unit-6 border-t border-surface-variant gap-4">
+<button onclick="location.href='assessment3.html'" class="w-full sm:w-auto px-6 h-[44px] rounded-[12px] border border-[#002147] text-[#002147] font-medium text-[16px] hover:bg-surface-container-low transition-colors">
+                            ← Back to Interests
+                        </button>
+<button onclick="location.href='assessment4.html'" class="w-full sm:w-auto px-6 h-[48px] rounded-[12px] bg-[#FFB800] text-[#002147] font-bold text-[16px] hover:opacity-90 transition-opacity shadow-sm">
+                            Find My Universities →
+                        </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Profile Summary (35%) -->
+<div class="space-y-unit-6 md:col-span-4">
+<div class="bg-white p-unit-6 rounded-[20px] shadow-lg border border-outline-variant sticky top-24">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-[#FFB800] bg-opacity-20 text-[#FFB800] rounded-full text-[14px] font-bold mb-3">📋 Your Profile Summary</span>
+</div>
+<div class="space-y-unit-4">
+<!-- Academic Results -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">ACADEMIC RESULTS</h3>
+<div class="bg-surface p-3 rounded border border-surface-variant text-sm">
+<span class="font-medium text-on-surface">Matriculation:</span>
+<span class="font-medium ml-2 text-[#002147]">4 Distinctions</span>
+</div>
+</div>
+<!-- Interests -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">INTERESTS</h3>
+<div class="flex flex-wrap gap-2">
+<span class="bg-[#FFB800] bg-opacity-10 text-[#FFB800] px-3 py-1 rounded-full font-medium text-sm border border-[#FFB800]">Technology</span>
+<span class="bg-[#FFB800] bg-opacity-10 text-[#FFB800] px-3 py-1 rounded-full font-medium text-sm border border-[#FFB800]">Problem Solving</span>
+</div>
+</div>
+<!-- Target Careers -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-2">TARGET CAREERS</h3>
+<div class="bg-surface p-3 rounded border border-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[#002147] text-sm">work</span>
+<span class="font-medium text-sm text-on-surface">Software Engineering</span>
+</div>
+</div>
+</div>
+<!-- AI Insight Bubble -->
+<div class="mt-unit-6 p-4 rounded-[12px] bg-[#F8F9FA] border border-surface-variant relative shadow-sm">
+<div class="absolute -top-3 -left-2 bg-white rounded-full p-1 border border-surface-variant shadow-sm">
+<span class="material-symbols-outlined text-[#FFB800] text-sm">smart_toy</span>
+</div>
+<p class="italic text-[14px] text-[#6B7280]">
+                            "💡 Based on your profile, combining a balanced learning style with Yangon's tech hubs will yield strong university matches."
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-12 mt-auto bg-[#1A1A2E] text-white">
+<div class="max-w-container-max mx-auto flex flex-col gap-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-[18px] font-bold text-[#FFB800]">🎓 AI University Advisor</div>
+<div class="flex flex-wrap justify-center gap-4 text-[14px] text-[#6B7280]">
+<a class="hover:text-white transition-colors" href="home.html">Home</a> | 
+        <a class="hover:text-white transition-colors" href="uniexp.html">Universities</a> | 
+        <a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a> | 
+        <a class="hover:text-white transition-colors" href="about.html">About</a> | 
+        <a class="hover:text-white transition-colors" href="contact.html">Contact</a>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center border-t border-[#2d2d44] pt-8 gap-4">
+<div class="text-[12px] text-[#6B7280]">🇲🇲 Proudly serving students across Yangon and all of Myanmar</div>
+<div class="text-[12px] text-[#6B7280]">© 2024 AI University Advisor. Myanmar Student Success.</div>
+</div>
+</div>
+</footer>
+</body></html>

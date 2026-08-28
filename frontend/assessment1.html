@@ -1,0 +1,294 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Assessment Step 1 - UniAdvisor Myanmar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#555f6c",
+                    "secondary-container": "#d9e3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-secondary-container": "#5b6572",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#465f88",
+                    "on-tertiary-fixed-variant": "#00531a",
+                    "background": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-surface": "#2e3132",
+                    "on-surface-variant": "#44474e",
+                    "inverse-primary": "#aec7f6",
+                    "on-primary-container": "#708ab5",
+                    "surface-container-high": "#e7e8e9",
+                    "tertiary-fixed-dim": "#66df75",
+                    "surface-variant": "#e1e3e4",
+                    "on-background": "#191c1d",
+                    "primary-fixed-dim": "#aec7f6",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline-variant": "#c4c6cf",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#d6e3ff",
+                    "on-surface": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary-fixed": "#131c27",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-container-low": "#f3f4f5",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "tertiary": "#000e02",
+                    "tertiary-container": "#002808",
+                    "secondary-fixed": "#d9e3f2",
+                    "secondary-fixed-dim": "#bdc7d6",
+                    "on-tertiary-container": "#199d3d",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#83fc8e",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#000a1e",
+                    "primary-container": "#002147",
+                    "on-secondary-fixed-variant": "#3e4853",
+                    "outline": "#74777f",
+                    "brand-gold": "#C6A15B",
+                    "on-brand-gold": "#002147"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit-16": "4rem",
+                    "unit-4": "1rem",
+                    "unit-8": "2rem",
+                    "unit-12": "3rem",
+                    "unit-1": "0.25rem",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "unit-2": "0.5rem",
+                    "container-max": "1280px",
+                    "unit-6": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Top Navigation Shell -->
+<header class="w-full bg-white shadow-sm h-16 flex items-center px-4 md:px-8 shrink-0">
+<div class="max-w-container-max mx-auto w-full flex justify-between items-center">
+<!-- Left -->
+<div class="flex items-center gap-2 text-[#002147] text-[18px] font-bold">
+<span class="">🎓</span>
+<span class="">AI University Advisor</span>
+</div>
+<!-- Center -->
+<nav class="hidden md:flex items-center gap-6 text-[#6B7280] font-label-md">
+<a class="hover:text-[#002147] transition-colors" href="home.html">Home</a>
+<a class="hover:text-[#002147] transition-colors" href="universityexpl.html">Universities</a>
+<a class="hover:text-[#002147] transition-colors font-bold border-b-2 border-brand-gold text-[#002147]" href="assessment1.html">Assessment</a>
+<a class="hover:text-[#002147] transition-colors" href="about.html">About</a>
+<a class="hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+</nav>
+<!-- Right -->
+<div class="flex items-center gap-4">
+<button class="text-[#6B7280] font-label-md hover:text-[#002147] transition-colors flex items-center gap-1">
+        EN/MM
+      </button>
+<span class="material-symbols-outlined text-[#6B7280] text-[24px]" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-[820px] mx-auto px-margin-mobile md:px-0 py-unit-8 flex flex-col gap-unit-6">
+<!-- Progress Bar Section -->
+<section class="w-full bg-[#F8F9FA] h-[64px] px-[40px] flex justify-between items-center rounded-lg shadow-sm"><h2 class="text-[#FFB800] text-[18px] font-bold flex items-center gap-2"><span class="">📝</span> Step 1 of 4: Academic Results</h2><div class="hidden md:flex items-center relative w-[400px]"><div class="absolute left-[14px] right-[14px] top-1/2 -translate-y-1/2 h-[2px] bg-gray-300 z-0"></div><div class="w-full flex justify-between items-center z-10"><div class="flex flex-col items-center gap-1 relative"><div class="w-[28px] h-[28px] rounded-full bg-[#FFB800] flex items-center justify-center text-white text-xs font-bold animate-pulse">1</div><span class="text-[#FFB800] text-xs font-bold absolute -bottom-5 whitespace-nowrap">📝 Academic Results</span></div><div class="flex flex-col items-center gap-1 relative"><div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">2</div><span class="text-gray-400 text-xs font-bold absolute -bottom-5 whitespace-nowrap">🎯 Your Interests</span></div><div class="flex flex-col items-center gap-1 relative"><div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">3</div><span class="text-gray-400 text-xs font-bold absolute -bottom-5 whitespace-nowrap">📍 Preferences</span></div><div class="flex flex-col items-center gap-1 relative"><div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">4</div><span class="text-gray-400 text-xs font-bold absolute -bottom-5 whitespace-nowrap">🎓 Your Matches</span></div></div></div></section>
+<!-- Main Card -->
+<section class="w-full bg-surface-container-lowest rounded-2xl shadow-md p-unit-6 md:p-unit-8 flex flex-col gap-unit-6 border border-surface-variant">
+<div class="flex flex-col gap-2">
+<div class="inline-flex items-center gap-1 text-brand-gold font-label-md text-label-md font-bold bg-brand-gold/10 px-3 py-1 rounded-full w-fit">
+<span class="">📋</span> Step 1 of 4
+                </div>
+<h1 class="text-primary-container font-headline-lg text-[28px] font-bold mt-2">
+                    Enter Your Matriculation Results
+                </h1>
+<p class="text-on-surface-variant font-body-md text-body-md">
+                    Enter the marks from your Myanmar Matriculation Examination. This information helps our AI tailor university and scholarship recommendations specifically to your academic profile.
+                </p>
+</div>
+<div class="flex flex-col gap-unit-4 pt-4 border-t border-surface-variant">
+<h3 class="text-on-surface font-label-md text-body-lg font-bold flex items-center gap-2">
+<span class="">📚</span> Select the subjects you studied
+                </h3>
+<div class="flex flex-wrap gap-3">
+<button class="bg-brand-gold text-on-brand-gold px-6 py-3 rounded-full font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">
+                        Myanmar
+                    </button>
+<button class="bg-brand-gold text-on-brand-gold px-6 py-3 rounded-full font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">
+                        English
+                    </button>
+<button class="bg-brand-gold text-on-brand-gold px-6 py-3 rounded-full font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">
+                        Mathematics
+                    </button>
+<button class="bg-surface-container text-on-surface-variant px-6 py-3 rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors">
+                        + Add Subject
+                    </button>
+</div>
+</div>
+<div class="flex flex-col gap-unit-4 pt-4 border-t border-surface-variant">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-surface-variant text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="pb-3 pl-2">Subject</th>
+<th class="pb-3 w-[140px]">Marks</th>
+</tr>
+</thead>
+<tbody class="font-body-md">
+<tr class="border-b border-surface-variant/50">
+<td class="py-3 pl-2 text-on-surface font-medium">Physics</td>
+<td class="py-3">
+<input aria-label="Physics marks" class="w-[120px] rounded-md border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-on-surface bg-surface-bright" type="number" value="85">
+</td>
+</tr>
+<tr class="border-b border-surface-variant/50">
+<td class="py-3 pl-2 text-on-surface font-medium">Chemistry</td>
+<td class="py-3">
+<input aria-label="Chemistry marks" class="w-[120px] rounded-md border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-on-surface bg-surface-bright" type="number" value="78">
+</td>
+</tr>
+<tr class="border-b border-surface-variant/50">
+<td class="py-3 pl-2 text-on-surface font-medium">Biology</td>
+<td class="py-3">
+<input aria-label="Biology marks" class="w-[120px] rounded-md border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-on-surface bg-surface-bright" type="number" value="92">
+</td>
+</tr>
+<tr class="border-b border-surface-variant/50">
+<td class="py-3 pl-2 text-on-surface font-medium">History</td>
+<td class="py-3">
+<input aria-label="History marks" class="w-[120px] rounded-md border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-on-surface bg-surface-bright" type="number" value="76">
+</td>
+</tr>
+<tr>
+<td class="py-3 pl-2 text-on-surface font-medium">Geography</td>
+<td class="py-3">
+<input aria-label="Geography marks" class="w-[120px] rounded-md border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-on-surface bg-surface-bright" type="number" value="88">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="flex justify-end pt-4 border-t border-surface-variant">
+<div class="bg-surface-container rounded-lg p-4 flex items-center gap-4 w-full md:w-auto md:min-w-[280px] justify-between">
+<span class="text-on-surface font-label-md text-label-md">Total Marks</span>
+<div class="flex items-baseline gap-1">
+<span class="text-brand-gold font-headline-lg text-headline-lg font-bold">419</span>
+<span class="text-on-surface-variant font-body-md text-body-md">/ 500</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col-reverse md:flex-row justify-between items-center pt-unit-6 gap-4">
+<button class="w-full md:w-auto px-6 py-3 rounded-lg border-2 border-primary-container text-primary-container font-label-md text-label-md hover:bg-primary-container hover:text-white transition-colors">
+                    Save &amp; Continue Later
+                </button>
+<button onclick="location.href='assessment2.html'" class="w-full md:w-auto px-8 py-3 rounded-lg bg-brand-gold text-on-brand-gold font-label-md text-label-md shadow-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                    Continue
+                    <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Guidance Panels -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-unit-4 w-full">
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-brand-gold">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">💡</span> AI Tip: Entering Scores
+                </h4>
+<p class="text-on-surface-variant font-body-md text-label-sm">
+                    Ensure your marks exactly match your official transcript. Our AI uses these precise numbers to calculate your eligibility for specific international scholarships.
+                </p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-primary-container">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">📋</span> Quick Reference
+                </h4>
+<ul class="text-on-surface-variant font-body-md text-label-sm list-disc pl-5 space-y-1">
+<li class="">Distinction = 80+ marks</li>
+<li class="">Standard subjects are out of 100</li>
+<li class="">Total is typically out of 500 or 600</li>
+</ul>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-on-tertiary-container">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">🔄</span> What Happens Next?
+                </h4>
+<p class="text-on-surface-variant font-body-md text-label-sm">
+                    In Step 2, you'll select your preferred fields of study. Your scores here will immediately filter the programs that fit your academic tier.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1A1A2E] w-full py-12 px-4 md:px-8 mt-12 shrink-0">
+<div class="max-w-container-max mx-auto flex flex-col items-center justify-center gap-6">
+<div class="text-[24px] text-[#FFB800] font-bold">🎓 AI University Advisor</div>
+<p class="text-[#9CA3AF] text-sm">Expert university admission guidance for students across Myanmar</p>
+<nav class="flex flex-wrap justify-center gap-6 text-[#9CA3AF] text-sm font-label-md">
+<a class="hover:text-[#FFB800] transition-colors" href="home.html">Home</a>
+<a class="hover:text-[#FFB800] transition-colors" href="universityexpl.html">Universities</a>
+<a class="hover:text-[#FFB800] transition-colors" href="assessment1.html">Assessment</a>
+<a class="hover:text-[#FFB800] transition-colors" href="about.html">About</a>
+<a class="hover:text-[#FFB800] transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="text-[#9CA3AF] text-sm">
+      🇲🇲 Proudly serving students across Yangon and all of Myanmar
+    </div>
+<div class="text-[#9CA3AF] text-xs mt-4">
+      © 2024 AI University Advisor. Myanmar Student Success.
+    </div>
+</div>
+</footer>
+
+
+
+
+</body></html>

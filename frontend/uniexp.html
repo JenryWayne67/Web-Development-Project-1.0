@@ -1,0 +1,372 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>University Explorer - AI University Advisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#edeeef",
+                        "glass-border": "rgba(255, 255, 255, 0.3)",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#002106",
+                        "surface": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#3e4854",
+                        "tertiary-fixed-dim": "#67df75",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d9e3f3",
+                        "primary-fixed": "#d6e3ff",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary-fixed": "#121c27",
+                        "outline-variant": "#c4c6cf",
+                        "primary": "#000a1e",
+                        "inverse-primary": "#aec7f6",
+                        "on-secondary-container": "#5b6572",
+                        "primary-container": "#002147",
+                        "outline": "#74777f",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "surface-dim": "#d9dadb",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d9e3f3",
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "tertiary": "#000e02",
+                        "advisor-blue-light": "#F0F7FF",
+                        "on-tertiary-container": "#1a9d3d",
+                        "secondary": "#555f6c",
+                        "on-surface": "#191c1d",
+                        "glass-bg": "rgba(255, 255, 255, 0.85)",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e7e8e9",
+                        "on-surface-variant": "#44474e",
+                        "success-green": "#199D3D",
+                        "surface-tint": "#465f88",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-container": "#002808",
+                        "on-background": "#191c1d",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-container-low": "#f3f4f5",
+                        "tertiary-fixed": "#83fc8e",
+                        
+                        "accent-gold": "#FFB800",
+                        "text-dark": "#1A1A2E",
+                        "hero-grad-start": "#002147",
+                        "hero-grad-end": "#1A3A6A"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "unit-6": "24px",
+                        "unit-16": "64px",
+                        "margin-mobile": "16px",
+                        "unit-8": "32px",
+                        "unit-1": "4px",
+                        "unit-4": "16px",
+                        "unit-2": "8px",
+                        "gutter": "24px",
+                        "unit-12": "48px",
+                        "container-max": "1280px",
+                        "content-width-optimal": "900px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0px 8px 40px rgba(0,0,0,0.12);
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 184, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0);
+            }
+        }
+        
+        .pattern-bg {
+            background-color: #F8F9FA;
+            background-image: radial-gradient(#E1E3E4 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        
+        .floating-shape {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="pattern-bg text-on-background font-body-md min-h-screen flex flex-col font-[Inter] relative">
+<!-- Floating Background Shapes -->
+<div class="fixed top-40 left-10 w-32 h-32 bg-[#FFB800]/10 rounded-full blur-xl floating-shape -z-10"></div>
+<div class="fixed top-80 right-20 w-48 h-48 bg-[#002147]/5 rounded-full blur-2xl floating-shape -z-10" style="animation-delay: -2s;"></div>
+<div class="fixed bottom-40 left-1/4 w-24 h-24 bg-[#199D3D]/5 rounded-full blur-lg floating-shape -z-10" style="animation-delay: -4s;"></div>
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm border-b border-surface-variant">
+<div class="max-w-[1200px] mx-auto h-unit-16 px-unit-6 flex justify-between items-center">
+<div class="text-[18px] font-bold text-[#002147] flex items-center gap-2">
+<span class="">🎓</span> AI University Advisor
+    </div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#6B7280] text-[15px] hover:text-[#002147] transition-colors font-body-md" href="home.html">Home</a>
+<span class="text-[#6B7280] opacity-50">|</span>
+<a class="text-[#6B7280] text-[15px] hover:text-[#002147] transition-colors font-body-md" href="uniexp.html">Universities</a>
+<span class="text-[#6B7280] opacity-50">|</span>
+<a class="text-[#6B7280] text-[15px] hover:text-[#002147] transition-colors font-body-md" href="assessment1.html">Assessment</a>
+<span class="text-[#6B7280] opacity-50">|</span>
+<a class="text-[#6B7280] text-[15px] hover:text-[#002147] transition-colors font-body-md" href="about.html">About</a>
+<span class="text-[#6B7280] opacity-50">|</span>
+<a class="text-[#6B7280] text-[15px] hover:text-[#002147] transition-colors font-body-md" href="contact.html">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-3 py-1 border border-outline-variant rounded-full text-label-md font-label-md hover:bg-surface-container transition-colors">EN/MM</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow pt-unit-16 pb-unit-12">
+<!-- Hero Section -->
+<section class="w-full bg-gradient-to-r from-[#002147] to-[#1A3A6A] text-on-primary pt-32 pb-28 px-unit-6 relative overflow-hidden shadow-lg">
+<div class="absolute inset-0 opacity-10 pointer-events-none" data-alt="Abstract glowing geometric shapes fading into a deep navy background, conveying a high-tech, futuristic educational environment. Light rays intersecting subtly to add depth and complexity to the hero section. Designed to be a subtle, immersive backdrop for an academic portal." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCrn7OnCd3D9v04qm43XQK9Y9-Y645ox6chmlO022S9xAXA8vd7NOdWPgJYMMJqmTGxYhLK0jlZFS7keLx3xzVVe01YI4GDf2oT1AVS3d9Su1dP5OT4dkbI9WYPJzwzHPzsw3FirgzVxAJVSEGDmtP2mpGEf-FljCCQKlQ9ybanXOeSRRvZmXkpKTGaca7KWuKkP-U7-lL9Dw93eHy_MRumadYEpo9f4kiKngno8F2bmpn9Foo8UwY8TA&quot;);"></div>
+<div class="max-w-[1200px] mx-auto relative z-10 flex flex-col items-center text-center">
+<div class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-8 shadow-xl">
+<span class="text-[#FFB800] font-bold text-[16px]">🏛️ University Explorer</span>
+</div>
+<h1 class="font-bold text-[48px] text-white mb-6 max-w-4xl leading-tight">Explore Yangon Universities</h1>
+<p class="text-[20px] text-white/80 max-w-3xl mb-8 leading-relaxed">Discover top institutions, academic programs, and your profile match based on AI assessment.</p>
+</div>
+</section>
+<!-- Search & Filter Container -->
+<section class="max-w-[1200px] mx-auto px-unit-6 -mt-10 relative z-20">
+<div class="bg-surface rounded-2xl shadow-xl p-8 flex flex-col md:flex-row gap-6 items-center justify-between border border-surface-variant">
+<!-- Search -->
+<div class="relative w-full md:w-[500px]">
+<span aria-hidden="true" class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-outline text-[24px]">search</span>
+<input class="w-full h-14 pl-14 pr-6 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-[#002147] text-[16px] transition-all shadow-inner" placeholder="Search universities, programs..." type="text">
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-4 w-full md:w-auto">
+<button class="inline-flex items-center gap-2 px-6 py-3 border border-[#002147] text-[#002147] rounded-full font-semibold text-[15px] hover:bg-[#002147] hover:text-white transition-colors bg-surface shadow-sm">
+<span class="">📍</span> Field
+                    </button>
+<button class="inline-flex items-center gap-2 px-6 py-3 border border-[#002147] text-[#002147] rounded-full font-semibold text-[15px] hover:bg-[#002147] hover:text-white transition-colors bg-surface shadow-sm">
+<span class="">📚</span> Program
+                    </button>
+<button class="inline-flex items-center gap-2 px-6 py-3 border border-[#002147] text-[#002147] rounded-full font-semibold text-[15px] hover:bg-[#002147] hover:text-white transition-colors bg-surface shadow-sm">
+<span class="">✅</span> Eligibility
+                    </button>
+</div>
+</div>
+</section>
+<!-- University Grid -->
+<section class="max-w-[1200px] mx-auto px-unit-6 mt-16 mb-20">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-6">
+<!-- Card 1: UIT -->
+<article class="card-glass rounded-[24px] border-[3px] border-[#FFB800] p-5 hover:-translate-y-2 transition-all duration-300 flex flex-col min-h-[450px] relative shadow-[0_0_20px_rgba(255,184,0,0.3)] hover:shadow-[0_15px_50px_rgba(255,184,0,0.3)]">
+<div class="h-[160px] w-full bg-[#E5E7EB] rounded-t-[20px] -mt-5 -mx-5 mb-5 flex items-center justify-center relative overflow-hidden">
+<img alt="UIT Campus" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOUxX5Lo6gssrtkj5XGwXlEXEw2W_QzZh-E5YvChvtwavNcTP98xGy4u8ooTPLckP-nw1zU7AubEE6XipS1rTWok46cwodbE0WDx7bc8egwOsHl2uVD3T0RDImITKB_J-Ev6S0MrD2sP0V_9QOysO_Fc_9ue27eCb1TkEbKZn2qyvX_KTGvzVmKTff1YAd_gH1StSsfz87ShXLdd8Q_5-mjzzhRSIgRqQbDCQGRnoHDgGu06grM4WQaTtvFUuVvqi3x2U">
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-bold text-[20px] text-[#002147] mb-1 leading-tight">University of Information Technology (UIT)</h2>
+<p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p>
+<div class="mb-4 flex gap-2">
+<span class="px-3 py-1 bg-[#FFB800] text-[#002147] rounded-full font-bold text-[12px] shadow-sm">⭐ TOP MATCH</span>
+<span class="px-3 py-1 bg-[#FFB800]/10 text-[#FFB800] rounded-full font-bold text-[12px] border border-[#FFB800]/20">92% Match</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Computer Science</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Software Engineering</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-[12px] font-semibold rounded-lg">Public</span>
+<a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="uitdetails.html">View Details <span class="text-lg">→</span></a>
+</div>
+</div>
+</article>
+<!-- Card 2: UY -->
+<article class="bg-white/80 backdrop-blur-md rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.10)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] hover:-translate-y-2 transition-all duration-300 flex flex-col min-h-[450px] overflow-hidden border border-white/40 p-5">
+<div class="h-[160px] w-full relative overflow-hidden rounded-t-[20px] -mt-5 -mx-5 mb-5">
+<img alt="University of Yangon Campus" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDxIV-1hZpmdsT_FRef0LgEAbE5UDSU8TPZ1dIC6h-Itc2GspPR-Lb822pnaZmEnzUmOZ6YcM8EbktXqNUofnKetr7b2eBsIyIKKvl2YQPoZOzR94zMQ-EPZQpQlUmx9BZwlWLfyBQ633TT9PM5m6kK-uqo9jyETti33UxbAu7bcFWDnqeMoPl94UfAGQj62zhoMVfsx-37H-Izcvp32XOBNiudjVa8PhTRrZfhqu4zATVmSMEN5JvmVEm6B9L-txGtoU">
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-bold text-[20px] text-[#002147] mb-1">University of Yangon</h2>
+<p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p>
+<div class="mb-4">
+<span class="px-3 py-1 bg-[#FFB800]/10 text-[#FFB800] rounded-full font-bold text-[12px] border border-[#FFB800]/20">85% Match</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[14px] border border-gray-200">Physics</span>
+<span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[14px] border border-gray-200">International Relations</span>
+</div>
+<div class="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+<span class="px-3 py-1 bg-[#28A745] text-white text-[12px] font-bold rounded-full">Public</span>
+<a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="yangonuni.html">View Details <span class="text-lg">→</span></a>
+</div>
+</div>
+</article>
+<!-- Card 3: YTU -->
+<article class="card-glass rounded-[24px] border border-white/40 p-5 hover:-translate-y-2 hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-300 flex flex-col min-h-[450px]">
+<div class="h-[160px] w-full relative overflow-hidden rounded-t-[20px] -mt-5 -mx-5 mb-5 bg-gray-200 flex items-center justify-center text-gray-500 text-[14px] font-medium">
+<img alt="YTU Campus" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDodkIxgcM4NtA00v4wllG22BXZjRlxbJqmhL7IAzAwbYCe46ynKgKOFmYhLUN_B1ibmG2ceZLE_H4B24kwEiZj0PM8EN6hCLGylqRLznPH-Gw3MXpXyxNDpkMBZCnyVJc1IHe-zI4AFLtUaVYDf2mCglFveD07zsfaixWgGvXsIyIJj453G_sGBo0Frrk4i8_fopW5QoClcislZHovzff0NlUsAydBBDdVNf1o5TtzbQSSxQFcKyzvN-7PzQJxl2rcMPc">
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-bold text-[20px] text-[#002147] mb-1 leading-tight">Yangon Technological University (YTU)</h2>
+<p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p>
+<div class="mb-4">
+<span class="px-3 py-1 bg-[#FFB800]/10 text-[#FFB800] rounded-full font-bold text-[12px] border border-[#FFB800]/20">81% Match</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Civil Engineering</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Mechanical Engineering</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-[12px] font-semibold rounded-lg">Public</span>
+<a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="ytu.html">View Details <span class="text-lg">→</span></a>
+</div>
+</div>
+</article>
+<!-- Card 4: EYU -->
+<article class="card-glass rounded-[24px] border border-white/40 p-5 hover:-translate-y-2 hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-300 flex flex-col min-h-[450px]">
+<div class="h-[160px] w-full relative overflow-hidden rounded-t-[20px] -mt-5 -mx-5 mb-5 bg-gray-200 flex items-center justify-center text-gray-500 text-[14px] font-medium">
+<img alt="East Yangon University Campus" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2ImJWfrR9eKqRAcF5gJirKBQaKusvC5Tzcx_vCDVNltZQoCVuoRgATubSAj-ndpLo5nqQ2JTSk0wi1izfGofyfNBUJLw8LIngRjkyxUhb1kdks5di1WRIUa2ZG0xRaPkp-CfyweTY_I6fUBJGyttmzVUGvyx-SEs_tpZy1YbLF-AoRPdQ6tHfdDX0_uk4yvNdvdH1z5om-7lPoly2_l2t6Y53GqVcfkeqnarXleN6wkdlSGY-SlDfOizX7rUX68VKsVM">
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-bold text-[20px] text-[#002147] mb-1 leading-tight">East Yangon University</h2>
+<p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p>
+<div class="mb-4">
+<span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[12px] font-bold border border-gray-200">Not Assessed</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Arts &amp; Sciences</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Law</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-[12px] font-semibold rounded-lg">Public</span>
+<a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="eastuni.html">View Details <span class="text-lg">→</span></a>
+</div>
+</div>
+</article>
+<!-- Card 5: WYU -->
+<article class="card-glass rounded-[24px] border border-white/40 p-5 hover:-translate-y-2 hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-300 flex flex-col min-h-[450px]">
+<div class="h-[160px] w-full relative overflow-hidden rounded-t-[20px] -mt-5 -mx-5 mb-5 bg-gray-200 flex items-center justify-center text-gray-500 text-[14px] font-medium">
+<img alt="West Yangon University Campus" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7vKS0GfquZzCJKLYUOrScXJpv_-n7gr1o4ekf8NTryqURWQV71T3oKR3KvRWE4vSCES9KifnIm_BqnEFiiZSlkQ2gkTFYZvuf233TxCaHicjtFgTV1A4heWI9BOCDLDuChTV9VrrHItdB9iPJMwqMBRCOJVlf1HFyf8Ubm67-WO17ewS9fRQ442YO2lZF_W_kuNfaZxepqqExoxQoUw0E_kRNX9Z4UMUkjoJMUqpn8HIGY8SUoRIIYLTysj7tLx6ZnbQ">
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-bold text-[20px] text-[#002147] mb-1 leading-tight">West Yangon University</h2>
+<p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p>
+<div class="mb-4">
+<span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[12px] font-bold border border-gray-200">Not Assessed</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Humanities</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Applied Sciences</span>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-[12px] font-semibold rounded-lg">Public</span>
+<a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="westuni.html">View Details <span class="text-lg">→</span></a>
+</div>
+</div>
+</article>
+<article class="card-glass rounded-[24px] border border-white/40 p-5 hover:-translate-y-2 hover:shadow-[0_15px_50px_rgba(0,0,0,0.15)] transition-all duration-300 flex flex-col min-h-[450px]"><div class="h-[160px] w-full relative overflow-hidden rounded-t-[20px] -mt-5 -mx-5 mb-5 bg-gray-200 flex items-center justify-center text-gray-500 text-[14px] font-medium"><img src="ucsy.jpg" alt="uscyhm"></div><div class="flex flex-col flex-grow"><h2 class="font-bold text-[20px] text-[#002147] mb-1 leading-tight">University of Computer Studies (UCSY)</h2><p class="text-[14px] text-gray-500 flex items-center gap-1 mb-3">📍 Yangon, Myanmar</p><div class="mb-4"><span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[12px] font-bold border border-gray-200">Not Assessed</span></div><div class="flex flex-wrap gap-2 mb-4"><span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Computer Science</span><span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Information Technology</span><span class="px-3 py-1 bg-surface-container rounded-full text-[14px] font-medium text-on-surface-variant border border-surface-variant/50">Data Science</span></div><div class="mt-auto pt-4 border-t border-surface-variant flex justify-between items-center"><span class="px-3 py-1 bg-green-100 text-green-800 text-[12px] font-semibold rounded-lg">Public</span><a class="text-[#FFB800] font-bold text-[15px] hover:underline flex items-center gap-1" href="ucsy.html">View Details <span class="text-lg">→</span></a></div></div></article></div>
+</section>
+<!-- Load More Section -->
+<section class="max-w-[1200px] mx-auto px-unit-6 mt-8 flex flex-col items-center justify-center mb-16">
+<button class="px-10 py-4 border-2 border-[#002147] text-[#002147] font-bold text-[16px] rounded-full hover:bg-[#002147] hover:text-white transition-all duration-300 shadow-md hover:shadow-xl">
+                Load More Results
+            </button>
+<p class="mt-6 text-[16px] text-gray-500 font-medium">Showing 6 of 15 universities</p>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-unit-6 bg-[#1A1A2E] mt-auto">
+<div class="max-w-[1200px] mx-auto flex flex-col items-center gap-8">
+<div class="font-headline-lg text-[32px] font-bold text-[#FFB800]">
+      🎓 AI University Advisor
+    </div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[#9CA3AF] text-[16px] font-medium">
+<a class="hover:text-white transition-colors" href="home.html">Home</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-white transition-colors" href="uniexp.html">Universities</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-white transition-colors" href="about.html">About</a>
+<span class="opacity-30">|</span>
+<a class="hover:text-white transition-colors" href="contact.html">Contact</a>
+<span class="opacity-30">|</span>
+</div>
+<div class="flex flex-col items-center gap-3 text-[#9CA3AF] text-[15px] mt-4">
+<p class="">🇲🇲 Proudly serving students across Yangon and all of Myanmar</p>
+<p class="">© 2024 AI University Advisor. Myanmar Student Success.</p>
+</div>
+</div>
+</footer>
+
+
+
+
+</body></html>
