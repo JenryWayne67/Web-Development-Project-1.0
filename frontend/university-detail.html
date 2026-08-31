@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>University Details - UniAdvisor</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#002147",
+                        "prompt-gold": "#FFB800",
+                        "prompt-lightblue": "#94C5F7",
+                        "prompt-green": "#10B981",
+                        "background": "#f8f9fa",
+                        "surface-card": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#44474e",
+                        "outline-variant": "#c4c6cf"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 33, 71, 0.08);
+        }
+        .hero-banner {
+            background: linear-gradient(135deg, #001733 0%, #002147 60%, #0a3871 100%);
+        }
+    </style>
+</head>
+<body class="bg-[#f8f9fa] text-[#191c1d] flex flex-col min-h-screen">
+
+<!-- Top Navigation -->
+<header class="bg-white border-b border-outline-variant/20 sticky top-0 z-50 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
+        <a href="home.html" class="flex items-center gap-2.5 group">
+            <span class="text-2xl font-bold text-prompt-gold">🎓</span>
+            <div>
+                <span class="text-lg sm:text-xl font-bold tracking-tight text-primary-container">UniAdvisor</span>
+                <span class="text-[9px] sm:text-[10px] block text-on-surface-variant font-medium uppercase tracking-wider">Yangon Higher Education</span>
+            </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8">
+            <a href="home.html" class="text-sm font-semibold text-on-surface-variant hover:text-primary-container transition-colors">Home</a>
+            <a href="uniexp.html" class="text-sm font-semibold text-primary-container border-b-2 border-prompt-gold pb-1">Universities</a>
+            <a href="assessment1.html" class="text-sm font-semibold text-on-surface-variant hover:text-primary-container transition-colors">Assessment</a>
+            <a href="about.html" class="text-sm font-semibold text-on-surface-variant hover:text-primary-container transition-colors">About</a>
+            <a href="contact.html" class="text-sm font-semibold text-on-surface-variant hover:text-primary-container transition-colors">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <a id="nav-back-button" href="yourmatches.html" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary-container bg-gold/20 hover:bg-gold hover:text-primary transition-all py-1.5 sm:py-2 px-2.5 sm:px-3.5 rounded-lg border border-gold/30">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                <span id="nav-back-text" class="hidden xs:inline sm:inline">Back to Potential Matches</span>
+                <span class="inline xs:hidden sm:hidden">Back</span>
+            </a>
+            <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 text-primary-container" onclick="document.getElementById('mobileNavDetail').classList.toggle('hidden')" aria-label="Toggle menu">
+                <span class="material-symbols-outlined text-2xl">menu</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobileNavDetail" class="hidden md:hidden bg-white border-b border-gray-200 px-6 py-4 flex flex-col gap-3 text-sm shadow-md">
+    <a class="text-gray-600 hover:text-primary font-medium" href="home.html">Home</a>
+    <a class="text-primary font-bold" href="uniexp.html">Universities</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="assessment1.html">Assessment</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="about.html">About</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="contact.html">Contact</a>
+</div>
+
+<!-- Breadcrumb -->
+<div class="bg-white/80 border-b border-outline-variant/10 py-2.5 sm:py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2 text-xs text-on-surface-variant overflow-x-auto whitespace-nowrap">
+        <a href="home.html" class="hover:text-primary-container shrink-0">Home</a>
+        <span>/</span>
+        <a id="breadcrumb-parent-link" href="yourmatches.html" class="hover:text-primary-container font-medium text-primary shrink-0">Potential Matches</a>
+        <span>/</span>
+        <span id="breadcrumb-current" class="font-semibold text-primary-container truncate">Loading University Details...</span>
+    </div>
+</div>
+
+<main class="flex-grow pb-16">
+    <!-- Hero Banner with Authentic Photo & University Header -->
+    <section class="hero-banner text-white relative overflow-hidden">
+        <div id="hero-bg-container" class="absolute inset-0 opacity-20 pointer-events-none transition-opacity duration-700 bg-[#001733]">
+            <img id="hero-bg-image" src="" alt="Campus Backdrop" class="w-full h-full object-cover blur-xs">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#001733] via-[#001733]/90 to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 items-start lg:items-center justify-between">
+                
+                <!-- Left: Emblem & Details -->
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center w-full">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-3 border-white/20 shrink-0 bg-white/10 p-1 relative flex items-center justify-center">
+                        <div id="uni-image-loading" class="absolute inset-0 skeleton-dark-loading rounded-xl flex items-center justify-center text-white/50 z-0">
+                            <span class="material-symbols-outlined text-2xl sm:text-3xl animate-spin text-prompt-gold">progress_activity</span>
+                        </div>
+                        <img id="uni-main-image" src="" alt="University Campus" class="w-full h-full object-cover rounded-xl relative z-10" onerror="this.onerror=null; this.src='uit.jpg';">
+                    </div>
+
+                    <div class="space-y-2 sm:space-y-2.5 w-full">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span id="uni-code-badge" class="bg-prompt-gold text-primary-container font-black text-xs px-2.5 py-1 rounded-md tracking-wider">
+                                CODE
+                            </span>
+                            <span id="uni-type-badge" class="bg-white/15 text-white backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-md border border-white/10">
+                                Public University
+                            </span>
+                            <span class="bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/30 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">verified</span> Verified Data
+                            </span>
+                        </div>
+
+                        <h1 id="uni-name-heading" class="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                            Loading University Details...
+                        </h1>
+
+                        <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-prompt-lightblue">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base text-prompt-gold">location_on</span>
+                                <span id="uni-location-text">Yangon, Myanmar</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base text-prompt-gold">history_edu</span>
+                                <span id="uni-established-text">Established --</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base text-prompt-gold">star</span>
+                                <span id="uni-rating-text">4.8 Rating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Action Buttons -->
+                <div class="flex flex-row lg:flex-col gap-3 w-full lg:w-auto shrink-0 mt-2 lg:mt-0">
+                    <button id="btn-save-bookmark" onclick="toggleBookmark()" class="w-full sm:w-auto lg:w-auto bg-white/10 hover:bg-white/20 text-white font-medium text-sm px-5 py-3 rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2 backdrop-blur-sm min-h-[44px]">
+                        <span id="bookmark-icon" class="material-symbols-outlined text-lg">bookmark_border</span>
+                        <span id="bookmark-text">Save University</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Quick Stats Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/10">
+                <div class="bg-white/5 rounded-xl p-3 sm:p-3.5 backdrop-blur-xs border border-white/5">
+                    <div class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-wider font-semibold">Degree Programs</div>
+                    <div id="stat-programs-count" class="text-lg sm:text-2xl font-bold text-white mt-0.5">--</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-3 sm:p-3.5 backdrop-blur-xs border border-white/5">
+                    <div class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-wider font-semibold">Min Cutoff Score</div>
+                    <div id="stat-min-cutoff" class="text-lg sm:text-2xl font-bold text-prompt-gold mt-0.5">--</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-3 sm:p-3.5 backdrop-blur-xs border border-white/5">
+                    <div class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-wider font-semibold">Campus Region</div>
+                    <div class="text-lg sm:text-2xl font-bold text-white mt-0.5">Yangon 🇲🇲</div>
+                </div>
+                <div class="bg-white/5 rounded-xl p-3 sm:p-3.5 backdrop-blur-xs border border-white/5">
+                    <div class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-wider font-semibold">Tuition / Type</div>
+                    <div class="text-lg sm:text-2xl font-bold text-prompt-lightblue mt-0.5">State Public</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left 2 Cols: Academic Details -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Section 1: Overview & About -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-outline-variant/15">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary-container flex items-center justify-center font-bold">
+                            <span class="material-symbols-outlined text-lg">info</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-primary-container">About the Institution</h2>
+                    </div>
+                    <p id="uni-overview-text" class="text-on-surface-variant leading-relaxed text-sm sm:text-base">
+                        Loading detailed overview...
+                    </p>
+
+                    <!-- Key Highlights Badges -->
+                    <div class="mt-6 pt-6 border-t border-gray-100">
+                        <h3 class="text-xs uppercase tracking-wider font-bold text-on-surface-variant mb-3">Key Highlights & Strengths</h3>
+                        <div id="uni-highlights-container" class="flex flex-wrap gap-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Academic Programs & Official Cutoff Criteria -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-outline-variant/15">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-yellow-50 text-yellow-700 flex items-center justify-center font-bold">
+                                <span class="material-symbols-outlined text-lg">school</span>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-primary-container">Offered Programs & Cutoff Marks</h2>
+                                <p class="text-xs text-on-surface-variant">Verified matriculation score benchmarks</p>
+                            </div>
+                        </div>
+                        <div id="program-count-badge" class="bg-gray-100 text-primary-container text-xs font-bold px-3 py-1.5 rounded-full w-max">
+                            0 Programs Available
+                        </div>
+                    </div>
+
+                    <!-- Programs List Container -->
+                    <div id="programs-list-container" class="space-y-4">
+                        <div class="text-center py-8 text-on-surface-variant text-sm">
+                            Loading academic programs and cutoff thresholds...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Admission & Eligibility Process -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-outline-variant/15">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-green-50 text-green-700 flex items-center justify-center font-bold">
+                            <span class="material-symbols-outlined text-lg">assignment_turned_in</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-primary-container">Admission Requirements & Guidelines</h2>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-on-surface-variant">
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-primary-container mb-1">📋 Selection Procedure</h4>
+                            <p id="uni-admission-process-text" class="leading-relaxed">
+                                Candidates are admitted based strictly on matriculation examination marks achieved in the required subject combinations.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                <h4 class="font-bold text-primary-container mb-1">🎯 Matriculation Subjects</h4>
+                                <p class="text-xs leading-relaxed text-on-surface-variant">
+                                    Depending on the chosen faculty, applicants must complete the Science (Bio/Maths) or Arts/Commerce stream with valid score verification.
+                                </p>
+                            </div>
+                            <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                <h4 class="font-bold text-primary-container mb-1">📍 Residential Allocation</h4>
+                                <p class="text-xs leading-relaxed text-on-surface-variant">
+                                    Open to qualified students in Yangon region and nationwide candidates according to ministry admission quota allocations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Campus Facilities & Infrastructure -->
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-outline-variant/15">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                            <span class="material-symbols-outlined text-lg">apartment</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-primary-container">Campus Facilities & Infrastructure</h2>
+                    </div>
+
+                    <div id="uni-facilities-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Sidebar & Quick Info -->
+            <div class="space-y-6">
+                <!-- Career Prospects Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-xs border border-outline-variant/15">
+                    <h3 class="font-bold text-base text-primary-container mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-prompt-gold">work</span>
+                        Graduate Career Pathways
+                    </h3>
+                    <p id="uni-careers-text" class="text-xs text-on-surface-variant leading-relaxed">
+                        Graduates enter leadership roles across public and private sectors in Myanmar and globally.
+                    </p>
+                </div>
+
+                <!-- Back to Potential Matches Button -->
+                <a id="sidebar-back-button" href="yourmatches.html" class="w-full bg-[#002147] hover:bg-primary text-white font-bold text-sm py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-base">arrow_back</span>
+                    <span id="sidebar-back-text">Back to Potential Matches</span>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Section: Other Potential Matches -->
+        <div class="mt-16 pt-10 border-t border-outline-variant/20">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 id="related-section-title" class="text-xl font-bold text-primary-container flex items-center gap-2">
+                        <span>🎯</span> Other Potential University Matches
+                    </h3>
+                    <p id="related-section-subtitle" class="text-xs text-on-surface-variant">Review other recommended Yangon universities matching your assessment criteria</p>
+                </div>
+                <a id="related-section-viewall" href="yourmatches.html" class="text-xs font-bold text-primary-container hover:text-gold hover:underline flex items-center gap-1">
+                    View All Potential Matches <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+            </div>
+
+            <div id="related-unis-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Dynamically rendered -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#1A1A2E] text-white py-12 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div>
+                <div class="text-prompt-gold font-bold text-lg mb-1 flex items-center gap-2">
+                    <span>🎓</span> UniAdvisor
+                </div>
+                <div class="text-gray-400 text-xs">Accurate University Criteria & Cutoff Guidance for Students in Yangon, Myanmar</div>
+            </div>
+            <div class="flex flex-wrap gap-6 text-xs text-gray-400">
+                <a href="home.html" class="hover:text-white transition-colors">Home</a>
+                <a href="uniexp.html" class="hover:text-white transition-colors">Universities</a>
+                <a href="assessment1.html" class="hover:text-white transition-colors">Assessment</a>
+                <a href="about.html" class="hover:text-white transition-colors">About</a>
+                <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-gray-500">
+            &copy; 2026 UniAdvisor. Accurate criteria based on official Myanmar university admission records.
+        </div>
+    </div>
+</footer>
+
+<script src="js/university-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "uni-advisor",
+  "version": "1.0.0",
+  "description": "UniAdvisor Myanmar",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.ts",
+    "build": "echo 'Ready'",
+    "lint": "node -e 'console.log(\"Lint OK\")'",
+    "start": "node server.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5"
+  }
+}

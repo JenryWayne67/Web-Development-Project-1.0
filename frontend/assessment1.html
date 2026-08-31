@@ -1,0 +1,365 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Assessment Step 1 - UniAdvisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#555f6c",
+                    "secondary-container": "#d9e3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-secondary-container": "#5b6572",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#465f88",
+                    "on-tertiary-fixed-variant": "#00531a",
+                    "background": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-surface": "#2e3132",
+                    "on-surface-variant": "#44474e",
+                    "inverse-primary": "#aec7f6",
+                    "on-primary-container": "#708ab5",
+                    "surface-container-high": "#e7e8e9",
+                    "tertiary-fixed-dim": "#66df75",
+                    "surface-variant": "#e1e3e4",
+                    "on-background": "#191c1d",
+                    "primary-fixed-dim": "#aec7f6",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "outline-variant": "#c4c6cf",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#d6e3ff",
+                    "on-surface": "#191c1d",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary-fixed": "#131c27",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-container-low": "#f3f4f5",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "tertiary": "#000e02",
+                    "tertiary-container": "#002808",
+                    "secondary-fixed": "#d9e3f2",
+                    "secondary-fixed-dim": "#bdc7d6",
+                    "on-tertiary-container": "#199d3d",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#83fc8e",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#000a1e",
+                    "primary-container": "#002147",
+                    "on-secondary-fixed-variant": "#3e4853",
+                    "outline": "#74777f",
+                    "brand-gold": "#C6A15B",
+                    "on-brand-gold": "#002147"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit-16": "4rem",
+                    "unit-4": "1rem",
+                    "unit-8": "2rem",
+                    "unit-12": "3rem",
+                    "unit-1": "0.25rem",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "base": "4px",
+                    "unit-2": "0.5rem",
+                    "container-max": "1280px",
+                    "unit-6": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- Top Navigation Shell -->
+<header class="w-full bg-white shadow-sm h-16 flex items-center px-4 md:px-8 shrink-0 sticky top-0 z-50">
+<div class="max-w-container-max mx-auto w-full flex justify-between items-center">
+<!-- Left -->
+<a href="home.html" class="flex items-center gap-2 text-[#002147] text-[18px] font-bold">
+<span class="">🎓</span>
+<span class="">UniAdvisor</span>
+</a>
+<!-- Center -->
+<nav class="hidden md:flex items-center gap-6 text-[#6B7280] font-label-md">
+<a class="hover:text-[#002147] transition-colors" href="home.html">Home</a>
+<a class="hover:text-[#002147] transition-colors" href="uniexp.html">Universities</a>
+<a class="hover:text-[#002147] transition-colors font-bold border-b-2 border-brand-gold text-[#002147]" href="assessment1.html">Assessment</a>
+<a class="hover:text-[#002147] transition-colors" href="about.html">About</a>
+<a class="hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+</nav>
+<!-- Right -->
+<div class="flex items-center gap-3">
+<button class="md:hidden p-2 rounded-lg hover:bg-gray-100 text-[#002147]" onclick="document.getElementById('mobileNavA1').classList.toggle('hidden')" aria-label="Toggle menu">
+    <span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobileNavA1" class="hidden md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-gray-200 px-6 py-4 flex flex-col gap-3 text-sm shadow-lg">
+    <a class="text-gray-600 hover:text-primary font-medium" href="home.html">Home</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="uniexp.html">Universities</a>
+    <a class="text-primary font-bold" href="assessment1.html">Assessment</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="about.html">About</a>
+    <a class="text-gray-600 hover:text-primary font-medium" href="contact.html">Contact</a>
+</div>
+
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-[820px] mx-auto px-4 sm:px-6 md:px-0 py-6 sm:py-8 flex flex-col gap-6">
+<!-- Progress Bar Section -->
+<section class="w-full bg-[#F8F9FA] min-h-[56px] sm:h-[64px] px-4 sm:px-[40px] py-2 sm:py-0 flex flex-col sm:flex-row justify-between items-center rounded-2xl shadow-sm border border-outline-variant/20 gap-2 sm:gap-0">
+    <h2 class="text-[#FFB800] text-sm sm:text-[18px] font-bold flex items-center gap-2 self-start sm:self-center">
+        <span>📝</span> Step 1 of 4: Academic Results
+    </h2>
+    <div class="hidden sm:flex items-center relative w-[300px] sm:w-[400px]">
+        <div class="absolute left-[14px] right-[14px] top-1/2 -translate-y-1/2 h-[2px] bg-gray-300 z-0"></div>
+        <div class="w-full flex justify-between items-center z-10">
+            <div class="flex flex-col items-center gap-1 relative">
+                <div class="w-[28px] h-[28px] rounded-full bg-[#FFB800] flex items-center justify-center text-white text-xs font-bold animate-pulse">1</div>
+            </div>
+            <div class="flex flex-col items-center gap-1 relative">
+                <div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">2</div>
+            </div>
+            <div class="flex flex-col items-center gap-1 relative">
+                <div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">3</div>
+            </div>
+            <div class="flex flex-col items-center gap-1 relative">
+                <div class="w-[28px] h-[28px] rounded-full bg-[#F8F9FA] border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold">4</div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Main Card -->
+<section class="w-full bg-surface-container-lowest rounded-2xl shadow-md p-unit-6 md:p-unit-8 flex flex-col gap-unit-6 border border-surface-variant">
+<div class="flex flex-col gap-2">
+<div class="inline-flex items-center gap-1 text-brand-gold font-label-md text-label-md font-bold bg-brand-gold/10 px-3 py-1 rounded-full w-fit">
+<span class="">📋</span> Step 1 of 4
+                </div>
+<h1 class="text-primary-container font-headline-lg text-[28px] font-bold mt-2">
+                    Enter Your Matriculation Results
+                </h1>
+<p class="text-on-surface-variant font-body-md text-body-md">
+                    Enter the marks from your Myanmar Matriculation Examination. This information helps our AI tailor university and scholarship recommendations specifically to your academic profile.
+                </p>
+</div>
+<div class="flex flex-col gap-unit-4 pt-4 border-t border-surface-variant">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <h3 class="text-on-surface font-label-md text-body-lg font-bold flex items-center gap-2">
+            <span>👤</span> Select Your Gender
+        </h3>
+        <div class="flex items-center gap-4 bg-surface-container px-4 py-2 rounded-xl">
+            <label class="flex items-center gap-2 cursor-pointer font-medium text-sm text-on-surface">
+                <input type="radio" name="studentGender" value="male" id="genderMale" checked class="text-primary focus:ring-primary h-4 w-4">
+                Male
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer font-medium text-sm text-on-surface">
+                <input type="radio" name="studentGender" value="female" id="genderFemale" class="text-primary focus:ring-primary h-4 w-4">
+                Female
+            </label>
+        </div>
+    </div>
+
+    <!-- Subject Combination Presets -->
+    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+        <div class="flex items-center gap-2 text-xs font-semibold text-on-surface-variant">
+            <span>⚡ Quick Track:</span>
+            <button type="button" onclick="loadCombination('bio')" class="preset-btn px-2.5 py-1 rounded-lg bg-primary text-white text-xs font-bold hover:bg-primary/90">Bio-Science</button>
+            <button type="button" onclick="loadCombination('eco')" class="preset-btn px-2.5 py-1 rounded-lg bg-surface-container text-primary text-xs font-bold hover:bg-surface-variant">Eco-Science</button>
+            <button type="button" onclick="loadCombination('arts')" class="preset-btn px-2.5 py-1 rounded-lg bg-surface-container text-primary text-xs font-bold hover:bg-surface-variant">Arts & Humanities</button>
+        </div>
+        <button id="openAddSubjectBtn" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gold/15 text-primary border border-gold/40 text-xs font-bold hover:bg-gold/25 transition-colors">
+            <span class="material-symbols-outlined text-[16px]">add_circle</span>
+            + Add Subject
+        </button>
+    </div>
+</div>
+
+<!-- Add Subject Inline Modal / Dropdown Tray -->
+<div id="addSubjectTray" class="hidden bg-surface-container-low p-4 rounded-xl border border-gold/40 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+    <div class="flex-1">
+        <label class="block text-xs font-bold text-primary mb-1">Select or Type Subject</label>
+        <select id="presetSubjectSelect" class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-xs font-medium text-primary">
+            <option value="Economics|Social Science">Economics (Social Science)</option>
+            <option value="Geography|Arts & Science">Geography (Arts & Science)</option>
+            <option value="History|Humanities">History (Humanities)</option>
+            <option value="Computer Science|Technology">Computer Science (Technology)</option>
+            <option value="Geology|Earth Science">Geology (Earth Science)</option>
+            <option value="Philosophy|Humanities">Philosophy (Humanities)</option>
+            <option value="custom">-- Custom Subject --</option>
+        </select>
+    </div>
+    <div id="customSubjectNameContainer" class="flex-1 hidden">
+        <label class="block text-xs font-bold text-primary mb-1">Custom Subject Name</label>
+        <input type="text" id="customSubjectName" placeholder="e.g. Statistics" class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-xs text-primary">
+    </div>
+    <div class="w-24">
+        <label class="block text-xs font-bold text-primary mb-1">Marks (0-100)</label>
+        <input type="number" id="newSubjectMarks" min="0" max="100" value="75" class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-xs text-primary font-bold text-center">
+    </div>
+    <div class="flex items-end gap-2 pt-2 sm:pt-4">
+        <button type="button" id="confirmAddSubjectBtn" class="bg-gold text-primary font-bold px-4 py-2 rounded-lg text-xs hover:bg-yellow-400">Add</button>
+        <button type="button" id="cancelAddSubjectBtn" class="bg-white border border-outline-variant text-gray-600 px-3 py-2 rounded-lg text-xs hover:bg-gray-100">Cancel</button>
+    </div>
+</div>
+
+<div class="flex flex-col gap-unit-4 pt-2">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+        <h3 class="text-on-surface font-label-md text-body-lg font-bold flex items-center gap-2">
+            <span>📚</span> Matriculation Examination Marks (<span id="subjectCountBadge">6 subjects</span>)
+        </h3>
+        <span class="text-xs text-on-surface-variant font-medium">Myanmar Minimum Passing Standard: <strong class="text-primary font-bold">≥ 40 per subject</strong></span>
+    </div>
+
+    <!-- Live Matriculation Eligibility Status Banner -->
+    <div id="eligibilityBanner" class="p-3.5 rounded-xl border flex items-start gap-3 transition-all">
+        <!-- Injected via JavaScript -->
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-surface-variant text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+                    <th class="pb-3 pl-2">Subject</th>
+                    <th class="pb-3">Type</th>
+                    <th class="pb-3 w-[140px]">Marks (0-100)</th>
+                    <th class="pb-3 text-right pr-2">Status</th>
+                    <th class="pb-3 w-[40px] text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody class="font-body-md" id="subjectsTableBody">
+                <!-- Subject rows dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-surface-variant">
+    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+        <span>Distinctions (80+):</span>
+        <span id="distinctionCount" class="font-bold text-green-600 px-2 py-0.5 bg-green-100 rounded-full">5 Distinctions</span>
+    </div>
+    <div class="bg-surface-container rounded-lg p-4 flex items-center gap-4 w-full sm:w-auto sm:min-w-[280px] justify-between">
+        <span class="text-on-surface font-label-md text-label-md">Total Marks</span>
+        <div class="flex items-baseline gap-1">
+            <span id="displayTotalMarks" class="text-brand-gold font-headline-lg text-headline-lg font-bold">502</span>
+            <span class="text-on-surface-variant font-body-md text-body-md" id="displayMaxMarks">/ 600</span>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Error Notice -->
+<div id="ineligibleAlertBox" class="hidden bg-rose-50 border-2 border-rose-400 p-4 rounded-xl text-rose-950 flex items-start gap-3 mt-2">
+    <span class="text-2xl mt-0.5">🚫</span>
+    <div>
+        <h4 class="font-bold text-sm text-rose-900 mb-1">Ineligible for University Admission</h4>
+        <p id="ineligibleAlertText" class="text-xs text-rose-800 leading-relaxed">
+            Under Myanmar Ministry of Education regulations, students must achieve a minimum of 40 marks in every matriculation subject to qualify for university applications.
+        </p>
+    </div>
+</div>
+
+<div class="flex flex-col-reverse md:flex-row justify-between items-center pt-unit-6 gap-4">
+    <button id="saveDraftBtn" type="button" class="w-full md:w-auto px-6 py-3 rounded-lg border-2 border-primary-container text-primary-container font-label-md text-label-md hover:bg-primary-container hover:text-white transition-colors">
+        Save &amp; Continue Later
+    </button>
+    <button id="continueStep2Btn" type="button" class="w-full md:w-auto px-8 py-3 rounded-lg bg-brand-gold text-on-brand-gold font-label-md text-label-md shadow-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+        Continue to Step 2
+        <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+    </button>
+</div>
+
+<script src="js/assessment1.js"></script>
+</section>
+<!-- Guidance Panels -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-unit-4 w-full">
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-brand-gold">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">💡</span> AI Tip: Entering Scores
+                </h4>
+<p class="text-on-surface-variant font-body-md text-label-sm">
+                    Ensure your marks exactly match your official transcript. Our AI uses these precise numbers to calculate your eligibility for specific international scholarships.
+                </p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-primary-container">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">📋</span> Quick Reference
+                </h4>
+<ul class="text-on-surface-variant font-body-md text-label-sm list-disc pl-5 space-y-1">
+<li class="">Distinction = 80+ marks</li>
+<li class="">Standard subjects are out of 100</li>
+<li class="">Total is typically out of 500 or 600</li>
+</ul>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-unit-4 shadow-sm border-t-4 border-on-tertiary-container">
+<h4 class="text-on-surface font-label-md text-label-md mb-2 flex items-center gap-2">
+<span class="">🔄</span> What Happens Next?
+                </h4>
+<p class="text-on-surface-variant font-body-md text-label-sm">
+                    In Step 2, you'll select your preferred fields of study. Your scores here will immediately filter the programs that fit your academic tier.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#00142D] w-full py-8 px-4 md:px-8 mt-12 shrink-0 text-white">
+<div class="max-w-[1200px] mx-auto flex flex-col items-center justify-center gap-6">
+<div class="text-[24px] text-[#FFB800] font-bold">🎓 UniAdvisor</div>
+<p class="text-gray-400 text-sm">University admission guidance for students in Yangon, Myanmar</p>
+<nav class="flex flex-wrap justify-center gap-6 text-gray-400 text-sm">
+<a class="hover:text-[#FFB800] transition-colors" href="home.html">Home</a>
+<a class="hover:text-[#FFB800] transition-colors" href="uniexp.html">Universities</a>
+<a class="hover:text-[#FFB800] transition-colors" href="assessment1.html">Assessment</a>
+<a class="hover:text-[#FFB800] transition-colors" href="about.html">About</a>
+<a class="hover:text-[#FFB800] transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="text-xs text-gray-500 mt-2">
+      © 2026 UniAdvisor. Myanmar Student Success.
+    </div>
+</div>
+</footer>
+
+<script src="js/assessment1.js"></script>
+</body></html>

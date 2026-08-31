@@ -1,0 +1,278 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Analyzing Profile - UniAdvisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-tint": "#465f88",
+                        "tertiary": "#000e02",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "outline": "#74777f",
+                        "secondary": "#555f6c",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "on-surface-variant": "#44474e",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#002106",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed-variant": "#00531a",
+                        "surface-container": "#edeeef",
+                        "background": "#f8f9fa",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container-high": "#e7e8e9",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#199d3d",
+                        "tertiary-fixed": "#83fc8e",
+                        "primary-fixed-dim": "#aec7f6",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-low": "#f3f4f5",
+                        "primary": "#000a1e",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed": "#d9e3f2",
+                        "surface-dim": "#d9dadb",
+                        "primary-container": "#002147",
+                        "tertiary-fixed-dim": "#66df75",
+                        "on-secondary-fixed-variant": "#3e4853",
+                        "on-background": "#191c1d",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#002808",
+                        "inverse-surface": "#2e3132",
+                        "secondary-container": "#d9e3f2",
+                        "on-secondary-fixed": "#131c27",
+                        "on-primary-container": "#708ab5",
+                        "outline-variant": "#c4c6cf",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-secondary-container": "#5b6572",
+                        "secondary-fixed-dim": "#bdc7d6",
+                        "inverse-primary": "#aec7f6",
+                        "surface": "#f8f9fa",
+                        
+                        "gold": "#FFB800",
+                        "gold-dim": "#d4af37",
+                        "navy": "#002147",
+                        "footer-bg": "#1A1A2E",
+                        "success-green": "#199D3D"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit-4": "1rem",
+                        "container-max": "1280px",
+                        "unit-6": "1.5rem",
+                        "unit-2": "0.5rem",
+                        "unit-8": "2rem",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "unit-16": "4rem",
+                        "unit-1": "0.25rem",
+                        "unit-12": "3rem"
+                    },
+                    fontFamily: {
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    fontSize: {
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '200% 0' },
+                            '100%': { backgroundPosition: '-200% 0' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .shimmer-bg {
+            background: linear-gradient(90deg, #FFB800 25%, #ffe499 50%, #FFB800 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background flex flex-col min-h-screen antialiased selection:bg-primary selection:text-white">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 mx-auto bg-white shadow-sm border-b border-gray-200">
+<div class="flex items-center gap-2 cursor-pointer">
+<span class="font-bold text-xl text-[#002147]">🎓 UniAdvisor</span>
+</div>
+<nav class="hidden md:flex gap-6 text-gray-600 text-sm">
+<a class="hover:text-[#002147] transition-colors" href="home.html">Home</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-[#002147] transition-colors" href="uniexp.html">Universities</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-[#002147] transition-colors" href="assessment1.html">Assessment</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-[#002147] transition-colors" href="about.html">About</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-gray-600">person</span>
+</div>
+</header>
+<!-- Global Progress Bar -->
+<div class="fixed top-16 w-full z-40 bg-[#F8F9FA] border-b border-outline-variant/30 py-3 px-gutter"><div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><div class="font-bold text-[18px] text-gold flex items-center gap-2">🔄 Step 3.5 of 4: Analyzing Profile</div><div class="flex items-center gap-4 flex-grow"><!-- Step 1 --><div class="flex items-center"><div class="w-8 h-8 rounded-full bg-gold text-white flex items-center justify-center relative"><span class="material-symbols-outlined text-sm font-bold">check</span><span class="absolute -bottom-5 text-xs text-on-surface whitespace-nowrap hidden sm:block">📝 Academic Results</span></div><div class="w-12 h-1 bg-gold"></div></div><!-- Step 2 --><div class="flex items-center"><div class="w-8 h-8 rounded-full bg-gold text-white flex items-center justify-center relative"><span class="material-symbols-outlined text-sm font-bold">check</span><span class="absolute -bottom-5 text-xs text-on-surface whitespace-nowrap hidden sm:block">🎯 Your Interests</span></div><div class="w-12 h-1 bg-gold"></div></div><!-- Step 3 --><div class="flex items-center"><div class="w-8 h-8 rounded-full bg-gold text-white flex items-center justify-center relative"><span class="material-symbols-outlined text-sm font-bold">check</span><span class="absolute -bottom-5 text-xs text-on-surface whitespace-nowrap hidden sm:block">📍 Preferences</span></div><div class="w-12 h-1 bg-gold"></div></div><!-- Step 4 --><div class="flex items-center"><div class="w-10 h-10 rounded-full bg-gold text-white flex items-center justify-center relative animate-pulse shadow-lg"><span class="text-sm font-bold">4</span><span class="absolute -bottom-5 text-xs text-gold font-bold whitespace-nowrap hidden sm:block">🎓 Your Matches</span></div></div></div></div></div>
+<!-- Main Content -->
+<main class="flex-grow pt-40 pb-16 px-gutter flex flex-col items-center justify-center w-full max-w-container-max mx-auto">
+<!-- Main Card -->
+<div class="w-full max-w-[750px] bg-white rounded-[24px] shadow-[0_4px_16px_rgba(0,33,71,0.1)] p-8 md:p-12 relative overflow-hidden">
+<!-- Background Glow Effect (Decorative) -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-fixed-dim rounded-full blur-3xl opacity-20 -mr-32 -mt-32 pointer-events-none"></div>
+<div class="flex flex-col gap-unit-6 relative z-10">
+<!-- Header Section -->
+<div class="text-center flex flex-col items-center gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-high text-gold-dim font-label-md text-label-md border border-outline-variant/30">
+🔄 Analyzing Profile
+                    </span>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary-container">Analyzing Your Profile</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+                        We're comparing your academic profile and preferences with available university programs in Myanmar.
+                    </p>
+</div>
+<!-- Progress Bar -->
+<div class="w-full mt-4">
+<div class="flex justify-between mb-2">
+<span class="font-label-md text-label-md text-gold-dim" id="analysisStatusText">Analysis Progress</span>
+<span class="font-label-md text-label-md text-gold-dim" id="analysisPercentText">25%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2.5 overflow-hidden">
+<div id="analysisProgressBar" class="shimmer-bg h-2.5 rounded-full transition-all duration-500 bg-gold" style="width: 25%"></div>
+</div>
+</div>
+<!-- Processing Status List -->
+<div class="bg-surface-bright rounded-xl border border-surface-container-high p-6 mt-2 space-y-4 shadow-sm" id="stagesContainer">
+<!-- Item 1 -->
+<div class="flex items-start gap-3" id="stage1">
+<div class="mt-0.5 flex items-center justify-center flex-shrink-0 text-success-green">
+✅
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Academic results analyzed</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-start gap-3" id="stage2">
+<div class="mt-0.5 flex items-center justify-center flex-shrink-0 text-success-green">
+✅
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Program requirements checked</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-start gap-3" id="stage3">
+<div class="mt-0.5 flex flex-shrink-0 status-icon">
+<span class="animate-spin-slow">🔄</span>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md font-bold text-gold-dim">Matching your interests &amp; preferences...</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex items-start gap-3 opacity-60" id="stage4">
+<div class="mt-0.5 flex items-center justify-center flex-shrink-0 status-icon">
+⏳
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface-variant">Ranking compatible programs &amp; admission probability</p>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="flex items-start gap-3 opacity-60" id="stage5">
+<div class="mt-0.5 flex items-center justify-center flex-shrink-0 status-icon">
+⏳
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface-variant">Preparing personalized recommendations</p>
+</div>
+</div>
+</div>
+<!-- Disclaimer Box -->
+<div class="bg-surface-container-low rounded-lg p-4 border border-outline-variant/30 flex items-start gap-3 mt-4">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">🔍 Verified University Cutoff Criteria</h4>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+    These results are calculated based on official Myanmar matriculation cutoff score guidelines and department entrance requirements for universities in Yangon.
+</p>
+</div>
+</div>
+<!-- Action Button -->
+<div class="mt-6 flex justify-center w-full">
+<button id="viewResultsBtn" onclick="location.href='yourmatches.html'" class="w-full sm:w-auto px-8 py-4 bg-gold hover:bg-yellow-400 text-primary-container font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+    View Your Matches Now
+</button>
+</div>
+
+<script src="js/assessment4.js"></script>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 px-6 flex flex-col items-center gap-6 bg-[#00142D] mt-auto text-center">
+<div class="text-xl text-[#FFB800] font-bold">
+🎓 UniAdvisor
+</div>
+<nav class="flex flex-wrap justify-center gap-4 text-gray-400 text-sm">
+<a class="hover:text-white transition-colors" href="home.html">Home</a>
+<span class="text-gray-600">|</span>
+<a class="hover:text-white transition-colors" href="uniexp.html">Universities</a>
+<span class="text-gray-600">|</span>
+<a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a>
+<span class="text-gray-600">|</span>
+<a class="hover:text-white transition-colors" href="about.html">About</a>
+<span class="text-gray-600">|</span>
+<a class="hover:text-white transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex flex-col gap-2">
+<div class="text-sm text-gray-400">
+        🇲🇲 Serving students across Yangon, Myanmar
+    </div>
+<div class="text-xs text-gray-500">
+        © 2026 UniAdvisor. Myanmar Student Success.
+    </div>
+</div>
+</footer>
+
+
+</body></html>

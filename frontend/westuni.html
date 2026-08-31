@@ -1,0 +1,352 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>West Yangon University - UniAdvisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-background": "#191c1d",
+                            "surface-container-highest": "#e1e3e4",
+                            "on-secondary": "#ffffff",
+                            "tertiary-fixed": "#83fc8e",
+                            "tertiary": "#000e02",
+                            "secondary": "#555f6c",
+                            "background": "#f8f9fa",
+                            "secondary-fixed": "#d9e3f3",
+                            "surface-container-lowest": "#ffffff",
+                            "on-error": "#ffffff",
+                            "on-secondary-container": "#5b6572",
+                            "on-primary-fixed": "#001b3d",
+                            "inverse-surface": "#2e3132",
+                            "surface-variant": "#e1e3e4",
+                            "primary-fixed": "#d6e3ff",
+                            "on-primary": "#ffffff",
+                            "on-primary-container": "#708ab5",
+                            "on-secondary-fixed": "#121c27",
+                            "surface-dim": "#d9dadb",
+                            "secondary-fixed-dim": "#bdc7d6",
+                            "glass-bg": "rgba(255, 255, 255, 0.85)",
+                            "surface-tint": "#465f88",
+                            "on-secondary-fixed-variant": "#3e4854",
+                            "primary-container": "#002147",
+                            "inverse-primary": "#aec7f6",
+                            "surface": "#f8f9fa",
+                            "primary": "#000a1e",
+                            "on-tertiary-fixed-variant": "#00531a",
+                            "on-tertiary-fixed": "#002106",
+                            "glass-border": "rgba(255, 255, 255, 0.3)",
+                            "secondary-container": "#d9e3f3",
+                            "on-tertiary": "#ffffff",
+                            "tertiary-fixed-dim": "#67df75",
+                            "on-tertiary-container": "#1a9d3d",
+                            "on-primary-fixed-variant": "#2d476f",
+                            "error": "#ba1a1a",
+                            "outline": "#74777f",
+                            "on-surface": "#191c1d",
+                            "error-container": "#ffdad6",
+                            "surface-container-high": "#e7e8e9",
+                            "surface-container-low": "#f3f4f5",
+                            "advisor-blue-light": "#F0F7FF",
+                            "success-green": "#199D3D",
+                            "inverse-on-surface": "#f0f1f2",
+                            "surface-container": "#edeeef",
+                            "tertiary-container": "#002808",
+                            "outline-variant": "#c4c6cf",
+                            "on-surface-variant": "#44474e",
+                            "surface-bright": "#f8f9fa",
+                            "primary-fixed-dim": "#aec7f6",
+                            "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "container-max": "1280px",
+                            "unit-1": "4px",
+                            "unit-8": "32px",
+                            "unit-12": "48px",
+                            "unit-16": "64px",
+                            "unit-4": "16px",
+                            "content-width-optimal": "900px",
+                            "base": "4px",
+                            "unit-6": "24px",
+                            "unit-2": "8px",
+                            "gutter": "24px",
+                            "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                            "body-lg": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "label-md": ["Inter"],
+                            "body-md": ["Inter"],
+                            "display": ["Inter"]
+                    },
+                    "fontSize": {
+                            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                            "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                            "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                            "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                            "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                            "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                            "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 10, 30, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-on-background docked full-width top-0 shadow-sm transition-all duration-300 ease-in-out z-50 sticky">
+<div class="flex justify-between items-center px-unit-6 w-full max-w-container-max mx-auto h-unit-16">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-headline-md">school</span>
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight">UniAdvisor</span>
+</div>
+<!-- Navigation Links (Web) -->
+<nav class="hidden md:flex gap-unit-6 items-center">
+<a class="text-secondary dark:text-secondary-fixed-dim font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="home.html">Home</a>
+<a class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-bold" href="uniexp.html">Universities</a>
+<a class="text-secondary dark:text-secondary-fixed-dim font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="assessment1.html">Assessment</a>
+<a class="text-secondary dark:text-secondary-fixed-dim font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="about.html">About</a>
+<a class="text-secondary dark:text-secondary-fixed-dim font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="contact.html">Contact</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-container-max mx-auto px-unit-4 md:px-unit-6 py-unit-8 w-full flex flex-col gap-unit-8">
+<!-- Hero Section -->
+<section class="relative w-full h-[340px] rounded-2xl overflow-hidden shadow-lg mt-unit-4">
+<div class="bg-cover bg-center w-full h-full absolute inset-0" style="background-image: url('westuni.jpg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-unit-8 flex flex-col md:flex-row justify-between items-end gap-4">
+<div class="text-white">
+<h1 class="font-display text-display text-white mb-2">West Yangon University</h1>
+<div class="flex flex-wrap gap-4 items-center font-label-md text-label-md text-primary-fixed">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">location_on</span> Htantabin Township, Yangon</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">account_balance</span> Public University • Established 2001</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 items-end text-right">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2">
+<span class="block font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider mb-1">Match Status</span>
+<span class="font-label-md text-label-md text-white flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant inline-block"></span> Not Assessed
+                        </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Bar -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-content-width-optimal mx-auto">
+<div class="glass-panel p-4 rounded-xl text-center flex flex-col items-center justify-center h-full">
+<span class="material-symbols-outlined text-primary-container text-headline-md mb-2">groups</span>
+<span class="font-headline-md text-headline-md text-primary-container">5,000+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase mt-1">Students</span>
+</div>
+<div class="glass-panel p-4 rounded-xl text-center flex flex-col items-center justify-center h-full">
+<span class="material-symbols-outlined text-primary-container text-headline-md mb-2">menu_book</span>
+<span class="font-headline-md text-headline-md text-primary-container">18+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase mt-1">Programs</span>
+</div>
+<div class="glass-panel p-4 rounded-xl text-center flex flex-col items-center justify-center h-full">
+<span class="material-symbols-outlined text-[#FFB800] text-headline-md mb-2" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-headline-md text-headline-md text-primary-container">#1</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase mt-1">Humanities locally</span>
+</div>
+<div class="glass-panel p-4 rounded-xl text-center flex flex-col items-center justify-center h-full">
+<span class="material-symbols-outlined text-primary-container text-headline-md mb-2">globe_asia</span>
+<span class="font-headline-md text-headline-md text-primary-container">12+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase mt-1">Intl Partners</span>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="flex flex-col lg:flex-row gap-unit-6 max-w-container-max mx-auto w-full">
+<!-- Left Column (Content) -->
+<div class="flex-1 flex flex-col gap-unit-6 max-w-content-width-optimal mx-auto lg:mx-0 w-full">
+<!-- Assessment Banner -->
+<div class="bg-surface-container-low border-l-4 border-outline p-unit-4 rounded-r-2xl rounded-l-md flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-headline-md">assignment_late</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Not Yet Assessed</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">You haven't completed the assessment to see your match score for this university.</p>
+</div>
+</div>
+<button class="shrink-0 bg-[#FFB800] text-primary-container px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-[#e6a600] transition-colors flex items-center gap-2">
+                        Complete Assessment <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- About Card -->
+<div class="glass-panel rounded-[24px] p-unit-6 md:p-unit-8">
+<h2 class="font-headline-md text-headline-md text-primary-container mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">info</span> About West Yangon University
+                    </h2>
+<div class="font-body-lg text-body-lg text-on-surface-variant space-y-4">
+<p class="">West Yangon University (WYU) is a public liberal arts and sciences university located in Htantabin, Yangon, Myanmar. Established to provide higher education opportunities for students in the western part of the Yangon region, WYU offers bachelor's and master's degree programs in common liberal arts, sciences, and law disciplines.</p>
+<p class="">The university is known for its sprawling, green campus and its commitment to academic excellence in the humanities and fundamental sciences, serving as a vital educational hub for the local community and beyond.</p>
+</div>
+</div>
+<!-- AI Advisor Insight -->
+<div class="bg-advisor-blue-light border border-primary-container rounded-2xl p-unit-6 flex gap-4">
+<span class="material-symbols-outlined text-primary-container text-headline-lg shrink-0" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<div>
+<h3 class="font-label-md text-label-md text-primary-container uppercase tracking-wider mb-2 font-bold">AI Advisor Insight</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Based on regional data, WYU offers strong foundational programs in English and History. If you are considering public service or education careers in Myanmar, this institution provides a solid, accessible pathway. Completing your profile assessment will allow me to compare your academic metrics against their typical admission thresholds.
+                        </p>
+</div>
+</div>
+<!-- Available Programs -->
+<div>
+<h2 class="font-headline-md text-headline-md text-primary-container mb-4">Popular Programs</h2>
+<div class="grid sm:grid-cols-2 gap-4">
+<div class="glass-panel p-5 rounded-xl border border-outline-variant hover:border-primary-container transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="material-symbols-outlined text-primary-container text-[28px] group-hover:scale-110 transition-transform">history_edu</span>
+<span class="bg-[#FFB800]/20 text-primary-container text-xs font-bold px-2 py-1 rounded-full uppercase">Highly Rated</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface text-lg mb-1">Faculty of Humanities</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-3">BA in English, History, Philosophy, and Myanmar.</p>
+<span class="text-primary-container font-label-sm text-label-sm flex items-center gap-1 group-hover:underline">View Details <span class="material-symbols-outlined text-[14px]">chevron_right</span></span>
+</div>
+<div class="glass-panel p-5 rounded-xl border border-outline-variant hover:border-primary-container transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<span class="material-symbols-outlined text-primary-container text-[28px] group-hover:scale-110 transition-transform">biotech</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface text-lg mb-1">Faculty of Sciences</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mb-3">BSc in Chemistry, Physics, Botany, and Zoology.</p>
+<span class="text-primary-container font-label-sm text-label-sm flex items-center gap-1 group-hover:underline">View Details <span class="material-symbols-outlined text-[14px]">chevron_right</span></span>
+</div>
+</div>
+</div>
+<!-- Admission Requirements Table -->
+<div class="glass-panel rounded-[24px] overflow-hidden">
+<div class="p-unit-6 border-b border-outline-variant bg-surface-container-lowest">
+<h2 class="font-headline-md text-headline-md text-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined">rule</span> Typical Admission Requirements
+                        </h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b-2 border-outline-variant font-label-md text-label-md text-on-surface">
+<th class="p-4">Subject Requirement</th>
+<th class="p-4">Min. Matriculation Mark</th>
+<th class="p-4">Your Profile</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-4 font-medium">Myanmar</td>
+<td class="p-4">60 / 100</td>
+<td class="p-4 text-on-surface-variant italic">Not provided</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-4 font-medium">English</td>
+<td class="p-4">60 / 100</td>
+<td class="p-4 text-on-surface-variant italic">Not provided</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="p-4 font-medium">Mathematics</td>
+<td class="p-4">55 / 100</td>
+<td class="p-4 text-on-surface-variant italic">Not provided</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-surface-container-low p-4 flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant border-t border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-[#FFB800]">info</span>
+                         Requirements vary heavily by specific program. Exact cutoffs are determined annually.
+                    </div>
+</div>
+</div>
+<!-- Right Column (Sidebar / Actions) -->
+<div class="w-full lg:w-[320px] flex flex-col gap-unit-6 shrink-0">
+<!-- Action Card -->
+<div class="glass-panel p-unit-6 rounded-[24px] flex flex-col gap-4 sticky top-[88px]">
+<h3 class="font-headline-md text-headline-md text-primary-container mb-2">Ready to Compare?</h3>
+<div class="flex flex-col gap-4">
+<button onclick="location.href='yourmatches.html'" class="w-full h-[48px] bg-gold hover:bg-yellow-400 text-primary-container rounded-xl font-bold text-[16px] flex items-center justify-center gap-2 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span> Back to Potential Matches
+</button>
+</div>
+</div>
+<!-- Career Outcomes -->
+<div class="glass-panel p-unit-6 rounded-[24px]">
+<h3 class="font-label-md text-label-md text-primary-container uppercase tracking-wider font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">work</span> Career Pathways
+                    </h3>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-default">
+<div class="bg-primary-container/10 p-2 rounded-md"><span class="material-symbols-outlined text-primary-container text-[20px]">school</span></div>
+<span class="font-body-md text-body-md text-on-surface">Educator / Teacher</span>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-default">
+<div class="bg-primary-container/10 p-2 rounded-md"><span class="material-symbols-outlined text-primary-container text-[20px]">eco</span></div>
+<span class="font-body-md text-body-md text-on-surface">Environmental Scientist</span>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-default">
+<div class="bg-primary-container/10 p-2 rounded-md"><span class="material-symbols-outlined text-primary-container text-[20px]">gavel</span></div>
+<span class="font-body-md text-body-md text-on-surface">Public Administration</span>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-default">
+<div class="bg-primary-container/10 p-2 rounded-md"><span class="material-symbols-outlined text-primary-container text-[20px]">query_stats</span></div>
+<span class="font-body-md text-body-md text-on-surface">Policy Analyst</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#00142D] text-white mt-12 py-8 px-6 w-full">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto w-full gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="flex items-center gap-2">
+<span class="text-xl text-[#FFB800] font-bold">🎓 UniAdvisor</span>
+</div>
+<p class="text-xs text-gray-400">🇲🇲 Serving students across Yangon, Myanmar</p>
+<p class="text-xs text-gray-500 mt-1">© 2024 UniAdvisor. Myanmar Student Success.</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-4 text-xs text-gray-400">
+<a class="hover:text-white transition-opacity" href="home.html">Home</a>
+<span>|</span>
+<a class="hover:text-white transition-opacity" href="uniexp.html">Universities</a>
+<span>|</span>
+<a class="hover:text-white transition-opacity" href="assessment1.html">Assessment</a>
+<span>|</span>
+<a class="hover:text-white transition-opacity" href="about.html">About</a>
+<span>|</span>
+<a class="hover:text-white transition-opacity" href="contact.html">Contact</a>
+</nav>
+</div>
+</footer>
+
+
+</body></html>

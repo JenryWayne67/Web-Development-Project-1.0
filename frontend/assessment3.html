@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Assessment Step 3: Preferences - UniAdvisor 2026</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000a1e",
+                        "primary-container": "#002147",
+                        surface: "#f8f9fa",
+                        gold: "#FFB800"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F8F9FA] text-[#191C1D] flex flex-col min-h-screen font-['Inter',sans-serif]">
+
+<!-- TopNavBar -->
+<header class="sticky top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 h-16 bg-white shadow-sm border-b border-gray-200">
+    <a href="home.html" class="flex items-center gap-2 no-underline">
+        <span class="text-[18px] font-bold text-[#002147]">🎓 UniAdvisor</span>
+    </a>
+    <nav class="hidden md:flex gap-6 items-center">
+        <a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="home.html">Home</a>
+        <span class="text-[#6B7280]/50">|</span>
+        <a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="uniexp.html">Universities</a>
+        <span class="text-[#6B7280]/50">|</span>
+        <a class="text-[15px] font-bold text-[#002147]" href="assessment1.html">Assessment</a>
+        <span class="text-[#6B7280]/50">|</span>
+        <a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="about.html">About</a>
+        <span class="text-[#6B7280]/50">|</span>
+        <a class="text-[15px] text-[#6B7280] hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+    </nav>
+    <div class="flex items-center gap-4">
+        <span class="bg-[#002147]/5 px-2.5 py-1 rounded text-xs font-semibold text-[#002147]">2026 Intake</span>
+        <span class="material-symbols-outlined text-[#6B7280]">tune</span>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow pt-8 pb-16 px-4 md:px-8 max-w-[900px] mx-auto w-full">
+    <!-- Progress Bar Section -->
+    <div class="mb-8 bg-[#F8F9FA] h-[64px] px-6 md:px-10 rounded-2xl flex items-center justify-between border border-gray-200 shadow-sm">
+        <div class="text-[18px] font-bold text-gold flex items-center gap-2">
+            <span>📍</span> Step 3 of 4: Preferences
+        </div>
+        <div class="flex items-center">
+            <!-- Step 1 -->
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gold flex items-center justify-center text-white text-xs font-bold">✓</div>
+                <span class="text-[14px] font-bold text-gold hidden md:block">📝 Academic Results</span>
+            </div>
+            <div class="w-8 md:w-12 h-[2px] bg-gold mx-2 md:mx-3"></div>
+            <!-- Step 2 -->
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gold flex items-center justify-center text-white text-xs font-bold">✓</div>
+                <span class="text-[14px] font-bold text-gold hidden md:block">🎯 Interests</span>
+            </div>
+            <div class="w-8 md:w-12 h-[2px] bg-gold mx-2 md:mx-3"></div>
+            <!-- Step 3 -->
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-gold flex items-center justify-center text-white text-sm font-bold border-2 border-white shadow">3</div>
+                <span class="text-[14px] font-bold text-gold hidden md:block">📍 Preferences</span>
+            </div>
+            <div class="w-8 md:w-12 h-[2px] bg-gray-300 mx-2 md:mx-3"></div>
+            <!-- Step 4 -->
+            <div class="flex items-center gap-2 opacity-60">
+                <div class="w-6 h-6 rounded-full border-2 border-gray-300 bg-transparent flex items-center justify-center text-gray-400 text-xs font-bold">4</div>
+                <span class="text-[14px] font-bold text-gray-400 hidden md:block">🎓 Your Matches</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Content Card -->
+    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+        <div class="mb-8">
+            <span class="inline-flex items-center gap-1 text-[13px] font-bold text-gold bg-gold/10 px-3 py-1 rounded-full mb-3">
+                📍 Step 3 of 4
+            </span>
+            <h1 class="text-[26px] md:text-[30px] font-extrabold text-[#002147] mb-2">Study Preferences &amp; Location Focus</h1>
+            <p class="text-[15px] text-[#6B7280]">Tailor your learning style and campus requirements for Yangon universities (2026 Intake).</p>
+        </div>
+
+        <!-- Location Focus (Yangon Exclusive) -->
+        <div class="mb-8">
+            <h2 class="text-[18px] font-bold text-[#002147] mb-3">📍 Location Focus</h2>
+            <div class="p-5 rounded-2xl border-2 border-gold bg-[#FFFDF5] shadow-sm flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-[#002147]/10 flex items-center justify-center text-[#002147]">
+                        <span class="material-symbols-outlined text-3xl">location_city</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-[#002147] flex items-center gap-2">
+                            Yangon Region
+                            <span class="bg-[#002147] text-white text-xs px-2.5 py-0.5 rounded-full font-medium">All 24+ Universities</span>
+                        </h3>
+                        <p class="text-[#6B7280] text-sm mt-0.5">Top national institutions, tech campuses, medical institutes, and specialized academies in Yangon</p>
+                    </div>
+                </div>
+                <div class="loc-check">
+                    <span class="material-symbols-outlined text-gold text-2xl">check_circle</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Style -->
+        <div class="mb-8">
+            <div class="mb-4">
+                <h2 class="text-[18px] font-bold text-[#002147]">📚 Learning Style</h2>
+                <p class="text-[14px] text-[#6B7280]">How do you learn best?</p>
+            </div>
+            <div class="flex flex-col gap-4" id="learningStyleContainer">
+                <!-- Style Card 1 -->
+                <div data-style="Practical / Hands-on" class="style-card flex items-start p-4 rounded-xl border-2 border-gold bg-white cursor-pointer hover:shadow-md transition-all relative">
+                    <div class="style-check absolute top-4 right-4">
+                        <span class="material-symbols-outlined text-gold">check_circle</span>
+                    </div>
+                    <div class="mr-4 mt-1 bg-[#F0F7FF] p-2.5 rounded-xl">
+                        <span class="material-symbols-outlined text-[#002147]">build</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-[#002147] text-[16px]">Practical / Hands-on</h3>
+                        <p class="text-[#6B7280] mt-1 text-sm">Focus on computer labs, engineering workshops, clinical rotations, coding projects, and industry partnerships</p>
+                    </div>
+                </div>
+                <!-- Style Card 2 -->
+                <div data-style="Theory-focused" class="style-card flex items-start p-4 rounded-xl border border-gray-200 bg-white cursor-pointer hover:border-[#002147] transition-all relative">
+                    <div class="style-check absolute top-4 right-4 opacity-0">
+                        <span class="material-symbols-outlined text-gray-400">add_circle</span>
+                    </div>
+                    <div class="mr-4 mt-1 bg-gray-100 p-2.5 rounded-xl">
+                        <span class="material-symbols-outlined text-gray-600">menu_book</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-[16px]">Theory &amp; Research-focused</h3>
+                        <p class="text-[#6B7280] mt-1 text-sm">Deep dives into academic foundations, theoretical mathematics, scientific literature, and structured inquiry</p>
+                    </div>
+                </div>
+                <!-- Style Card 3 -->
+                <div data-style="Balanced" class="style-card flex items-start p-4 rounded-xl border border-gray-200 bg-white cursor-pointer hover:border-[#002147] transition-all relative">
+                    <div class="style-check absolute top-4 right-4 opacity-0">
+                        <span class="material-symbols-outlined text-gray-400">add_circle</span>
+                    </div>
+                    <div class="mr-4 mt-1 bg-gray-100 p-2.5 rounded-xl">
+                        <span class="material-symbols-outlined text-gray-600">balance</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-[16px]">Balanced Approach</h3>
+                        <p class="text-[#6B7280] mt-1 text-sm">Equal blend of theoretical groundwork, classroom lectures, and applied assignments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-between items-center pt-6 border-t border-gray-200 gap-4">
+            <button onclick="location.href='assessment2.html'" class="w-full sm:w-auto px-8 h-[44px] rounded-xl border-2 border-[#002147] text-[#002147] font-bold text-[15px] hover:bg-gray-50 transition-colors flex items-center justify-center">
+                ← Back to Interests
+            </button>
+            <button id="findMatchesBtn" class="w-full sm:w-auto px-8 h-[48px] rounded-xl bg-[#FFB800] text-[#002147] font-bold text-[15px] hover:bg-yellow-400 transition-colors shadow-sm flex items-center justify-center gap-2">
+                Calculate Matching Universities (2026) →
+            </button>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-8 px-6 mt-auto bg-[#00142D] text-white">
+    <div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-[18px] font-bold text-[#FFB800]">🎓 UniAdvisor</div>
+            <div class="flex flex-wrap justify-center gap-4 text-[14px] text-gray-400">
+                <a class="hover:text-white" href="home.html">Home</a> | 
+                <a class="hover:text-white" href="uniexp.html">Universities</a> | 
+                <a class="hover:text-white" href="assessment1.html">Assessment</a> | 
+                <a class="hover:text-white" href="about.html">About</a> | 
+                <a class="hover:text-white" href="contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-6 gap-2 text-xs text-gray-400">
+            <div>🇲🇲 Serving students across Yangon, Myanmar</div>
+            <div>© 2026 UniAdvisor. Myanmar Student Success.</div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/assessment3.js"></script>
+</body>
+</html>

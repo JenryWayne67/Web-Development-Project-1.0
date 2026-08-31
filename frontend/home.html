@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>UniAdvisor 2026 - Find Your Dream University in Yangon</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#002147",
+                "primary-dark": "#00142D",
+                "prompt-gold": "#FFB800",
+                "prompt-lightblue": "#E6F0FF",
+                "surface-container-low": "#f3f4f5"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-[#F8F9FA] text-[#191C1D] font-['Inter',sans-serif] antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+<!-- Top Navigation -->
+<header class="bg-white shadow-sm sticky top-0 w-full z-50 h-[64px] flex items-center">
+    <div class="flex items-center justify-between px-6 w-full max-w-[1280px] mx-auto">
+        <!-- Brand -->
+        <a href="home.html" class="flex items-center gap-2 cursor-pointer no-underline">
+            <span class="text-[#002147] font-bold text-[20px] leading-tight">🎓 UniAdvisor</span>
+        </a>
+        <!-- Center Nav -->
+        <nav class="hidden md:flex items-center gap-4 text-[15px] text-[#6B7280]">
+            <a class="text-[#002147] font-bold" href="home.html">Home</a>
+            <span class="text-[#6B7280]/50">|</span>
+            <a class="hover:text-[#002147] transition-colors" href="uniexp.html">Universities</a>
+            <span class="text-[#6B7280]/50">|</span>
+            <a class="hover:text-[#002147] transition-colors" href="assessment1.html">Assessment</a>
+            <span class="text-[#6B7280]/50">|</span>
+            <a class="hover:text-[#002147] transition-colors" href="about.html">About</a>
+            <span class="text-[#6B7280]/50">|</span>
+            <a class="hover:text-[#002147] transition-colors" href="contact.html">Contact</a>
+        </nav>
+        <!-- Right Actions -->
+        <div class="hidden md:flex items-center gap-4 text-[#6B7280] font-medium text-sm">
+            <span class="bg-[#002147]/5 px-2.5 py-1 rounded text-xs font-semibold text-[#002147]">2026 Intake</span>
+            <span class="material-symbols-outlined text-[24px] text-[#002147]">school</span>
+        </div>
+        <!-- Mobile Menu Toggle -->
+        <button class="md:hidden text-[#002147]" onclick="document.getElementById('mobileNav').classList.toggle('hidden')">
+            <span class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Nav Drawer -->
+<div id="mobileNav" class="hidden md:hidden bg-white border-b border-gray-200 px-6 py-4 flex flex-col gap-3 text-sm">
+    <a class="font-bold text-[#002147]" href="home.html">Home</a>
+    <a class="text-gray-600 hover:text-[#002147]" href="uniexp.html">Universities</a>
+    <a class="text-gray-600 hover:text-[#002147]" href="assessment1.html">Assessment</a>
+    <a class="text-gray-600 hover:text-[#002147]" href="about.html">About</a>
+    <a class="text-gray-600 hover:text-[#002147]" href="contact.html">Contact</a>
+</div>
+
+<main class="flex-grow flex flex-col w-full">
+    <!-- 1. HERO SECTION -->
+    <section class="hero-gradient w-full min-h-[540px] flex items-center relative overflow-hidden py-16 md:py-20 text-white">
+        <div class="max-w-[1280px] mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            <!-- Text Content -->
+            <div class="flex flex-col gap-6 max-w-2xl">
+                <div class="inline-flex items-center gap-2 text-prompt-gold font-semibold text-xs uppercase tracking-wider bg-white/10 px-4 py-1.5 rounded-full w-max backdrop-blur-sm border border-white/10">
+                    ✨ UniAdvisor 2026 Edition
+                </div>
+                <h1 class="text-[38px] md:text-[50px] font-extrabold leading-[1.15] tracking-tight">
+                    FIND YOUR DREAM UNIVERSITY IN YANGON 🇲🇲
+                </h1>
+                <p class="text-[18px] md:text-[22px] text-prompt-lightblue font-medium opacity-90 max-w-lg">
+                    Accurate Criteria &amp; Cutoff Matching for 2026 Admissions
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mt-2">
+                    <button onclick="location.href='assessment1.html'" class="bg-[#FFB800] hover:bg-yellow-400 text-[#002147] px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center gap-2 text-base">
+                        START ASSESSMENT
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                    </button>
+                    <button onclick="location.href='uniexp.html'" class="border-2 border-white/30 hover:border-white hover:bg-white/10 text-white px-8 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-base">
+                        EXPLORE UNIVERSITIES
+                    </button>
+                </div>
+                <div class="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FFB800]/20 text-[#FFB800] font-bold text-sm">✓</span>
+                    <p class="text-sm text-white/80"><span class="font-bold text-[#FFB800]">26+</span> Yangon universities &amp; specialized degree faculties</p>
+                </div>
+            </div>
+
+            <!-- Feature Overview Card Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-[#FFB800]/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-[#FFB800]/20 flex items-center justify-center text-2xl mb-4 text-[#FFB800]">
+                        📊
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">2026 Cutoff Data</h3>
+                    <p class="text-sm text-white/70 leading-relaxed">Official minimum marks and department requirements for all major faculties.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-[#FFB800]/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-400/20 flex items-center justify-center text-2xl mb-4 text-emerald-300">
+                        🎯
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">Smart Eligibility</h3>
+                    <p class="text-sm text-white/70 leading-relaxed">Instant evaluation into Safe, Target, and Reach university matches.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-[#FFB800]/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-blue-400/20 flex items-center justify-center text-2xl mb-4 text-blue-300">
+                        🏛️
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">Campus Profiles</h3>
+                    <p class="text-sm text-white/70 leading-relaxed">Detailed info on tuition, degree duration, township locations, and careers.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-[#FFB800]/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-amber-400/20 flex items-center justify-center text-2xl mb-4 text-amber-300">
+                        🇲🇲
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-2">100% Free</h3>
+                    <p class="text-sm text-white/70 leading-relaxed">Dedicated counseling tool for high school matriculation graduates in Myanmar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. WHY USE UNIADVISOR -->
+    <section class="w-full py-16 md:py-20 bg-white">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center mb-14">
+                <h2 class="text-[30px] md:text-[36px] font-extrabold text-[#002147] mb-3">Why Use UniAdvisor?</h2>
+                <p class="text-base text-gray-600 max-w-2xl mx-auto">Our platform systematically compares your matriculation marks and subject strengths against official 2026 Yangon university cutoffs and entry requirements.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-[#F8F9FA] rounded-2xl p-7 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-5">
+                        🎯
+                    </div>
+                    <h3 class="text-[18px] font-bold text-[#002147] mb-2">Program Matching</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Targeted university suggestions based on your verified matriculation scores and field interests.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-[#F8F9FA] rounded-2xl p-7 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-2xl mb-5">
+                        ✅
+                    </div>
+                    <h3 class="text-[18px] font-bold text-[#002147] mb-2">Eligibility Checking</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Instantly verify whether your scores meet specific department and subject minimum cutoff criteria.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-[#F8F9FA] rounded-2xl p-7 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-5">
+                        📊
+                    </div>
+                    <h3 class="text-[18px] font-bold text-[#002147] mb-2">University Directory</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Explore comprehensive academic profiles, faculties, and cutoff requirements for Yangon universities.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-[#F8F9FA] rounded-2xl p-7 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl mb-5">
+                        💼
+                    </div>
+                    <h3 class="text-[18px] font-bold text-[#002147] mb-2">Career Pathways</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Connect your degree choice to relevant industry opportunities and professional career pathways.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. HOW IT WORKS -->
+    <section class="w-full py-16 md:py-20 bg-[#F3F4F6] border-y border-gray-200">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <div class="text-center mb-14">
+                <h2 class="text-[30px] md:text-[36px] font-extrabold text-[#002147] mb-3">How It Works</h2>
+                <p class="text-base text-gray-600 max-w-2xl mx-auto">A straightforward 4-step process to explore Yangon university options for 2026.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="w-12 h-12 rounded-full bg-[#002147] text-[#FFB800] font-bold text-lg flex items-center justify-center mx-auto mb-4">
+                        1
+                    </div>
+                    <div class="text-3xl mb-2">📝</div>
+                    <h4 class="text-[18px] font-bold text-[#002147] mb-2">Enter Results</h4>
+                    <p class="text-sm text-gray-600">Input your matriculation marks and distinction count.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="w-12 h-12 rounded-full bg-[#002147] text-[#FFB800] font-bold text-lg flex items-center justify-center mx-auto mb-4">
+                        2
+                    </div>
+                    <div class="text-3xl mb-2">🎯</div>
+                    <h4 class="text-[18px] font-bold text-[#002147] mb-2">Choose Interests</h4>
+                    <p class="text-sm text-gray-600">Select your preferred fields and career passions.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="w-12 h-12 rounded-full bg-[#002147] text-[#FFB800] font-bold text-lg flex items-center justify-center mx-auto mb-4">
+                        3
+                    </div>
+                    <div class="text-3xl mb-2">📍</div>
+                    <h4 class="text-[18px] font-bold text-[#002147] mb-2">Set Preferences</h4>
+                    <p class="text-sm text-gray-600">Confirm campus environment and learning style.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="w-12 h-12 rounded-full bg-[#002147] text-[#FFB800] font-bold text-lg flex items-center justify-center mx-auto mb-4">
+                        4
+                    </div>
+                    <div class="text-3xl mb-2">🎓</div>
+                    <h4 class="text-[18px] font-bold text-[#002147] mb-2">View Matches</h4>
+                    <p class="text-sm text-gray-600">Explore matched programs and cutoff ratings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. DIRECTORY HIGHLIGHTS -->
+    <section class="w-full py-16 bg-[#00142D] text-white">
+        <div class="max-w-[1280px] mx-auto px-6">
+            <!-- Stats Row -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+                <div class="py-4 md:py-0">
+                    <p class="text-[44px] font-extrabold text-[#FFB800] mb-1">26</p>
+                    <p class="text-sm font-semibold uppercase tracking-wider text-blue-200">Yangon Universities</p>
+                </div>
+                <div class="py-4 md:py-0">
+                    <p class="text-[44px] font-extrabold text-[#FFB800] mb-1">60+</p>
+                    <p class="text-sm font-semibold uppercase tracking-wider text-blue-200">Degree Programs</p>
+                </div>
+                <div class="py-4 md:py-0">
+                    <p class="text-[44px] font-extrabold text-[#FFB800] mb-1">2026</p>
+                    <p class="text-sm font-semibold uppercase tracking-wider text-blue-200">Verified Intake Criteria</p>
+                </div>
+            </div>
+            
+            <!-- Featured Institutions -->
+            <div class="pt-8 border-t border-white/10">
+                <p class="text-center text-xs text-white/60 mb-6 uppercase tracking-widest font-semibold">Featured Yangon Higher Education Institutions</p>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 text-white/80">
+                    <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-[#FFB800] text-3xl">account_balance</span>
+                        <span class="font-semibold text-sm">University of Yangon</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-[#FFB800] text-3xl">engineering</span>
+                        <span class="font-semibold text-sm">Yangon Technological University (YTU)</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-[#FFB800] text-3xl">terminal</span>
+                        <span class="font-semibold text-sm">University of Information Technology (UIT)</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-[#FFB800] text-3xl">computer</span>
+                        <span class="font-semibold text-sm">University of Computer Studies, Yangon (UCSY)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. FINAL CTA -->
+    <section class="bg-gradient-to-r from-[#FFB800] to-[#F59E0B] w-full py-16 text-center px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-[32px] md:text-[38px] font-extrabold text-[#00142D] mb-6 leading-tight">
+                READY TO EXPLORE YOUR BEST-FIT UNIVERSITY IN YANGON?
+            </h2>
+            <button onclick="location.href='assessment1.html'" class="bg-[#002147] hover:bg-[#00142D] text-white text-[16px] px-9 py-4 rounded-xl font-bold transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 inline-flex items-center gap-2">
+                START ASSESSMENT FOR 2026
+                <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <p class="mt-4 text-[#00142D]/80 text-sm font-medium">Free assessment. Find your matching academic tracks.</p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#00142D] text-white w-full py-10">
+    <div class="max-w-[1280px] mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
+            <div>
+                <div class="text-[#FFB800] font-bold text-[18px] mb-1">🎓 UniAdvisor</div>
+                <div class="text-gray-400 text-sm">University admission guidance for students in Yangon, Myanmar</div>
+            </div>
+            <div class="flex flex-wrap gap-4 text-gray-400 text-sm">
+                <a class="hover:text-white transition-colors" href="home.html">Home</a>
+                <span class="text-gray-600">|</span>
+                <a class="hover:text-white transition-colors" href="uniexp.html">Universities</a>
+                <span class="text-gray-600">|</span>
+                <a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a>
+                <span class="text-gray-600">|</span>
+                <a class="hover:text-white transition-colors" href="about.html">About</a>
+                <span class="text-gray-600">|</span>
+                <a class="hover:text-white transition-colors" href="contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="pt-6 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+            <p>🇲🇲 Serving students across Yangon, Myanmar</p>
+            <p>© 2026 UniAdvisor. Myanmar Student Success.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/home.js"></script>
+</body>
+</html>

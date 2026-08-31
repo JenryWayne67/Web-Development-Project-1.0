@@ -1,0 +1,8 @@
+{
+  "name": "Remix UniAdvisor",
+  "description": "Imported from GitHub: JenryWayne67/UniAdvisor",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

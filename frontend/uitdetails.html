@@ -1,0 +1,485 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>University of Information Technology - UniAdvisor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#708ab5",
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary": "#ffffff",
+                    "primary": "#000a1e",
+                    "surface-variant": "#e1e3e4",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "surface-tint": "#465f88",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#131c27",
+                    "inverse-primary": "#aec7f6",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f0f1f2",
+                    "tertiary": "#000e02",
+                    "on-secondary-fixed-variant": "#3e4853",
+                    "inverse-surface": "#2e3132",
+                    "secondary-fixed": "#d9e3f2",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-high": "#e7e8e9",
+                    "surface": "#f8f9fa",
+                    "surface-dim": "#d9dadb",
+                    "tertiary-fixed": "#83fc8e",
+                    "tertiary-fixed-dim": "#66df75",
+                    "secondary-fixed-dim": "#bdc7d6",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#002808",
+                    "primary-container": "#002147",
+                    "on-tertiary-container": "#199d3d",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#00531a",
+                    "surface-container": "#edeeef",
+                    "outline-variant": "#c4c6cf",
+                    "primary-fixed": "#d6e3ff",
+                    "primary-fixed-dim": "#aec7f6",
+                    "surface-bright": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#002106",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#191c1d",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#5b6572",
+                    "secondary": "#555f6c",
+                    "secondary-container": "#d9e3f2",
+                    "background": "#f8f9fa",
+                    "on-background": "#191c1d",
+                    "outline": "#74777f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "unit-1": "0.25rem",
+                    "unit-8": "2rem",
+                    "margin-mobile": "16px",
+                    "unit-6": "1.5rem",
+                    "unit-4": "1rem",
+                    "gutter": "24px",
+                    "unit-2": "0.5rem",
+                    "unit-16": "4rem",
+                    "base": "4px",
+                    "unit-12": "3rem"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "display": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 10, 30, 0.1);
+        }
+        .pulse-badge {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(131, 252, 142, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(131, 252, 142, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(131, 252, 142, 0); }
+        }
+        .glow-gold {
+            animation: pulse-gold 2s infinite;
+        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(255, 184, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 184, 0, 0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-lg min-h-screen flex flex-col pt-unit-16">
+<!-- TopNavBar -->
+<nav class="bg-white shadow-sm fixed top-0 w-full z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-unit-8 max-w-container-max mx-auto h-unit-16">
+<!-- Brand -->
+<div class="font-headline-lg text-headline-lg font-bold text-[#002147]">
+                🎓 UniAdvisor
+            </div>
+<!-- Desktop Navigation Links (Hidden on md and below) -->
+<div class="hidden md:flex gap-unit-6 items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors hover:bg-secondary-container/50 transition-all px-unit-2 py-unit-1 rounded" href="home.html">Home</a>
+<span class="text-outline-variant">|</span>
+<a class="font-label-md text-label-md text-primary font-bold px-unit-2 py-unit-1 rounded" href="uniexp.html">Universities</a>
+<span class="text-outline-variant">|</span>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors hover:bg-secondary-container/50 transition-all px-unit-2 py-unit-1 rounded" href="assessment1.html">Assessment</a>
+<span class="text-outline-variant">|</span>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors hover:bg-secondary-container/50 transition-all px-unit-2 py-unit-1 rounded" href="about.html">About</a>
+<span class="text-outline-variant">|</span>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors hover:bg-secondary-container/50 transition-all px-unit-2 py-unit-1 rounded" href="contact.html">Contact</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-unit-4">
+</div>
+</div>
+</nav>
+<!-- Progress Bar Area -->
+<div class="w-full bg-surface-bright py-4 border-b border-outline-variant/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-unit-8">
+<div class="flex flex-col items-center">
+<h2 class="text-[18px] font-bold text-[#FFB800] mb-4">Step 4 of 4: Your Matches</h2>
+<div class="flex items-center w-full max-w-2xl mx-auto">
+<!-- Step 1 -->
+<div class="flex flex-col items-center relative">
+<div class="w-8 h-8 rounded-full bg-[#FFB800] text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+</div>
+<!-- Line 1 -->
+<div class="flex-1 h-1 bg-[#FFB800]"></div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center relative">
+<div class="w-8 h-8 rounded-full bg-[#FFB800] text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+</div>
+<!-- Line 2 -->
+<div class="flex-1 h-1 bg-[#FFB800]"></div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center relative">
+<div class="w-8 h-8 rounded-full bg-[#FFB800] text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+</div>
+<!-- Line 3 -->
+<div class="flex-1 h-1 bg-[#FFB800]"></div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center relative">
+<div class="w-[28px] h-[28px] rounded-full bg-[#FFB800] text-white flex items-center justify-center z-10 glow-gold">
+<span class="font-bold text-sm">4</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Hero Section -->
+<header class="relative w-full h-[340px] flex items-center justify-center overflow-hidden bg-primary">
+<!-- Campus Image Background -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-60" alt="University of Information Technology UIT Campus" src="uit.jpg">
+</div>
+<!-- Shader Overlay -->
+<!-- Hero Content -->
+<div class="relative z-20 w-full max-w-container-max mx-auto px-margin-mobile md:px-unit-8 flex flex-col items-center text-center">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-md border border-on-primary/30 text-on-primary font-label-md text-label-md px-4 py-1.5 rounded-full mb-unit-4 pulse-badge">
+<span class="">🏆</span> Top IT University in Yangon
+            </div>
+<div class="flex flex-col md:flex-row items-center justify-center gap-unit-4 mb-unit-2">
+  <h1 class="font-display text-display text-on-primary text-shadow-sm">
+    University of Information Technology (UIT)
+  </h1>
+  <div class="flex-shrink-0 bg-white p-1 rounded-lg shadow-sm">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqUjDu_l2SYF-HOYCJsqN49oBlP3Z4HcycBiyEIXVXMJoC-_CFVqxeN_x-cVu5TIC8bZAG5nTMh7DXOmcZgda25lj5xl3sDQFa3kgkMKwlwnE41mMUjSDlXMAuMKdz4Jc3SfePTQLGr9M6eGT7yh-hC2pq-jWCUQNESHS-0CfDXMdAgwm3yziE33GKEHSB3qANC0PLd_LBAMiDCFrA3AuwUPOiiWy4XK7iN44mF73H2XCuLwwaLazbxl562IKQpOI53r0" alt="UIT Badge" class="h-10 md:h-12 w-auto object-contain">
+  </div>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-unit-4 text-on-primary/90 font-body-md text-body-md mt-unit-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Yangon, Myanmar
+                </span>
+<span class="hidden md:inline">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">school</span> Public University
+                </span>
+<span class="hidden md:inline">•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> Established In 1971</span>
+</div>
+</div>
+</header>
+<!-- Fantastic Facts Banner -->
+<div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-unit-8 relative -mt-unit-6 z-30 mb-unit-12">
+<div class="glass-card rounded-xl p-unit-4 md:p-unit-6 grid grid-cols-2 md:grid-cols-4 gap-unit-4 md:gap-unit-8 text-center divide-x divide-outline-variant/20">
+<div class="flex flex-col items-center">
+<span class="font-headline-lg text-headline-lg font-bold text-primary mb-1">5,000+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Students</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-headline-lg text-headline-lg font-bold text-primary mb-1">25+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Programs</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-headline-lg text-headline-lg font-bold text-primary mb-1">#1</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">IT University</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-headline-lg text-headline-lg font-bold text-primary mb-1">50+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Partners</span>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="w-full max-w-[900px] mx-auto px-margin-mobile flex flex-col gap-unit-12 pb-unit-16 flex-grow">
+<!-- About Section -->
+<section class="bg-surface-container-lowest rounded-xl p-unit-6 md:p-unit-8 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span> About UIT
+            </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant text-justify">
+                The University of Information Technology (UIT) is the premier academic institution for computer science and technology in Myanmar. Committed to fostering innovation and excellence, UIT provides rigorous academic programs designed to produce industry-ready IT professionals. The university features state-of-the-art laboratories, experienced faculty, and strong industry partnerships, making it the top choice for aspiring technologists in the region.
+            </p>
+</section>
+<!-- Programs Grid -->
+<section>
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">menu_book</span> Available Programs
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-unit-6">
+<!-- Program Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-unit-6 shadow-sm border border-outline-variant/30 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-unit-4">
+<div class="bg-surface-container-low text-primary-container font-label-sm text-label-sm px-3 py-1 rounded-full font-semibold">
+                            B.C.Sc
+                        </div>
+<span class="material-symbols-outlined text-outline">computer</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-unit-2">Bachelor of Computer Science</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-unit-4">
+                        Focuses on software engineering, artificial intelligence, and core computer science principles.
+                    </p>
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+                        View Details <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Program Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-unit-6 shadow-sm border border-outline-variant/30 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-unit-4">
+<div class="bg-surface-container-low text-primary-container font-label-sm text-label-sm px-3 py-1 rounded-full font-semibold">
+                            B.C.Tech
+                        </div>
+<span class="material-symbols-outlined text-outline">memory</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-unit-2">Bachelor of Computer Technology</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-unit-4">
+                        Emphasizes networking, hardware systems, cybersecurity, and embedded technologies.
+                    </p>
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+                        View Details <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Career Opportunities -->
+<section>
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">work</span> Career Opportunities
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-unit-4">
+<div class="bg-surface-container-lowest rounded-lg p-unit-4 border border-outline-variant/30 text-center flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">code</span>
+<span class="font-label-md text-label-md text-on-surface">Software Engineer</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-unit-4 border border-outline-variant/30 text-center flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">database</span>
+<span class="font-label-md text-label-md text-on-surface">Data Scientist</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-unit-4 border border-outline-variant/30 text-center flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">security</span>
+<span class="font-label-md text-label-md text-on-surface">Cybersecurity</span>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-unit-4 border border-outline-variant/30 text-center flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl">router</span>
+<span class="font-label-md text-label-md text-on-surface">Network Admin</span>
+</div>
+</div>
+</section>
+<!-- Admission Requirements Table -->
+<section class="bg-surface-container-lowest rounded-xl p-unit-6 md:p-unit-8 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-primary mb-unit-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">fact_check</span> Admission Requirements
+            </h2>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-2 border-outline-variant/30">
+<th class="py-unit-3 px-unit-4 font-label-md text-label-md text-on-surface-variant">Subject</th>
+<th class="py-unit-3 px-unit-4 font-label-md text-label-md text-on-surface-variant">UIT Cut-off (Min)</th>
+<th class="py-unit-3 px-unit-4 font-label-md text-label-md text-on-surface-variant">Your Score</th>
+<th class="py-unit-3 px-unit-4 font-label-md text-label-md text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface">Mathematics</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface-variant">80</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md font-semibold text-primary">85</td>
+<td class="py-unit-3 px-unit-4"><span class="material-symbols-outlined text-[#199d3d]">check_circle</span></td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface">Physics</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface-variant">75</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md font-semibold text-primary">78</td>
+<td class="py-unit-3 px-unit-4"><span class="material-symbols-outlined text-[#199d3d]">check_circle</span></td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface">English</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md text-on-surface-variant">70</td>
+<td class="py-unit-3 px-unit-4 font-body-md text-body-md font-semibold text-primary">72</td>
+<td class="py-unit-3 px-unit-4"><span class="material-symbols-outlined text-[#199d3d]">check_circle</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Advisor Insight Box -->
+<section class="border border-primary bg-[#F0F7FF] rounded-xl p-unit-6 shadow-sm flex items-start gap-unit-4">
+<div class="bg-primary text-on-primary p-2 rounded-full flex-shrink-0">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-unit-2">Advisor Insight</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Based on your strong performance in Mathematics and Physics, UIT is an excellent match for you. Your scores meet the historical cut-offs comfortably. I recommend applying for the B.C.Sc program, as your profile aligns well with software engineering disciplines.
+                </p>
+</div>
+</section>
+<!-- Bottom Actions -->
+<div class="flex flex-col sm:flex-row justify-end items-center gap-unit-4 pt-unit-6 border-t border-outline-variant/30">
+<button onclick="location.href='yourmatches.html'" class="w-full sm:w-auto px-unit-8 py-unit-3 font-label-md text-label-md bg-gold hover:bg-yellow-400 text-primary font-bold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm">
+    <span class="material-symbols-outlined text-base">arrow_back</span>
+    Back to Potential Matches
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#00142D] text-white w-full mt-auto py-8">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-6 max-w-[1200px] mx-auto gap-4">
+<div class="flex flex-col gap-1 text-center md:text-left">
+<span class="text-xl font-bold text-[#FFB800]">🎓 UniAdvisor</span>
+<p class="text-xs text-gray-400">🇲🇲 Serving students across Yangon, Myanmar</p>
+<p class="text-xs text-gray-500">© 2024 UniAdvisor. Myanmar Student Success.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
+<a class="hover:text-white transition-colors" href="home.html">Home</a>
+<span>|</span>
+<a class="hover:text-white transition-colors" href="uniexp.html">Universities</a>
+<span>|</span>
+<a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a>
+<span>|</span>
+<a class="hover:text-white transition-colors" href="about.html">About</a>
+<span>|</span>
+<a class="hover:text-white transition-colors" href="contact.html">Contact</a>
+</div>
+</div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
