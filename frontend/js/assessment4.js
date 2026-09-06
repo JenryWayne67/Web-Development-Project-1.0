@@ -14,6 +14,7 @@ async function runAnalysis() {
         gender: assessment.gender || 'male',
         total_marks: assessment.total_marks || 502,
         fields: Array.isArray(assessment.fields) && assessment.fields.length > 0 ? assessment.fields : ['Programming & Technology', 'Engineering'],
+        stream: assessment.stream || assessment.academic_stream || '',
         location: assessment.preferred_location || assessment.location || 'Yangon',
         learning_style: assessment.learning_style || 'Practical / Hands-on',
         subjects: assessment.subjects || [],

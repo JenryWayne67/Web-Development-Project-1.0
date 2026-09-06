@@ -29,6 +29,7 @@ async function loadMatches(customMarks = null) {
     const location = assessment.preferred_location || assessment.location || 'Yangon';
     const learningStyle = assessment.learning_style || 'practical';
     const marks = assessment.marks || {};
+    const stream = assessment.stream || assessment.academic_stream || '';
 
     const noticeBanner = document.getElementById('ineligibleNoticeBanner');
     const noticeDetail = document.getElementById('ineligibleNoticeDetail');
@@ -55,7 +56,8 @@ async function loadMatches(customMarks = null) {
             total_marks: totalMarks,
             gender: gender,
             location: location,
-            learning_style: learningStyle
+            learning_style: learningStyle,
+            stream: stream
         });
 
         if (fields.length > 0) {

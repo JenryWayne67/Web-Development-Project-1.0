@@ -27,7 +27,6 @@ export const universities = [
     category_group: "IT & Computing",
     field_ids: [1],
     established: 2012,
-    rating: "4.9",
     detail_url: "university-detail.html?id=1",
     image_url: "uit.jpg",
     description: "Myanmar's premier specialized university in Information Technology, Software Engineering, AI, and Cybersecurity.",
@@ -52,7 +51,6 @@ export const universities = [
     category_group: "Engineering",
     field_ids: [2],
     established: 1924,
-    rating: "4.9",
     detail_url: "university-detail.html?id=2",
     image_url: "ytu.jpg",
     description: "The flagship engineering institution in Myanmar with state-of-the-art engineering laboratories and prestigious COE programs.",
@@ -77,7 +75,6 @@ export const universities = [
     category_group: "Engineering",
     field_ids: [2],
     established: 2005,
-    rating: "4.6",
     detail_url: "university-detail.html?id=3",
     image_url: "westuni.jpg",
     description: "Major engineering university serving western Yangon, offering comprehensive Bachelor of Engineering programs.",
@@ -102,7 +99,6 @@ export const universities = [
     category_group: "Engineering",
     field_ids: [2],
     established: 1999,
-    rating: "4.5",
     detail_url: "university-detail.html?id=4",
     image_url: "eastuni.jpg",
     description: "Prominent technological university in the Thanlyin industrial corridor specializing in engineering degrees.",
@@ -127,7 +123,6 @@ export const universities = [
     category_group: "Engineering",
     field_ids: [2],
     established: 1999,
-    rating: "4.5",
     detail_url: "university-detail.html?id=5",
     image_url: "hbtu.jpg",
     description: "Leading engineering university located in northern Yangon region.",
@@ -152,7 +147,6 @@ export const universities = [
     category_group: "IT & Computing",
     field_ids: [1],
     established: 1971,
-    rating: "4.8",
     detail_url: "university-detail.html?id=6",
     image_url: "ucsy.jpg",
     description: "Pioneering computer science and technology university offering B.C.Sc and B.C.Tech degrees.",
@@ -177,7 +171,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1907,
-    rating: "5.0",
     detail_url: "university-detail.html?id=7",
     image_url: "um1.jpg",
     description: "The most prestigious and oldest medical school in Myanmar, training leading physicians and surgeons.",
@@ -202,7 +195,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1963,
-    rating: "4.9",
     detail_url: "university-detail.html?id=8",
     image_url: "um2.jpg",
     description: "Premier medical university in eastern Yangon with extensive clinical facilities and research departments.",
@@ -227,7 +219,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1992,
-    rating: "4.7",
     detail_url: "university-detail.html?id=9",
     image_url: "uopy.jpg",
     description: "Dedicated pharmaceutical university producing pharmacists and pharmaceutical research specialists.",
@@ -252,7 +243,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1992,
-    rating: "4.6",
     detail_url: "university-detail.html?id=10",
     image_url: "umt.jpg",
     description: "Trains specialized medical laboratory technologists, radiographers, and physiotherapists.",
@@ -277,7 +267,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1964,
-    rating: "4.8",
     detail_url: "university-detail.html?id=11",
     image_url: "udm.jpg",
     description: "Leading institution for dental surgery, oral health sciences, and orthodontics.",
@@ -302,7 +291,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1991,
-    rating: "4.6",
     detail_url: "university-detail.html?id=12",
     image_url: "unursing.jpg",
     description: "Dedicated to advancing nursing sciences and healthcare delivery in Myanmar.",
@@ -327,7 +315,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 2007,
-    rating: "4.5",
     detail_url: "university-detail.html?id=13",
     image_url: "uph.jpg",
     description: "Center for epidemiology, community health, and public health policy.",
@@ -352,7 +339,6 @@ export const universities = [
     category_group: "Languages",
     field_ids: [10],
     established: 1964,
-    rating: "4.8",
     detail_url: "university-detail.html?id=14",
     image_url: "yufl.jpg",
     description: "Myanmar's premier foreign language academy offering degree programs in 8 major international languages.",
@@ -377,7 +363,6 @@ export const universities = [
     category_group: "Business",
     field_ids: [4],
     established: 1964,
-    rating: "4.8",
     detail_url: "university-detail.html?id=15",
     image_url: "yueco.jpg",
     description: "Top university in Myanmar for commerce, accounting, business administration, and economic statistics.",
@@ -402,7 +387,6 @@ export const universities = [
     category_group: "Business",
     field_ids: [4],
     established: 2000,
-    rating: "4.6",
     detail_url: "university-detail.html?id=16",
     image_url: "yueco_ytg.jpg",
     description: "Expansive economics campus delivering high-quality business, finance, and public administration degrees.",
@@ -427,7 +411,6 @@ export const universities = [
     category_group: "Business",
     field_ids: [4],
     established: 1994,
-    rating: "4.4",
     detail_url: "university-detail.html?id=17",
     image_url: "coop.png",
     description: "Specialized university focusing on regional economics, microfinance, marketing, and business management.",
@@ -452,7 +435,6 @@ export const universities = [
     category_group: "Education",
     field_ids: [7],
     established: 1931,
-    rating: "4.7",
     detail_url: "university-detail.html?id=18",
     image_url: "yuoe.jpg",
     description: "Historic university dedicated to pedagogical training, educational science, and teacher development.",
@@ -477,7 +459,6 @@ export const universities = [
     category_group: "Marine",
     field_ids: [11, 2],
     established: 2002,
-    rating: "4.9",
     detail_url: "university-detail.html?id=19",
     image_url: "mmu.jpg",
     description: "Myanmar's specialized maritime university offering international standard maritime and naval engineering degrees.",
@@ -502,7 +483,6 @@ export const universities = [
     category_group: "Marine",
     field_ids: [11],
     established: 1963,
-    rating: "4.5",
     detail_url: "university-detail.html?id=20",
     image_url: "mmmc.jpg",
     description: "Renowned college training maritime officers, deck officers, and marine engineers.",
@@ -527,7 +507,6 @@ export const universities = [
     category_group: "Business",
     field_ids: [4],
     established: 2004,
-    rating: "4.7",
     detail_url: "university-detail.html?id=21",
     image_url: "nmdc.jpg",
     description: "Modern college specializing in Business Management, Tourism & Hospitality, Journalism, and Professional English.",
@@ -552,7 +531,6 @@ export const universities = [
     category_group: "Comprehensive / Arts",
     field_ids: [8],
     established: 1993,
-    rating: "4.5",
     detail_url: "university-detail.html?id=22",
     image_url: "nuac_orch.jpg",
     description: "Preserves and promotes Myanmar traditional performing arts, music, dramatic arts, painting, and sculpture.",
@@ -577,7 +555,6 @@ export const universities = [
     category_group: "Comprehensive / Arts",
     field_ids: [1, 2, 5, 6, 7, 8, 9, 10],
     established: 1920,
-    rating: "5.0",
     detail_url: "university-detail.html?id=23",
     image_url: "yangonuniversity.jpg",
     description: "The crown jewel of higher education in Myanmar, renowned for arts, pure sciences, law, and international relations.",
@@ -602,7 +579,6 @@ export const universities = [
     category_group: "Comprehensive / Arts",
     field_ids: [1, 4, 5, 6, 8, 9, 10],
     established: 1993,
-    rating: "4.5",
     detail_url: "university-detail.html?id=24",
     image_url: "dagonuni.jpg",
     description: "One of the largest universities in Myanmar by student population, offering 20+ disciplines across science and arts.",
@@ -627,7 +603,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 1957,
-    rating: "4.8",
     detail_url: "university-detail.html?id=25",
     image_url: "veterinary.jpg",
     description: "The sole veterinary medicine institution in Myanmar granting the Doctor of Veterinary Medicine (B.V.Sc.) degree.",
@@ -652,7 +627,6 @@ export const universities = [
     category_group: "Medical",
     field_ids: [3],
     established: 2001,
-    rating: "4.6",
     detail_url: "university-detail.html?id=26",
     image_url: "utm.jpg",
     description: "Myanmar's university dedicated to Indigenous Traditional Medicine, herbal pharmacology, and holistic healthcare.",
@@ -862,6 +836,19 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
   const locationPref = (options.location || options.preferred_location || 'all').toLowerCase();
   const learningStyle = (options.learning_style || options.learningStyle || 'practical').toLowerCase();
 
+  // Academic-stream eligibility rules (Myanmar matriculation streams restrict which
+  // university fields a student may even be shown, regardless of interests picked):
+  // - Eco-Science students are not eligible for Medicine & Health.
+  // - Arts & Humanities students are not eligible for Science, Engineering, Medicine & Health, or Marine.
+  const normStream = String(options.stream || options.academic_stream || '').toLowerCase();
+  const STREAM_FIELD_RESTRICTIONS = {
+    eco: ['medicine and health'],
+    science_eco: ['medicine and health'],
+    arts: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology'],
+    arts_humanities: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology']
+  };
+  const restrictedFieldNames = STREAM_FIELD_RESTRICTIONS[normStream] || [];
+
   // Subject-specific marks breakdown if provided
   const marks = options.marks || {};
   const myanmarMark = parseInt(marks.myanmar ?? options.myanmar, 10) || 0;
@@ -889,6 +876,10 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
     if (!fObj || !uObj) continue;
 
     const fName = fObj.field_name;
+
+    // Hard stream restriction: skip fields the student's academic stream is not eligible for,
+    // no matter what interest fields were selected.
+    if (restrictedFieldNames.includes(fName.toLowerCase())) continue;
 
     // Check if program matches user's chosen interest fields
     const isInterestMatched = selectedFields.length === 0 || selectedFields.some(sf => {

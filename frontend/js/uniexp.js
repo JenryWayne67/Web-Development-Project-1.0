@@ -156,9 +156,6 @@ function renderUniList() {
                 <span class="absolute bottom-2 left-2 bg-[#002147]/90 text-white text-xs font-bold px-2.5 py-1 rounded-md backdrop-blur-sm shadow">
                     ${uniCode}
                 </span>
-                <span class="absolute top-2 right-2 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-md backdrop-blur-sm">
-                    ⭐ ${u.rating || '4.8'}
-                </span>
             </div>
             <div class="flex flex-col flex-grow">
                 <h2 class="font-bold text-[18px] text-[#002147] mb-1 leading-snug">${uniName}</h2>

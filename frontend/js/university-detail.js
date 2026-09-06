@@ -131,8 +131,6 @@ function renderUniversity(uni) {
     if (locText) locText.textContent = `${uni.location || 'Yangon'}, Myanmar`;
     const estText = document.getElementById('uni-established-text');
     if (estText) estText.textContent = `Est. ${uni.established || '1990'}`;
-    const rateText = document.getElementById('uni-rating-text');
-    if (rateText) rateText.textContent = `⭐ ${uni.rating || '4.8'}`;
 
     // Quick Stats
     const progCount = uni.programs ? uni.programs.length : (uni.program_count || 0);
