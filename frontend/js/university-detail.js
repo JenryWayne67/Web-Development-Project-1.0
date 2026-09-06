@@ -275,10 +275,12 @@ async function loadRelatedUniversities(currentUniObj) {
         const relatedSection = document.getElementById('related-matches-section');
         if (!container) return;
 
-        // "Potential Matches" only makes sense once the student has completed the
-        // assessment. Browsing the University Explorer beforehand should not show
-        // match-related UI at all.
-        if (!savedMatches || savedMatches.length === 0) {
+        // "Potential Matches" only makes sense when the student actually arrived here
+        // from their assessment results (yourmatches.html links with ?from=matches).
+        // Browsing straight from the University Explorer must never show match-related
+        // UI, even if an old assessment left matches sitting in localStorage.
+        const arrivedFromMatches = getQueryParam('from') === 'matches';
+        if (!arrivedFromMatches || !savedMatches || savedMatches.length === 0) {
             if (relatedSection) relatedSection.classList.add('hidden');
             return;
         }
