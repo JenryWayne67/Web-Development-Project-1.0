@@ -46,12 +46,12 @@ async function loadUniversityDetails() {
 
     try {
         // First fetch target university
-        let response = await fetch(`/api/universities/${idParam}`);
+        let response = await fetch(`${window.API_BASE_URL || ''}/api/universities/${idParam}`);
         let result = await response.json();
 
         if (!result.success || !result.data) {
             // If not found by ID, try fetching all to match by code
-            const allRes = await fetch('/api/universities');
+            const allRes = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
             const allData = await allRes.json();
             if (allData.success && allData.data.length > 0) {
                 if (codeParam) {
@@ -356,7 +356,7 @@ async function loadRelatedUniversities(currentUniObj) {
         }
 
         // Fallback: assessment matches exist but none remain after excluding this university
-        const res = await fetch('/api/universities');
+        const res = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
         const result = await res.json();
         if (result.success && result.data) {
             const otherUnis = result.data.filter(u => u.university_id !== currentId).slice(0, 4);

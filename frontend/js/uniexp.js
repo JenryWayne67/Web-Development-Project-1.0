@@ -36,7 +36,7 @@ const fallbackImages = {
 
 async function loadExplorer() {
     try {
-        const res = await fetch('/api/universities');
+        const res = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
             allUnis = data.data;

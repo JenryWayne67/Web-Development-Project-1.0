@@ -73,7 +73,7 @@ async function loadMatches(customMarks = null) {
         if (marks.geography) params.append('geography', marks.geography);
         if (marks.history) params.append('history', marks.history);
 
-        const res = await fetch(`/api/recommendations?${params.toString()}`);
+        const res = await fetch(`${window.API_BASE_URL || ''}/api/recommendations?${params.toString()}`);
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
             currentRecommendations = data.data;

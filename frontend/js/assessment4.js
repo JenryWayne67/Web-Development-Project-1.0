@@ -32,7 +32,7 @@ async function runAnalysis() {
     };
 
     try {
-        const res = await fetch('/api/assessments', {
+        const res = await fetch(`${window.API_BASE_URL || ''}/api/assessments`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
