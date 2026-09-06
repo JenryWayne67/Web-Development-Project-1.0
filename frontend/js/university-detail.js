@@ -291,8 +291,6 @@ async function loadRelatedUniversities(currentUniObj) {
         const navBackBtn = document.getElementById('nav-back-button');
         const navBackText = document.getElementById('nav-back-text');
         const breadcrumbParent = document.getElementById('breadcrumb-parent-link');
-        const sidebarBackBtn = document.getElementById('sidebar-back-button');
-        const sidebarBackText = document.getElementById('sidebar-back-text');
         const sectionTitle = document.getElementById('related-section-title');
         const sectionSubtitle = document.getElementById('related-section-subtitle');
         const viewAllBtn = document.getElementById('related-section-viewall');
@@ -304,8 +302,6 @@ async function loadRelatedUniversities(currentUniObj) {
                 breadcrumbParent.href = 'yourmatches.html';
                 breadcrumbParent.textContent = 'Potential Matches';
             }
-            if (sidebarBackBtn) sidebarBackBtn.href = 'yourmatches.html';
-            if (sidebarBackText) sidebarBackText.textContent = 'Back to Potential Matches';
             if (sectionTitle) sectionTitle.innerHTML = '<span>🎯</span> Other Potential University Matches';
             if (sectionSubtitle) sectionSubtitle.textContent = 'Explore other top-recommended universities matching your academic profile';
             if (viewAllBtn) {
