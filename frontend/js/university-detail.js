@@ -272,7 +272,18 @@ async function loadRelatedUniversities(currentUniObj) {
         const currentCode = currentUniObj ? (currentUniObj.code || '').toLowerCase() : '';
         const savedMatches = JSON.parse(localStorage.getItem('advisor_results') || '[]');
         const container = document.getElementById('related-unis-container');
+        const relatedSection = document.getElementById('related-matches-section');
         if (!container) return;
+
+        // "Potential Matches" only makes sense once the student has completed the
+        // assessment. Browsing the University Explorer beforehand should not show
+        // match-related UI at all.
+        if (!savedMatches || savedMatches.length === 0) {
+            if (relatedSection) relatedSection.classList.add('hidden');
+            return;
+        }
+
+        if (relatedSection) relatedSection.classList.remove('hidden');
 
         // Configure back buttons and breadcrumbs to point to your potential matches
         const navBackBtn = document.getElementById('nav-back-button');
@@ -350,7 +361,7 @@ async function loadRelatedUniversities(currentUniObj) {
             }
         }
 
-        // Fallback if no assessment matches saved yet
+        // Fallback: assessment matches exist but none remain after excluding this university
         const res = await fetch('/api/universities');
         const result = await res.json();
         if (result.success && result.data) {
