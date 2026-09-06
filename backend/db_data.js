@@ -799,9 +799,8 @@ export const programs = [
   { program_id: 154, university_id: 20, field_id: 11, program_name: "Mercantile Marine Diploma Programs", min_score: 421, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 }
 ];
 
-// In-memory Database Store for Students Assessments and Contact Inquiries
+// In-memory Database Store for Student Assessments
 export const studentAssessmentsStore = [];
-export const contactInquiriesStore = [];
 
 /**
  * Calculates recommendations based on student marks, subject-specific criteria,
@@ -1291,22 +1290,4 @@ export function saveStudentAssessment(data) {
 
   studentAssessmentsStore.push(assessmentRecord);
   return assessmentRecord;
-}
-
-/**
- * Saves a contact inquiry
- */
-export function saveContactInquiry(data) {
-  const inquiry_id = contactInquiriesStore.length + 1;
-  const inquiry = {
-    inquiry_id,
-    name: data.name || data.fullName || 'Anonymous',
-    email: data.email || '',
-    subject: data.subject || 'General Inquiry',
-    message: data.message || '',
-    phone: data.phone || '',
-    created_at: new Date().toISOString()
-  };
-  contactInquiriesStore.push(inquiry);
-  return inquiry;
 }

@@ -8,10 +8,8 @@ import {
   universities,
   programs,
   studentAssessmentsStore,
-  contactInquiriesStore,
   getRecommendations,
-  saveStudentAssessment,
-  saveContactInquiry
+  saveStudentAssessment
 } from './db_data.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -235,32 +233,7 @@ app.post('/api/assessments', (req, res) => {
   });
 });
 
-// 7. POST /api/contact & /api/contact/submit
-const handleContact = (req, res) => {
-  const { name, email, message, subject, phone } = req.body;
-  if (!name || !email || !message) {
-    return res.status(400).json({
-      success: false,
-      status: 'error',
-      message: 'Name, email, and message are required.'
-    });
-  }
-
-  const saved = saveContactInquiry({ name, email, message, subject, phone });
-
-  res.json({
-    success: true,
-    status: 'success',
-    inquiry_id: saved.inquiry_id,
-    message: 'Thank you! Your message has been received. Our admissions advisory team in Yangon will respond within 24 hours.',
-    received_at: saved.created_at
-  });
-};
-
-app.post('/api/contact', handleContact);
-app.post('/api/contact/submit', handleContact);
-
-// 8. GET /api/health
+// 7. GET /api/health
 app.get('/api/health', (req, res) => {
   res.json({ success: true, status: 'ok', time: new Date().toISOString() });
 });
