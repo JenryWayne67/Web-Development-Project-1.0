@@ -287,17 +287,13 @@ async function loadRelatedUniversities(currentUniObj) {
 
         if (relatedSection) relatedSection.classList.remove('hidden');
 
-        // Configure back buttons and breadcrumbs to point to your potential matches
-        const navBackBtn = document.getElementById('nav-back-button');
-        const navBackText = document.getElementById('nav-back-text');
+        // Configure the breadcrumb to point to your potential matches
         const breadcrumbParent = document.getElementById('breadcrumb-parent-link');
         const sectionTitle = document.getElementById('related-section-title');
         const sectionSubtitle = document.getElementById('related-section-subtitle');
         const viewAllBtn = document.getElementById('related-section-viewall');
 
         if (savedMatches && savedMatches.length > 0) {
-            if (navBackBtn) navBackBtn.href = 'yourmatches.html';
-            if (navBackText) navBackText.textContent = 'Back to Potential Matches';
             if (breadcrumbParent) {
                 breadcrumbParent.href = 'yourmatches.html';
                 breadcrumbParent.textContent = 'Potential Matches';
