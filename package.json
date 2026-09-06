@@ -4,10 +4,10 @@
   "description": "UniAdvisor Myanmar",
   "type": "module",
   "scripts": {
-    "dev": "node server.ts",
+    "dev": "node backend/server.js",
     "build": "echo 'Ready'",
     "lint": "node -e 'console.log(\"Lint OK\")'",
-    "start": "node server.ts"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "express": "^4.21.2",
