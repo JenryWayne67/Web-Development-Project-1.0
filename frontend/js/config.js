@@ -1,22 +1,16 @@
 // UniAdvisor - API Base URL Configuration
 //
-// When the frontend is served by the same Express server as the API
-// (e.g. the Render deploy, or running locally), relative "/api/..." paths
-// work as-is. When the frontend is instead served from a separate static
-// host (e.g. Cloudflare Pages), API calls need the full backend URL.
+// Always use relative "/api/..." paths — never call the Render backend
+// directly from the browser. On Render (and locally) that's same-origin
+// already; on Cloudflare Pages, functions/api/[[path]].js proxies "/api/*"
+// to Render server-side.
 //
-// Update RENDER_API_URL below if your backend's Render URL changes.
-window.API_BASE_URL = (() => {
-    const RENDER_API_URL = 'https://uniadvisor-qvie.onrender.com';
-    const host = window.location.hostname;
-
-    const isSameOriginAsBackend =
-        host === 'localhost' ||
-        host === '127.0.0.1' ||
-        host.endsWith('.onrender.com');
-
-    return isSameOriginAsBackend ? '' : RENDER_API_URL;
-})();
+// This matters beyond convenience: some ISPs (Myanmar's among them) block
+// direct browser connections to a lot of foreign cloud-hosting ranges,
+// including Render, while leaving Cloudflare's edge reachable. Routing
+// through the same-origin proxy means visitors never make that direct,
+// blockable connection — Cloudflare's edge makes it for them.
+window.API_BASE_URL = '';
 
 // Shared fetch helper: adds a timeout (Render's free tier can take 30-60s to
 // wake up from a cold start) and always throws a clear, human-readable error
