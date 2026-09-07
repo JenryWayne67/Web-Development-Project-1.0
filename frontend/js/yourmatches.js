@@ -73,8 +73,7 @@ async function loadMatches(customMarks = null) {
         if (marks.geography) params.append('geography', marks.geography);
         if (marks.history) params.append('history', marks.history);
 
-        const res = await fetch(`${window.API_BASE_URL || ''}/api/recommendations?${params.toString()}`);
-        const data = await res.json();
+        const data = await window.apiFetch(`/api/recommendations?${params.toString()}`);
         if (data.success && Array.isArray(data.data)) {
             currentRecommendations = data.data;
             try {
@@ -83,6 +82,8 @@ async function loadMatches(customMarks = null) {
                 console.warn('Storage save error:', storageErr);
             }
             renderCards();
+        } else {
+            throw new Error('Unexpected response from server.');
         }
     } catch (e) {
         console.error('Error fetching recommendations:', e);
@@ -90,6 +91,18 @@ async function loadMatches(customMarks = null) {
         if (Array.isArray(cached) && cached.length > 0) {
             currentRecommendations = cached;
             renderCards();
+        } else {
+            const container = document.getElementById('matchesCardsContainer');
+            if (container) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-12 text-center border border-outline-variant/30">
+                        <span class="text-4xl mb-4 block">⚠️</span>
+                        <h3 class="font-headline-md font-bold text-primary mb-2">Could Not Load Your Matches</h3>
+                        <p class="text-sm text-on-surface-variant mb-6">${e.message}</p>
+                        <button onclick="loadMatches()" class="bg-gold text-primary font-bold px-6 py-2.5 rounded-lg text-sm hover:bg-yellow-400">Try Again</button>
+                    </div>
+                `;
+            }
         }
     }
 }

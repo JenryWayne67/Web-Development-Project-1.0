@@ -32,18 +32,33 @@ async function runAnalysis() {
     };
 
     try {
-        const res = await fetch(`${window.API_BASE_URL || ''}/api/assessments`, {
+        const data = await window.apiFetch('/api/assessments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        const data = await res.json();
-        if (data.success) {
-            const recs = data.recommendations || data.data || [];
-            localStorage.setItem('advisor_results', JSON.stringify(recs));
+        if (!data.success) {
+            throw new Error('Unexpected response from server.');
         }
+        const recs = data.recommendations || data.data || [];
+        localStorage.setItem('advisor_results', JSON.stringify(recs));
     } catch (e) {
         console.error('API Error:', e);
+        if (statusText) statusText.innerText = 'Could Not Complete Analysis';
+        if (progressBar) progressBar.classList.add('bg-red-500');
+
+        let errorBanner = document.getElementById('analysisErrorBanner');
+        if (!errorBanner) {
+            errorBanner = document.createElement('div');
+            errorBanner.id = 'analysisErrorBanner';
+            errorBanner.className = 'mt-4 p-4 rounded-xl bg-red-50 border border-red-200 text-center';
+            document.getElementById('stagesContainer')?.insertAdjacentElement('afterend', errorBanner);
+        }
+        errorBanner.innerHTML = `
+            <p class="text-sm text-red-700 font-medium mb-3">⚠️ ${e.message}</p>
+            <button onclick="runAnalysis()" class="bg-gold text-primary font-bold px-6 py-2.5 rounded-lg text-sm hover:bg-yellow-400">Try Again</button>
+        `;
+        return; // Don't proceed with the success animation/redirect
     }
 
     setTimeout(() => {

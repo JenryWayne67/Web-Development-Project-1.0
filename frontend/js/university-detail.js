@@ -46,13 +46,11 @@ async function loadUniversityDetails() {
 
     try {
         // First fetch target university
-        let response = await fetch(`${window.API_BASE_URL || ''}/api/universities/${idParam}`);
-        let result = await response.json();
+        let result = await window.apiFetch(`/api/universities/${idParam}`);
 
         if (!result.success || !result.data) {
             // If not found by ID, try fetching all to match by code
-            const allRes = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
-            const allData = await allRes.json();
+            const allData = await window.apiFetch('/api/universities');
             if (allData.success && allData.data.length > 0) {
                 if (codeParam) {
                     currentUni = allData.data.find(u => (u.code || '').toLowerCase() === codeParam.toLowerCase()) || allData.data[0];
@@ -71,9 +69,11 @@ async function loadUniversityDetails() {
     } catch (err) {
         console.error('Error loading university details:', err);
         const heading = document.getElementById('uni-name-heading');
-        if (heading) heading.textContent = 'University Information';
+        if (heading) heading.textContent = 'Could Not Load University';
         const overview = document.getElementById('uni-overview-text');
-        if (overview) overview.textContent = 'Please select a university from the University Explorer directory.';
+        if (overview) {
+            overview.innerHTML = `⚠️ ${err.message} <button onclick="loadUniversityDetails()" style="text-decoration:underline;cursor:pointer;background:none;border:none;color:inherit;font:inherit;">Try Again</button>`;
+        }
     }
 }
 
@@ -356,8 +356,7 @@ async function loadRelatedUniversities(currentUniObj) {
         }
 
         // Fallback: assessment matches exist but none remain after excluding this university
-        const res = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
-        const result = await res.json();
+        const result = await window.apiFetch('/api/universities');
         if (result.success && result.data) {
             const otherUnis = result.data.filter(u => u.university_id !== currentId).slice(0, 4);
             container.innerHTML = '';

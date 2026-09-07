@@ -35,15 +35,25 @@ const fallbackImages = {
 };
 
 async function loadExplorer() {
+    const container = document.getElementById('universityGridContainer');
     try {
-        const res = await fetch(`${window.API_BASE_URL || ''}/api/universities`);
-        const data = await res.json();
+        const data = await window.apiFetch('/api/universities');
         if (data.success && Array.isArray(data.data)) {
             allUnis = data.data;
             renderUniList();
+        } else {
+            throw new Error('Unexpected response from server.');
         }
     } catch (e) {
         console.error('Failed to load universities:', e);
+        if (container) {
+            container.innerHTML = `
+                <div class="col-span-full bg-white rounded-2xl p-12 text-center border border-gray-200">
+                    <p class="text-gray-500 mb-4 font-medium">⚠️ ${e.message}</p>
+                    <button onclick="loadExplorer()" class="bg-gold text-primary font-bold px-6 py-2.5 rounded-lg text-sm hover:bg-yellow-400 transition-all">Try Again</button>
+                </div>
+            `;
+        }
     }
 }
 
