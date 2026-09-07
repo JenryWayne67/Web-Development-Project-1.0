@@ -1,0 +1,11 @@
+{
+  "name": "web-development-project-1-0",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./frontend",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none"
+  }
+}

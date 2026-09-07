@@ -2,8 +2,8 @@
 //
 // Always use relative "/api/..." paths — never call the Render backend
 // directly from the browser. On Render (and locally) that's same-origin
-// already; on Cloudflare Pages, functions/api/[[path]].js proxies "/api/*"
-// to Render server-side.
+// already; on Cloudflare Workers, worker/index.js proxies "/api/*" to
+// Render server-side.
 //
 // This matters beyond convenience: some ISPs (Myanmar's among them) block
 // direct browser connections to a lot of foreign cloud-hosting ranges,
