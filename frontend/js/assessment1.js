@@ -9,10 +9,15 @@ let userSubjects = [
     { id: 'biology', name: 'Biology', type: 'Medical Sciences', marks: 86, canDelete: true }
 ];
 
-function getGradeStatus(marks) {
+// Myanmar Matriculation grading: most subjects need 80+ for Distinction, but
+// Myanmar, English, Economics, Biology, History, and Geography only need 75+.
+const DISTINCTION_75_SUBJECTS = new Set(['myanmar', 'english', 'economics', 'biology', 'history', 'geography']);
+
+function getGradeStatus(marks, subjectId = '') {
     const num = parseInt(marks) || 0;
+    const distinctionThreshold = DISTINCTION_75_SUBJECTS.has(subjectId) ? 75 : 80;
     if (num < 40) return { text: '❌ Ineligible (<40)', class: 'text-rose-700 bg-rose-100 border border-rose-300 font-bold' };
-    if (num >= 80) return { text: '🌟 Distinction', class: 'text-emerald-800 bg-emerald-100 border border-emerald-300 font-semibold' };
+    if (num >= distinctionThreshold) return { text: '🌟 Distinction', class: 'text-emerald-800 bg-emerald-100 border border-emerald-300 font-semibold' };
     if (num >= 65) return { text: '✨ Credit', class: 'text-blue-800 bg-blue-100 border border-blue-300 font-semibold' };
     return { text: '✓ Pass', class: 'text-slate-700 bg-slate-100 border border-slate-300 font-medium' };
 }
@@ -22,7 +27,7 @@ function renderSubjectsTable() {
     if (!tbody) return;
 
     tbody.innerHTML = userSubjects.map((sub, index) => {
-        const status = getGradeStatus(sub.marks);
+        const status = getGradeStatus(sub.marks, sub.id);
         const isFailing = (parseInt(sub.marks) || 0) < 40;
         const inputClass = isFailing 
             ? 'subject-mark-input w-[110px] rounded-md border-rose-400 bg-rose-50 text-rose-900 focus:border-rose-600 focus:ring-2 focus:ring-rose-200 px-3 py-1.5 text-sm font-bold shadow-sm'
@@ -59,10 +64,13 @@ function renderSubjectsTable() {
         input.addEventListener('input', (e) => {
             const idx = parseInt(e.target.getAttribute('data-index'));
             const val = Math.min(100, Math.max(0, parseInt(e.target.value) || 0));
+            // Reflect the clamped value back into the field so it's never
+            // possible to leave (or see) a mark outside 0-100.
+            if (String(val) !== e.target.value) e.target.value = val;
             userSubjects[idx].marks = val;
             calculateTotals();
-            
-            const status = getGradeStatus(val);
+
+            const status = getGradeStatus(val, userSubjects[idx].id);
             const row = e.target.closest('tr');
             if (row) {
                 const statusTd = row.children[3];
@@ -89,7 +97,8 @@ function calculateTotals() {
     userSubjects.forEach(s => {
         const m = parseInt(s.marks) || 0;
         total += m;
-        if (m >= 80) distinctions++;
+        const distinctionThreshold = DISTINCTION_75_SUBJECTS.has(s.id) ? 75 : 80;
+        if (m >= distinctionThreshold) distinctions++;
         if (m < 40) failingSubjects.push({ name: s.name, marks: m });
     });
 
@@ -252,6 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const customContainer = document.getElementById('customSubjectNameContainer');
     const customInput = document.getElementById('customSubjectName');
     const marksInput = document.getElementById('newSubjectMarks');
+
+    if (marksInput) {
+        marksInput.addEventListener('input', () => {
+            const clamped = Math.min(100, Math.max(0, parseInt(marksInput.value) || 0));
+            if (String(clamped) !== marksInput.value) marksInput.value = clamped;
+        });
+    }
 
     if (openAddSubjectBtn && addSubjectTray) {
         openAddSubjectBtn.addEventListener('click', () => {
