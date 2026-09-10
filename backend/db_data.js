@@ -653,7 +653,7 @@ export const programs = [
   { program_id: 8, university_id: 25, field_id: 3, program_name: "B.V.Sc. (Veterinary Science)", min_score: 416, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 },
   { program_id: 9, university_id: 26, field_id: 3, program_name: "B.T.M. (Traditional Medicine)", min_score: 386, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 },
   { program_id: 10, university_id: 1, field_id: 1, program_name: "B.C.Sc / B.C.Tech (UIT)", min_score: 480, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 },
-  { program_id: 11, university_id: 6, field_id: 1, program_name: "B.C.Sc / B.C.Tech (UCSY)", min_score: 397, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 },
+  { program_id: 11, university_id: 6, field_id: 1, program_name: "B.C.Sc / B.C.Tech (UCSY)", min_score: 450, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0, min_eng_math: 145 },
   { program_id: 12, university_id: 2, field_id: 2, program_name: "Civil Engineering", min_score: 0, min_score_male: 504, min_score_female: 498, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 346, min_4sub_female: 339 },
   { program_id: 13, university_id: 2, field_id: 2, program_name: "Mechanical Engineering", min_score: 0, min_score_male: 502, min_score_female: 476, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 331, min_4sub_female: 327 },
   { program_id: 14, university_id: 2, field_id: 2, program_name: "Electrical Power Engineering", min_score: 0, min_score_male: 484, min_score_female: 477, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 322, min_4sub_female: 327 },
@@ -863,6 +863,8 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
   const studentEngChemBio = englishMark + chemistryMark + biologyMark;
   // 2. Eng + Math + Chem + Physics (for Engineering / TU admissions)
   const student4Sub = englishMark + mathMark + chemistryMark + physicsMark;
+  // 3. Eng + Math (alternative admission path, e.g. UCSY)
+  const studentEngMath = englishMark + mathMark;
 
   const uniMap = new Map(universities.map(u => [u.university_id, u]));
   const fieldMap = new Map(fields.map(f => [f.field_id, f]));
@@ -964,6 +966,16 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
       req4Sub = Math.min(prog.min_4sub_male, prog.min_4sub_female || 999);
     }
 
+    // Eng+Math alternative cutoff (e.g. UCSY: eligible via Total >= 450 OR Eng+Math >= 145)
+    let reqEngMath = 0;
+    if (normGender === 'male' && prog.min_eng_math_male > 0) {
+      reqEngMath = prog.min_eng_math_male;
+    } else if (normGender === 'female' && prog.min_eng_math_female > 0) {
+      reqEngMath = prog.min_eng_math_female;
+    } else if (prog.min_eng_math > 0) {
+      reqEngMath = prog.min_eng_math;
+    }
+
     // 3. Evaluate eligibility
     let eligible = false;
     let cutoffMet = false;
@@ -1022,6 +1034,23 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
     }
 
     eligible = cutoffMet && subjectCriteriaMet;
+
+    // Eng+Math alternative admission path (e.g. UCSY: Total >= 450 OR Eng+Math >= 145)
+    let engMathMet = false;
+    if (reqEngMath > 0) {
+      if (studentEngMath > 0) {
+        engMathMet = studentEngMath >= reqEngMath;
+        if (!eligible && engMathMet && subjectCriteriaMet) {
+          eligible = true;
+          cutoffMet = true; // satisfied via the alternative Eng+Math path
+        }
+        subjectCriteriaDetail = engMathMet
+          ? `Eng+Math: ${studentEngMath}/${reqEngMath} (Met ✓)`
+          : `Total: ${studentScore}/${requiredCutoff} or Eng+Math: ${studentEngMath}/${reqEngMath} (Neither met)`;
+      } else {
+        subjectCriteriaDetail = `Eligible via Total ≥ ${requiredCutoff} OR Eng+Math ≥ ${reqEngMath}`;
+      }
+    }
 
     // 4. Calculate Profile Match Score (0 - 100%) and Admission Probability
     const baselineCutoff = requiredCutoff > 0 ? requiredCutoff : 300;
@@ -1196,6 +1225,7 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
       min_eng_chem_bio_female: Number(prog.min_eng_chem_bio_female) || 0,
       min_4sub_male: Number(prog.min_4sub_male) || 0,
       min_4sub_female: Number(prog.min_4sub_female) || 0,
+      min_eng_math: Number(reqEngMath) || 0,
       score_difference: Number(diff) || 0,
       eligible: Boolean(eligible),
       is_interest_matched: Boolean(isInterestMatched),
