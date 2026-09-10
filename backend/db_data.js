@@ -802,26 +802,47 @@ export const programs = [
 // In-memory Database Store for Student Assessments
 export const studentAssessmentsStore = [];
 
+const DEFAULT_STUDENT_SCORE = 502;
+
+// Reads a value as a number, falling back to `fallback` if it's missing/NaN.
+function toNumber(value, fallback = 0) {
+  const n = Number(value);
+  return Number.isNaN(n) ? fallback : n;
+}
+
+/**
+ * Resolves a gender-specific subject requirement (e.g. Eng+Chem+Bio, 4-Subject,
+ * Eng+Math cutoffs). Prefers the value for the student's stated gender; if that
+ * isn't set (or gender is 'any'/unknown), falls back to the stricter (higher)
+ * of the male/female values, then whichever single value is set, then `fallbackVal`.
+ */
+function resolveGenderRequirement(gender, maleVal, femaleVal, fallbackVal = 0) {
+  const male = Number(maleVal) || 0;
+  const female = Number(femaleVal) || 0;
+  if (gender === 'male' && male > 0) return male;
+  if (gender === 'female' && female > 0) return female;
+  if (male > 0 && female > 0) return Math.min(male, female);
+  return male || female || (Number(fallbackVal) || 0);
+}
+
 /**
  * Calculates recommendations based on student marks, subject-specific criteria,
  * gender-based cutoffs, and selected interest fields.
  * Supports both object parameter ({ total_marks, gender, fields, ... }) and positional parameters.
  */
 export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldName = 'ALL', maybeOptions = {}) {
-  let studentScore = 0;
-  let gender = 'any';
-  let fieldName = 'ALL';
-  let options = {};
+  let studentScore;
+  let gender;
+  let fieldName;
+  let options;
 
   if (typeof inputScore === 'object' && inputScore !== null) {
     options = inputScore;
-    studentScore = Number(options.total_marks ?? options.studentScore ?? options.score ?? options.user_score);
-    if (Number.isNaN(studentScore)) studentScore = 502;
+    studentScore = toNumber(options.total_marks ?? options.studentScore ?? options.score ?? options.user_score, DEFAULT_STUDENT_SCORE);
     gender = options.gender || 'any';
     fieldName = options.field || options.field_name || (Array.isArray(options.fields) && options.fields.length > 0 ? options.fields[0] : 'ALL');
   } else {
-    studentScore = Number(inputScore);
-    if (Number.isNaN(studentScore)) studentScore = 502;
+    studentScore = toNumber(inputScore, DEFAULT_STUDENT_SCORE);
     gender = maybeGender || 'any';
     fieldName = maybeFieldName || 'ALL';
     options = maybeOptions || {};
@@ -929,52 +950,26 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
       return false;
     });
 
-    // 1. Determine overall cutoff score based on gender
-    let requiredCutoff = Number(prog.min_score) || 0;
+    // 1. Determine overall cutoff score based on gender. Falls back to the
+    // 4-subject cutoff for display when the program has no total-score cutoff.
+    let requiredCutoff = toNumber(prog.min_score);
     if (normGender === 'male' && prog.min_score_male > 0) {
       requiredCutoff = prog.min_score_male;
     } else if (normGender === 'female' && prog.min_score_female > 0) {
       requiredCutoff = prog.min_score_female;
     } else if (requiredCutoff === 0) {
-      if (normGender === 'male' && prog.min_score_male > 0) {
-        requiredCutoff = prog.min_score_male;
-      } else if (normGender === 'female' && prog.min_score_female > 0) {
-        requiredCutoff = prog.min_score_female;
-      } else if (prog.min_score_male > 0 && prog.min_score_female > 0) {
+      if (prog.min_score_male > 0 && prog.min_score_female > 0) {
         requiredCutoff = Math.min(prog.min_score_male, prog.min_score_female);
       } else if (prog.min_4sub_male > 0) {
         requiredCutoff = prog.min_4sub_male;
       }
     }
 
-    // 2. Check subject-specific requirements
-    let reqEngChemBio = 0;
-    if (normGender === 'male' && prog.min_eng_chem_bio_male > 0) {
-      reqEngChemBio = prog.min_eng_chem_bio_male;
-    } else if (normGender === 'female' && prog.min_eng_chem_bio_female > 0) {
-      reqEngChemBio = prog.min_eng_chem_bio_female;
-    } else if (prog.min_eng_chem_bio_male > 0) {
-      reqEngChemBio = Math.min(prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female || 999);
-    }
-
-    let req4Sub = 0;
-    if (normGender === 'male' && prog.min_4sub_male > 0) {
-      req4Sub = prog.min_4sub_male;
-    } else if (normGender === 'female' && prog.min_4sub_female > 0) {
-      req4Sub = prog.min_4sub_female;
-    } else if (prog.min_4sub_male > 0) {
-      req4Sub = Math.min(prog.min_4sub_male, prog.min_4sub_female || 999);
-    }
-
-    // Eng+Math alternative cutoff (e.g. UCSY: eligible via Total >= 450 OR Eng+Math >= 145)
-    let reqEngMath = 0;
-    if (normGender === 'male' && prog.min_eng_math_male > 0) {
-      reqEngMath = prog.min_eng_math_male;
-    } else if (normGender === 'female' && prog.min_eng_math_female > 0) {
-      reqEngMath = prog.min_eng_math_female;
-    } else if (prog.min_eng_math > 0) {
-      reqEngMath = prog.min_eng_math;
-    }
+    // 2. Check subject-specific requirements (Eng+Chem+Bio for Medicine/Dental,
+    // 4-Subject for Engineering, Eng+Math as UCSY's alternative admission path)
+    const reqEngChemBio = resolveGenderRequirement(normGender, prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female);
+    const req4Sub = resolveGenderRequirement(normGender, prog.min_4sub_male, prog.min_4sub_female);
+    const reqEngMath = resolveGenderRequirement(normGender, prog.min_eng_math_male, prog.min_eng_math_female, prog.min_eng_math);
 
     // 3. Evaluate eligibility
     let eligible = false;

@@ -21,6 +21,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Shared shape for simple list endpoints (fields/universities/programs)
+const sendList = (res, data) => res.json({ success: true, status: 'success', count: data.length, data });
+
 // --- STATIC ASSETS & JS/CSS CONNECTIVITY ---
 const frontendDir = path.resolve(__dirname, '../frontend');
 const frontendJsDir = path.resolve(frontendDir, 'js');
@@ -56,12 +59,7 @@ app.use(express.static(frontendDir));
 
 // 1. GET /api/fields
 app.get('/api/fields', (req, res) => {
-  res.json({
-    success: true,
-    status: 'success',
-    count: fields.length,
-    data: fields
-  });
+  sendList(res, fields);
 });
 
 // 2. GET /api/universities
@@ -111,12 +109,7 @@ app.get('/api/universities', (req, res) => {
     );
   }
 
-  res.json({
-    success: true,
-    status: 'success',
-    count: results.length,
-    data: results
-  });
+  sendList(res, results);
 });
 
 // 3. GET /api/universities/:id
@@ -170,12 +163,7 @@ app.get('/api/programs', (req, res) => {
     );
   }
 
-  res.json({
-    success: true,
-    status: 'success',
-    count: results.length,
-    data: results
-  });
+  sendList(res, results);
 });
 
 // 5. GET & POST /api/recommendations (Assessment Recommendation Engine)
