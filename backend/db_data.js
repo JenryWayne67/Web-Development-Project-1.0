@@ -1057,9 +1057,17 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
       }
     }
 
+    // When a program has an OR-alternative path (e.g. UCSY), once the student
+    // qualifies through ONE side (total OR Eng+Math), the other side is not
+    // held against them for scoring purposes — use whichever side actually
+    // qualified them to drive the match tier below.
+    const qualifiedViaEngMathOnly = reqEngMath > 0 && !eligibleViaTotal && engMathMet;
+
     // 4. Calculate Profile Match Score (0 - 100%) and Admission Probability
     const baselineCutoff = requiredCutoff > 0 ? requiredCutoff : 300;
     const diff = Number.isNaN(studentScore - baselineCutoff) ? 0 : (studentScore - baselineCutoff);
+    const engMathDiff = studentEngMath - reqEngMath;
+    const effectiveDiff = qualifiedViaEngMathOnly ? engMathDiff : diff;
     let profileMatch = 70;
     let admissionChance = "Moderate";
     let admissionRate = "80%";
@@ -1099,22 +1107,22 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
         admissionChance = "Low / Ineligible";
         admissionRate = "15%";
         tier = "Criteria Not Met";
-      } else if (diff >= 35) {
+      } else if (effectiveDiff >= 35) {
         profileMatch = 96;
         admissionChance = "Very High";
         admissionRate = "98%";
         tier = "Safe Match";
-      } else if (diff >= 15) {
+      } else if (effectiveDiff >= 15) {
         profileMatch = 91;
         admissionChance = "High";
         admissionRate = "92%";
         tier = "Top Match";
-      } else if (diff >= 0) {
+      } else if (effectiveDiff >= 0) {
         profileMatch = 85;
         admissionChance = "Moderate";
         admissionRate = "82%";
         tier = "Target Match";
-      } else if (diff >= -15) {
+      } else if (effectiveDiff >= -15) {
         profileMatch = 73;
         admissionChance = "Reach";
         admissionRate = "60%";
@@ -1190,7 +1198,9 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
       }
     }
 
-    if (diff >= 0) {
+    if (qualifiedViaEngMathOnly) {
+      matchReasons.push(`Eng+Math (${studentEngMath}) exceeds the required ${reqEngMath} by +${engMathDiff} points — qualifies via the alternative path, so the total-marks shortfall isn't counted against you.`);
+    } else if (diff >= 0) {
       matchReasons.push(`Total marks (${studentScore}) exceed the required cutoff (${requiredCutoff}) by +${diff} points.`);
     } else {
       matchReasons.push(`Total marks (${studentScore}) are ${Math.abs(diff)} points below the historical cutoff (${requiredCutoff}).`);
