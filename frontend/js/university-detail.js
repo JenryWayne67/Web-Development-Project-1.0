@@ -207,9 +207,6 @@ function renderUniversity(uni) {
 
     // Programs List
     renderProgramsList(uni.programs || []);
-
-    // Update Bookmark state
-    checkBookmarkState(uni.university_id);
 }
 
 function renderProgramsList(programs) {
@@ -392,43 +389,6 @@ async function loadRelatedUniversities(currentUniObj) {
         console.error('Error fetching related unis:', err);
     }
 }
-
-// Bookmark Handling
-function checkBookmarkState(uniId) {
-    const bookmarks = JSON.parse(localStorage.getItem('uni_bookmarks') || '[]');
-    const isSaved = bookmarks.includes(uniId);
-    const icon = document.getElementById('bookmark-icon');
-    const text = document.getElementById('bookmark-text');
-
-    if (!icon || !text) return;
-
-    if (isSaved) {
-        icon.textContent = 'bookmark';
-        icon.classList.add('text-prompt-gold');
-        text.textContent = 'Saved to My List';
-    } else {
-        icon.textContent = 'bookmark_border';
-        icon.classList.remove('text-prompt-gold');
-        text.textContent = 'Save University';
-    }
-}
-
-function toggleBookmark() {
-    if (!currentUni) return;
-    let bookmarks = JSON.parse(localStorage.getItem('uni_bookmarks') || '[]');
-    const uniId = currentUni.university_id;
-
-    if (bookmarks.includes(uniId)) {
-        bookmarks = bookmarks.filter(id => id !== uniId);
-    } else {
-        bookmarks.push(uniId);
-    }
-
-    localStorage.setItem('uni_bookmarks', JSON.stringify(bookmarks));
-    checkBookmarkState(uniId);
-}
-
-window.toggleBookmark = toggleBookmark;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', loadUniversityDetails);
