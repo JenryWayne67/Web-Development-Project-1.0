@@ -799,9 +799,6 @@ export const programs = [
   { program_id: 154, university_id: 20, field_id: 11, program_name: "Mercantile Marine Diploma Programs", min_score: 421, min_score_male: 0, min_score_female: 0, min_eng_chem_bio_male: 0, min_eng_chem_bio_female: 0, min_4sub_male: 0, min_4sub_female: 0 }
 ];
 
-// In-memory Database Store for Student Assessments
-export const studentAssessmentsStore = [];
-
 const DEFAULT_STUDENT_SCORE = 502;
 
 // Reads a value as a number, falling back to `fallback` if it's missing/NaN.
@@ -1289,12 +1286,12 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
 }
 
 /**
- * Saves a student assessment into the database
+ * Normalizes raw assessment submission data into a consistent record shape
+ * (auto-computing total_marks from subject scores when not supplied). This
+ * is a stateless transform — the app doesn't persist assessment history.
  */
-export function saveStudentAssessment(data) {
-  const student_id = studentAssessmentsStore.length + 1;
+export function normalizeAssessment(data) {
   const assessmentRecord = {
-    student_id,
     gender: data.gender || 'male',
     myanmar: parseInt(data.myanmar ?? data.marks?.myanmar) || 0,
     english: parseInt(data.english ?? data.marks?.english) || 0,
@@ -1328,6 +1325,5 @@ export function saveStudentAssessment(data) {
       assessmentRecord.economics;
   }
 
-  studentAssessmentsStore.push(assessmentRecord);
   return assessmentRecord;
 }

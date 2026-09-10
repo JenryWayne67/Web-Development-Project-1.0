@@ -7,9 +7,8 @@ import {
   fields,
   universities,
   programs,
-  studentAssessmentsStore,
   getRecommendations,
-  saveStudentAssessment
+  normalizeAssessment
 } from './db_data.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -197,24 +196,23 @@ app.get('/api/recommendations', handleRecommendations);
 app.post('/api/recommendations', handleRecommendations);
 app.post('/api/assessment/calculate-matches', handleRecommendations);
 
-// 6. POST /api/assessments (Save assessment and compute matches)
+// 6. POST /api/assessments (Normalize submitted marks and compute matches)
 app.post('/api/assessments', (req, res) => {
-  const savedRecord = saveStudentAssessment(req.body);
+  const normalizedRecord = normalizeAssessment(req.body);
   const recommendations = getRecommendations({
     ...req.body,
-    total_marks: savedRecord.total_marks,
-    gender: savedRecord.gender,
-    fields: savedRecord.fields,
-    location: savedRecord.location,
-    learning_style: savedRecord.learning_style,
-    marks: savedRecord.marks
+    total_marks: normalizedRecord.total_marks,
+    gender: normalizedRecord.gender,
+    fields: normalizedRecord.fields,
+    location: normalizedRecord.location,
+    learning_style: normalizedRecord.learning_style,
+    marks: normalizedRecord.marks
   });
 
   res.json({
     success: true,
     status: 'success',
-    assessment_id: savedRecord.student_id,
-    record: savedRecord,
+    record: normalizedRecord,
     recommendations: recommendations,
     data: recommendations,
     matches: recommendations
