@@ -26,6 +26,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    console.log('UniAdvisor 2026 Home Page initialized.');
 });
