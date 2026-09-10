@@ -1034,6 +1034,7 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
     }
 
     eligible = cutoffMet && subjectCriteriaMet;
+    const eligibleViaTotal = eligible;
 
     // Eng+Math alternative admission path (e.g. UCSY: Total >= 450 OR Eng+Math >= 145)
     let engMathMet = false;
@@ -1044,9 +1045,13 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
           eligible = true;
           cutoffMet = true; // satisfied via the alternative Eng+Math path
         }
-        subjectCriteriaDetail = engMathMet
-          ? `Eng+Math: ${studentEngMath}/${reqEngMath} (Met ✓)`
-          : `Total: ${studentScore}/${requiredCutoff} or Eng+Math: ${studentEngMath}/${reqEngMath} (Neither met)`;
+        if (eligibleViaTotal) {
+          subjectCriteriaDetail = `Total: ${studentScore}/${requiredCutoff} (Met ✓ — Total cutoff alone qualifies)`;
+        } else if (engMathMet) {
+          subjectCriteriaDetail = `Eng+Math: ${studentEngMath}/${reqEngMath} (Met ✓ — alternative path qualifies)`;
+        } else {
+          subjectCriteriaDetail = `Total: ${studentScore}/${requiredCutoff} or Eng+Math: ${studentEngMath}/${reqEngMath} (Neither met)`;
+        }
       } else {
         subjectCriteriaDetail = `Eligible via Total ≥ ${requiredCutoff} OR Eng+Math ≥ ${reqEngMath}`;
       }
