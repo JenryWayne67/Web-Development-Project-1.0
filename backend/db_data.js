@@ -22,7 +22,7 @@ export const universities = [
     university_name: "University of Information Technology (UIT)",
     location: "Hlaing, Yangon",
     region: "Yangon",
-    type: "Specialized State University",
+    type: "Center of Excellence (COE)",
     category: "IT & Computing",
     category_group: "IT & Computing",
     field_ids: [1],
