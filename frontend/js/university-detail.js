@@ -390,5 +390,212 @@ async function loadRelatedUniversities(currentUniObj) {
     }
 }
 
+// ---- Admission chance checker ----
+// Cutoffs in our data are predictions (official 2026 cutoffs aren't released
+// yet), so the backend returns an *estimated* chance for each program.
+
+// Matriculation subjects for each stream (same sets as assessment step 1)
+const STREAM_SUBJECTS = {
+    science_bio: [['myanmar', 'Myanmar'], ['english', 'English'], ['mathematics', 'Mathematics'], ['physics', 'Physics'], ['chemistry', 'Chemistry'], ['biology', 'Biology']],
+    science_eco: [['myanmar', 'Myanmar'], ['english', 'English'], ['mathematics', 'Mathematics'], ['physics', 'Physics'], ['chemistry', 'Chemistry'], ['economics', 'Economics']],
+    arts: [['myanmar', 'Myanmar'], ['english', 'English'], ['mathematics', 'Mathematics'], ['geography', 'Geography'], ['history', 'History'], ['economics', 'Economics']]
+};
+
+const CHANCE_STATUS_BADGES = {
+    safe: 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+    meets: 'bg-green-100 text-green-800 border border-green-300',
+    borderline: 'bg-amber-100 text-amber-800 border border-amber-300',
+    below: 'bg-rose-100 text-rose-800 border border-rose-300'
+};
+
+// Marks typed so far, keyed by subject id (kept when switching streams)
+let chanceMarks = {};
+
+// Hide results once the inputs change, so they never show outdated marks
+function clearChanceResults() {
+    document.getElementById('chance-results').classList.add('hidden');
+}
+
+function updateChanceTotal() {
+    const stream = document.getElementById('chance-stream').value;
+    const total = STREAM_SUBJECTS[stream].reduce((sum, [id]) => sum + (Number(chanceMarks[id]) || 0), 0);
+    document.getElementById('chance-total').textContent = total;
+}
+
+function renderChanceSubjectInputs() {
+    const stream = document.getElementById('chance-stream').value;
+    const container = document.getElementById('chance-subject-inputs');
+    container.innerHTML = STREAM_SUBJECTS[stream].map(([id, name]) => `
+        <label class="flex flex-col gap-1 text-xs font-semibold text-primary-container">
+            ${name}
+            <input type="number" min="0" max="100" inputmode="numeric" placeholder="0-100" data-subject="${id}" value="${chanceMarks[id] ?? ''}"
+                class="chance-mark-input h-10 px-3 rounded-lg border border-gray-300 bg-white text-sm font-bold text-primary-container">
+        </label>
+    `).join('');
+
+    container.querySelectorAll('.chance-mark-input').forEach(input => {
+        // A mouse wheel over a focused number box changes its value in some
+        // browsers; drop focus so scrolling the page can't alter marks
+        input.addEventListener('wheel', () => input.blur(), { passive: true });
+        input.addEventListener('input', () => {
+            clearChanceResults();
+            const raw = input.value.trim();
+            if (raw === '') {
+                delete chanceMarks[input.dataset.subject];
+            } else {
+                // Keep marks within 0-100
+                const val = Math.min(100, Math.max(0, parseInt(raw, 10) || 0));
+                if (String(val) !== raw) input.value = val;
+                chanceMarks[input.dataset.subject] = val;
+            }
+            updateChanceTotal();
+        });
+    });
+    updateChanceTotal();
+}
+
+function initChanceChecker() {
+    const streamSelect = document.getElementById('chance-stream');
+    if (!streamSelect) return;
+
+    // Prefill from the student's saved assessment, if they took it
+    const saved = JSON.parse(localStorage.getItem('advisor_assessment') || '{}');
+    chanceMarks = { ...(saved.marks || {}) };
+    const stream = saved.stream || saved.academic_stream;
+    if (STREAM_SUBJECTS[stream]) streamSelect.value = stream;
+    if (saved.gender === 'male' || saved.gender === 'female') {
+        document.getElementById('chance-gender').value = saved.gender;
+    }
+
+    streamSelect.addEventListener('change', () => {
+        clearChanceResults();
+        renderChanceSubjectInputs();
+    });
+    document.getElementById('chance-gender').addEventListener('change', clearChanceResults);
+    document.getElementById('chance-check-btn').addEventListener('click', checkAdmissionChances);
+    renderChanceSubjectInputs();
+}
+
+async function checkAdmissionChances() {
+    const errorEl = document.getElementById('chance-error');
+    const btn = document.getElementById('chance-check-btn');
+    const stream = document.getElementById('chance-stream').value;
+    const subjects = STREAM_SUBJECTS[stream];
+
+    const showError = message => {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+    };
+
+    const missing = subjects.filter(([id]) => chanceMarks[id] == null || chanceMarks[id] === '').map(([, name]) => name);
+    if (missing.length > 0) return showError(`Please enter your marks for: ${missing.join(', ')}.`);
+    if (!currentUni) return showError('University details are still loading. Please try again in a moment.');
+    errorEl.classList.add('hidden');
+
+    const marks = Object.fromEntries(subjects.map(([id]) => [id, Number(chanceMarks[id])]));
+    const originalLabel = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Checking...';
+
+    try {
+        const result = await window.apiFetch(`/api/universities/${currentUni.university_id}/chances`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ gender: document.getElementById('chance-gender').value, stream, marks })
+        });
+        if (!result.success || !result.data) throw new Error(result.message || 'Unexpected response from server.');
+        renderChanceResults(result.data);
+    } catch (err) {
+        showError(`⚠️ Could not check your chances: ${err.message}`);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalLabel;
+    }
+}
+
+function renderChanceRequirement(req, program) {
+    const hasMarks = req.student !== null && req.student !== undefined;
+    const diff = hasMarks ? req.student - req.required : null;
+    // A requirement the student misses only counts as failed if it blocks
+    // admission (not when they qualify through an alternative path)
+    const failed = req.met === false && !program.eligible;
+    const cls = req.met === true ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+        : failed ? 'bg-rose-50 border-rose-200 text-rose-800'
+        : 'bg-gray-50 border-gray-200 text-gray-700';
+    const mark = req.met === true ? '✓' : failed ? '✗' : '•';
+    const diffText = diff === null ? '' : ` (${diff >= 0 ? '+' : ''}${diff})`;
+    return `<span class="px-2 py-0.5 rounded-md border text-[11px] font-medium ${cls}">${mark} ${req.label}: <strong>${hasMarks ? req.student : '—'}</strong> / ${req.required}${diffText}</span>`;
+}
+
+function renderChanceResults(data) {
+    const resultsEl = document.getElementById('chance-results');
+    const programs = data.programs || [];
+    const rated = programs.filter(p => !p.restricted_by_stream && p.chance_percent !== null);
+    const goodChance = rated.filter(p => p.chance_percent >= 70).length;
+
+    const summary = rated.length > 0
+        ? `With <strong>${data.total_marks}</strong> total marks, you have a good chance (70% or more) at <strong>${goodChance}</strong> of ${rated.length} program${rated.length === 1 ? '' : 's'} here.`
+        : `With <strong>${data.total_marks}</strong> total marks. None of the programs here can be rated for you.`;
+
+    const cards = programs.map(p => {
+        const header = `
+            <div class="min-w-0">
+                <div class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">${p.field_icon || '🎓'} ${p.field_name || 'Academic Degree'}</div>
+                <h4 class="font-bold text-sm sm:text-base text-primary-container">${p.program_name}</h4>
+            </div>`;
+
+        if (p.restricted_by_stream) {
+            return `
+            <div class="p-4 rounded-xl border border-gray-200 bg-gray-50 space-y-1">
+                ${header}
+                <p class="text-xs text-on-surface-variant">🚫 Not open to students from your matriculation stream.</p>
+            </div>`;
+        }
+
+        const chance = p.chance_percent;
+        if (chance === null) {
+            return `
+            <div class="p-4 rounded-xl border border-outline-variant/20 bg-white flex items-start justify-between gap-3">
+                ${header}
+                <div class="text-sm font-bold text-primary-container shrink-0">Open admission</div>
+            </div>`;
+        }
+
+        const color = chance >= 70 ? 'text-emerald-700' : chance >= 40 ? 'text-amber-600' : 'text-rose-700';
+        const bar = chance >= 70 ? 'bg-emerald-500' : chance >= 40 ? 'bg-amber-500' : 'bg-rose-500';
+        return `
+            <div class="p-4 rounded-xl border border-outline-variant/20 bg-white space-y-2.5">
+                <div class="flex items-start justify-between gap-3">
+                    ${header}
+                    <div class="text-right shrink-0">
+                        <div class="text-2xl sm:text-3xl font-extrabold leading-none ${color}">${chance}%</div>
+                        <div class="text-[10px] text-on-surface-variant mt-0.5">estimated chance</div>
+                    </div>
+                </div>
+                <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
+                    <div class="h-full rounded-full ${bar}" style="width: ${chance}%"></div>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${CHANCE_STATUS_BADGES[p.status] || ''}">${p.status_label}</span>
+                    ${(p.requirements || []).map(req => renderChanceRequirement(req, p)).join('')}
+                </div>
+                ${p.note ? `<p class="text-[11px] text-on-surface-variant">ℹ️ ${p.note}</p>` : ''}
+            </div>`;
+    }).join('');
+
+    resultsEl.innerHTML = `
+        <div class="p-3 rounded-xl bg-blue-50 border border-blue-100 text-sm text-primary-container">${summary}</div>
+        ${cards}
+        <p class="text-[11px] text-on-surface-variant leading-relaxed">
+            How the estimate works: scoring exactly the predicted cutoff gives a 50% chance, and it rises or falls the further above or below it you are.
+            Programs with extra subject requirements (such as Eng+Chem+Bio) take each requirement into account. It never shows 0% or 100%, because the cutoffs are predictions.
+        </p>`;
+    resultsEl.classList.remove('hidden');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 // Initialize
-document.addEventListener('DOMContentLoaded', loadUniversityDetails);
+document.addEventListener('DOMContentLoaded', () => {
+    initChanceChecker();
+    loadUniversityDetails();
+});

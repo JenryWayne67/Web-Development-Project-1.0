@@ -116,8 +116,8 @@
                             <span id="uni-type-badge" class="bg-white/15 text-white backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-md border border-white/10">
                                 Public University
                             </span>
-                            <span class="bg-green-500/20 text-green-300 text-xs font-medium px-2.5 py-1 rounded-md border border-green-500/30 flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[14px]">verified</span> Verified Data
+                            <span class="bg-amber-400/20 text-amber-200 text-xs font-medium px-2.5 py-1 rounded-md border border-amber-400/30 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">insights</span> Predicted 2026 Cutoffs
                             </span>
                         </div>
 
@@ -198,7 +198,7 @@
                             </div>
                             <div>
                                 <h2 class="text-xl font-bold text-primary-container">Offered Programs & Cutoff Marks</h2>
-                                <p class="text-xs text-on-surface-variant">Verified matriculation score benchmarks</p>
+                                <p class="text-xs text-on-surface-variant">Predicted 2026 cutoffs (official cutoffs not yet released)</p>
                             </div>
                         </div>
                         <div id="program-count-badge" class="bg-gray-100 text-primary-container text-xs font-bold px-3 py-1.5 rounded-full w-max">
@@ -212,6 +212,55 @@
                             Loading academic programs and cutoff thresholds...
                         </div>
                     </div>
+                </div>
+
+                <!-- Section 2b: Admission Chance Checker -->
+                <div id="chance-checker-section" class="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-outline-variant/15">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                            <span class="material-symbols-outlined text-lg">calculate</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-primary-container">Check Your Admission Chances</h2>
+                            <p class="text-xs text-on-surface-variant">Enter your matriculation marks to estimate your chance for each program here</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 p-3.5 rounded-xl bg-[#FFFBEB] border-l-4 border-l-[#F59E0B] text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                        <strong class="text-primary-container">⚠️ Based on predicted cutoffs.</strong>
+                        The official 2026 cutoff marks have not been released yet. These chances compare your marks with our predicted cutoffs, so treat them as estimates, not guarantees.
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-primary-container">
+                            Gender
+                            <select id="chance-gender" class="h-10 px-3 rounded-lg border border-gray-300 bg-white text-sm font-medium text-primary-container">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </label>
+                        <label class="flex flex-col gap-1 text-xs font-semibold text-primary-container">
+                            Matriculation Stream
+                            <select id="chance-stream" class="h-10 px-3 rounded-lg border border-gray-300 bg-white text-sm font-medium text-primary-container">
+                                <option value="science_bio">Science (Biology)</option>
+                                <option value="science_eco">Science (Economics)</option>
+                                <option value="arts">Arts</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <!-- Subject mark inputs for the chosen stream, rendered via JS -->
+                    <div id="chance-subject-inputs" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="text-sm text-on-surface-variant">Total marks: <strong id="chance-total" class="text-primary-container text-lg">0</strong> / 600</div>
+                        <button id="chance-check-btn" type="button" class="bg-prompt-gold text-primary-container font-bold text-sm px-5 py-2.5 rounded-xl hover:brightness-95 transition flex items-center justify-center gap-1.5 disabled:opacity-60">
+                            <span class="material-symbols-outlined text-lg">insights</span> Check My Chances
+                        </button>
+                    </div>
+                    <p id="chance-error" class="hidden mt-3 text-xs font-semibold text-rose-700"></p>
+
+                    <div id="chance-results" class="hidden mt-6 space-y-3"></div>
                 </div>
 
                 <!-- Section 3: Admission & Eligibility Process -->

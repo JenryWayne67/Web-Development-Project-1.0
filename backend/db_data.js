@@ -872,6 +872,165 @@ function resolveInterest(value) {
   return field ? { name: field.field_name, matches: prog => prog.field_id === field.field_id } : null;
 }
 
+// Academic-stream eligibility rules: Myanmar matriculation streams restrict which
+// university fields a student may apply to, regardless of interests picked.
+// - Eco-Science students are not eligible for Medicine & Health.
+// - Arts students are not eligible for Science, Engineering, Medicine & Health, Marine, or Programming & Technology.
+const STREAM_FIELD_RESTRICTIONS = {
+  eco: ['medicine and health'],
+  science_eco: ['medicine and health'],
+  arts: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology'],
+  arts_humanities: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology']
+};
+
+function restrictedFieldsFor(stream) {
+  return STREAM_FIELD_RESTRICTIONS[String(stream || '').toLowerCase()] || [];
+}
+
+// Gender, total and the combined-subject scores used in Myanmar admissions.
+function studentScores(options) {
+  const marks = options.marks || {};
+  const englishMark = parseInt(marks.english ?? options.english, 10) || 0;
+  const mathMark = parseInt(marks.mathematics ?? marks.math ?? options.mathematics ?? options.math, 10) || 0;
+  const physicsMark = parseInt(marks.physics ?? options.physics, 10) || 0;
+  const chemistryMark = parseInt(marks.chemistry ?? options.chemistry, 10) || 0;
+  const biologyMark = parseInt(marks.biology ?? options.biology, 10) || 0;
+
+  return {
+    gender: String(options.gender || 'any').toLowerCase(),
+    total: toNumber(options.total_marks ?? options.score, DEFAULT_STUDENT_SCORE),
+    engChemBio: englishMark + chemistryMark + biologyMark,            // Medicine / Dental
+    fourSubject: englishMark + mathMark + chemistryMark + physicsMark, // Engineering (TU)
+    engMath: englishMark + mathMark                                  // UCSY alternative path
+  };
+}
+
+// Admission-chance estimate. Cutoffs are predictions, so the chance follows a
+// logistic curve around each cutoff: 50% exactly at it, ~92% at 15 total marks
+// above (or 10 above a combined-subject requirement), ~8% the same distance below.
+const CHANCE_SPREAD_TOTAL = 6;
+const CHANCE_SPREAD_SUBJECT = 4;
+const logistic = (margin, spread) => 1 / (1 + Math.exp(-margin / spread));
+
+/**
+ * Checks one program against a student's scores (from studentScores): the
+ * requirement-by-requirement comparison, eligibility, status, and an estimated
+ * admission chance in % (null when the program has no published cutoff).
+ */
+function assessProgram(prog, student) {
+  const totalCutoff = resolveGenderRequirement(student.gender, prog.min_score_male, prog.min_score_female, prog.min_score);
+  const reqEngChemBio = resolveGenderRequirement(student.gender, prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female);
+  const req4Sub = resolveGenderRequirement(student.gender, prog.min_4sub_male, prog.min_4sub_female);
+  const reqEngMath = resolveGenderRequirement(student.gender, prog.min_eng_math_male, prog.min_eng_math_female, prog.min_eng_math);
+
+  // `student` is null when the student's marks for a requirement weren't
+  // provided; such a requirement isn't held for or against them.
+  const requirements = [];
+  if (totalCutoff > 0) requirements.push({ key: 'total', label: 'Total marks', required: totalCutoff, student: student.total });
+  if (reqEngMath > 0) requirements.push({ key: 'eng_math', label: 'Eng+Math (alternative path)', required: reqEngMath, student: student.engMath || null });
+  if (reqEngChemBio > 0) requirements.push({ key: 'eng_chem_bio', label: 'Eng+Chem+Bio', required: reqEngChemBio, student: student.engChemBio || null });
+  if (req4Sub > 0) requirements.push({ key: 'four_subject', label: '4-Subject (Eng+Math+Chem+Phys)', required: req4Sub, student: student.fourSubject || null });
+  requirements.forEach(r => { r.met = r.student === null ? null : r.student >= r.required; });
+
+  const marginOf = key => {
+    const r = requirements.find(x => x.key === key);
+    return r && r.student !== null ? r.student - r.required : null;
+  };
+  const totalMargin = marginOf('total');
+  const engMathMargin = marginOf('eng_math');
+  const subjectMargins = ['eng_chem_bio', 'four_subject'].map(marginOf).filter(m => m !== null);
+
+  const totalMet = totalMargin === null || totalMargin >= 0;
+  // UCSY-style OR rule: Eng+Math qualifies even when the total is short.
+  const viaEngMath = !totalMet && engMathMargin !== null && engMathMargin >= 0;
+  const eligible = (totalMet || viaEngMath) && subjectMargins.every(m => m >= 0);
+
+  let status;
+  if (eligible) {
+    const qualifyingMarginSafe = viaEngMath
+      ? engMathMargin >= SAFE_SUBJECT_MARGIN
+      : (totalMargin === null ? subjectMargins.length > 0 : totalMargin >= SAFE_TOTAL_MARGIN);
+    status = qualifyingMarginSafe && subjectMargins.every(m => m >= SAFE_SUBJECT_MARGIN) ? 'safe' : 'meets';
+  } else {
+    const totalShortfall = totalMet ? 0 : -totalMargin;
+    const subjectShortfall = Math.max(0, ...subjectMargins.map(m => -m));
+    status = totalShortfall <= BORDERLINE_TOTAL_MARGIN && subjectShortfall <= BORDERLINE_SUBJECT_MARGIN ? 'borderline' : 'below';
+  }
+
+  // Chance: the total (or its Eng+Math alternative) and every combined-subject
+  // requirement must all be met, so their probabilities multiply.
+  let chancePercent = null;
+  if (requirements.length > 0) {
+    const pTotal = totalMargin === null ? 1 : logistic(totalMargin, CHANCE_SPREAD_TOTAL);
+    const pQualify = reqEngMath > 0
+      ? 1 - (1 - pTotal) * (1 - (engMathMargin === null ? 0 : logistic(engMathMargin, CHANCE_SPREAD_SUBJECT)))
+      : pTotal;
+    const pSubjects = subjectMargins.reduce((p, m) => p * logistic(m, CHANCE_SPREAD_SUBJECT), 1);
+    // Never 0% or 100%: the cutoffs are predictions
+    chancePercent = Math.round(Math.min(99, Math.max(1, pQualify * pSubjects * 100)));
+  }
+
+  let note = '';
+  if (viaEngMath && eligible) {
+    note = 'Qualifies through the Eng+Math alternative path, so the total-marks cutoff does not apply.';
+  } else if (requirements.length === 0) {
+    note = 'No published cutoff for this program.';
+  }
+
+  const cutoffLabel = totalCutoff > 0 ? `Total ≥ ${totalCutoff}`
+    : req4Sub > 0 ? `4-Subject ≥ ${req4Sub}`
+    : reqEngChemBio > 0 ? `Eng+Chem+Bio ≥ ${reqEngChemBio}`
+    : 'Open admission';
+
+  // Rough selectivity for ordering: cutoff as a share of its maximum possible score.
+  const selectivity = totalCutoff > 0 ? totalCutoff / 600
+    : req4Sub > 0 ? req4Sub / 400
+    : reqEngChemBio > 0 ? reqEngChemBio / 300
+    : 0;
+
+  return { requirements, eligible, status, note, cutoffLabel, selectivity, chancePercent };
+}
+
+/**
+ * Estimated admission chance for every program at one university, for the
+ * university page's chance checker. `options` = { gender, stream, marks };
+ * the total is the sum of the given subject marks.
+ */
+export function getAdmissionChances(university, options = {}) {
+  const marks = options.marks || {};
+  const markTotal = Object.values(marks).reduce((sum, m) => sum + (parseInt(m, 10) || 0), 0);
+  const student = studentScores({ ...options, total_marks: markTotal });
+  const restrictedFieldNames = restrictedFieldsFor(options.stream);
+  const fieldMap = new Map(fields.map(f => [f.field_id, f]));
+
+  return {
+    university_id: university.university_id,
+    university_name: university.university_name,
+    total_marks: student.total,
+    cutoffs_are_predicted: true,
+    programs: programs
+      .filter(prog => prog.university_id === university.university_id)
+      .map(prog => {
+        const field = fieldMap.get(prog.field_id) || {};
+        const assessment = assessProgram(prog, student);
+        return {
+          program_id: prog.program_id,
+          program_name: prog.program_name,
+          field_name: field.field_name,
+          field_icon: field.icon,
+          restricted_by_stream: restrictedFieldNames.includes(String(field.field_name || '').toLowerCase()),
+          cutoff_label: assessment.cutoffLabel,
+          requirements: assessment.requirements,
+          eligible: assessment.eligible,
+          status: assessment.status,
+          status_label: STATUS_LABELS[assessment.status],
+          chance_percent: assessment.chancePercent,
+          note: assessment.note
+        };
+      })
+  };
+}
+
 /**
  * Suggests up to 20 universities for the student's ranked interests
  * (fields[0] = 1st interest, up to 3). Universities with programs in the
@@ -889,8 +1048,7 @@ function resolveInterest(value) {
  * (if qualified) most selective first, otherwise most reachable first.
  */
 export function getRecommendations(options = {}) {
-  const studentScore = toNumber(options.total_marks ?? options.score, DEFAULT_STUDENT_SCORE);
-  const normGender = String(options.gender || 'any').toLowerCase();
+  const student = studentScores(options);
 
   const rawInterests = Array.isArray(options.fields) ? options.fields : (options.field ? [options.field] : []);
   const interests = [];
@@ -900,30 +1058,7 @@ export function getRecommendations(options = {}) {
   }
   interests.splice(MAX_INTERESTS);
 
-  // Academic-stream eligibility rules (Myanmar matriculation streams restrict which
-  // university fields a student may even be shown, regardless of interests picked):
-  // - Eco-Science students are not eligible for Medicine & Health.
-  // - Arts & Humanities students are not eligible for Science, Engineering, Medicine & Health, Marine, or Programming & Technology.
-  const normStream = String(options.stream || options.academic_stream || '').toLowerCase();
-  const STREAM_FIELD_RESTRICTIONS = {
-    eco: ['medicine and health'],
-    science_eco: ['medicine and health'],
-    arts: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology'],
-    arts_humanities: ['science', 'engineering', 'medicine and health', 'marine', 'programming & technology']
-  };
-  const restrictedFieldNames = STREAM_FIELD_RESTRICTIONS[normStream] || [];
-
-  const marks = options.marks || {};
-  const englishMark = parseInt(marks.english ?? options.english, 10) || 0;
-  const mathMark = parseInt(marks.mathematics ?? marks.math ?? options.mathematics ?? options.math, 10) || 0;
-  const physicsMark = parseInt(marks.physics ?? options.physics, 10) || 0;
-  const chemistryMark = parseInt(marks.chemistry ?? options.chemistry, 10) || 0;
-  const biologyMark = parseInt(marks.biology ?? options.biology, 10) || 0;
-
-  // Combined-subject scores used in Myanmar admissions
-  const studentEngChemBio = englishMark + chemistryMark + biologyMark;       // Medicine / Dental
-  const student4Sub = englishMark + mathMark + chemistryMark + physicsMark;  // Engineering (TU)
-  const studentEngMath = englishMark + mathMark;                            // UCSY alternative path
+  const restrictedFieldNames = restrictedFieldsFor(options.stream || options.academic_stream);
 
   const uniMap = new Map(universities.map(u => [u.university_id, u]));
   const fieldMap = new Map(fields.map(f => [f.field_id, f]));
@@ -941,62 +1076,11 @@ export function getRecommendations(options = {}) {
     // fill the list up to 20 universities.
     const interestIndex = interests.findIndex(i => i.matches(prog));
 
-    const totalCutoff = resolveGenderRequirement(normGender, prog.min_score_male, prog.min_score_female, prog.min_score);
-    const reqEngChemBio = resolveGenderRequirement(normGender, prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female);
-    const req4Sub = resolveGenderRequirement(normGender, prog.min_4sub_male, prog.min_4sub_female);
-    const reqEngMath = resolveGenderRequirement(normGender, prog.min_eng_math_male, prog.min_eng_math_female, prog.min_eng_math);
+    const { requirements, eligible, status, note, cutoffLabel, selectivity } = assessProgram(prog, student);
 
-    // `student` is null when the student's marks for a requirement weren't
-    // provided; such a requirement isn't held for or against them.
-    const requirements = [];
-    if (totalCutoff > 0) requirements.push({ key: 'total', label: 'Total marks', required: totalCutoff, student: studentScore });
-    if (reqEngMath > 0) requirements.push({ key: 'eng_math', label: 'Eng+Math (alternative path)', required: reqEngMath, student: studentEngMath || null });
-    if (reqEngChemBio > 0) requirements.push({ key: 'eng_chem_bio', label: 'Eng+Chem+Bio', required: reqEngChemBio, student: studentEngChemBio || null });
-    if (req4Sub > 0) requirements.push({ key: 'four_subject', label: '4-Subject (Eng+Math+Chem+Phys)', required: req4Sub, student: student4Sub || null });
-    requirements.forEach(r => { r.met = r.student === null ? null : r.student >= r.required; });
-
-    const marginOf = key => {
-      const r = requirements.find(x => x.key === key);
-      return r && r.student !== null ? r.student - r.required : null;
-    };
-    const totalMargin = marginOf('total');
-    const engMathMargin = marginOf('eng_math');
-    const subjectMargins = ['eng_chem_bio', 'four_subject'].map(marginOf).filter(m => m !== null);
-
-    const totalMet = totalMargin === null || totalMargin >= 0;
-    // UCSY-style OR rule: Eng+Math qualifies even when the total is short.
-    const viaEngMath = !totalMet && engMathMargin !== null && engMathMargin >= 0;
-    const eligible = (totalMet || viaEngMath) && subjectMargins.every(m => m >= 0);
-
-    let status;
-    if (eligible) {
-      const qualifyingMarginSafe = viaEngMath
-        ? engMathMargin >= SAFE_SUBJECT_MARGIN
-        : (totalMargin === null ? subjectMargins.length > 0 : totalMargin >= SAFE_TOTAL_MARGIN);
-      status = qualifyingMarginSafe && subjectMargins.every(m => m >= SAFE_SUBJECT_MARGIN) ? 'safe' : 'meets';
-    } else {
-      const totalShortfall = totalMet ? 0 : -totalMargin;
-      const subjectShortfall = Math.max(0, ...subjectMargins.map(m => -m));
-      status = totalShortfall <= BORDERLINE_TOTAL_MARGIN && subjectShortfall <= BORDERLINE_SUBJECT_MARGIN ? 'borderline' : 'below';
-    }
-
-    let note = '';
-    if (viaEngMath && eligible) {
-      note = 'Qualifies through the Eng+Math alternative path, so the total-marks cutoff does not apply.';
-    } else if (requirements.length === 0) {
-      note = 'No published cutoff for this program.';
-    }
-
-    const cutoffLabel = totalCutoff > 0 ? `Total ≥ ${totalCutoff}`
-      : req4Sub > 0 ? `4-Subject ≥ ${req4Sub}`
-      : reqEngChemBio > 0 ? `Eng+Chem+Bio ≥ ${reqEngChemBio}`
-      : 'Open admission';
-
-    // Rough selectivity for ordering: cutoff as a share of its maximum possible score.
-    const selectivity = totalCutoff > 0 ? totalCutoff / 600
-      : req4Sub > 0 ? req4Sub / 400
-      : reqEngChemBio > 0 ? reqEngChemBio / 300
-      : 0;
+    // UM1/UM2 are only suggested to students who meet both the total cutoff
+    // and the Eng+Chem+Bio requirement -- never as Borderline/Below Cutoff.
+    if ((uObj.code === 'UM1' || uObj.code === 'UM2') && !eligible) continue;
 
     candidates.push({
       selectivity,
@@ -1018,7 +1102,7 @@ export function getRecommendations(options = {}) {
         interest_rank: interestIndex + 1,
         interest_field: interestIndex >= 0 ? interests[interestIndex].name : null,
         cutoff_label: cutoffLabel,
-        user_score: studentScore,
+        user_score: student.total,
         eligible,
         status,
         status_label: STATUS_LABELS[status],

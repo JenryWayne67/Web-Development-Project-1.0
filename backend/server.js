@@ -8,6 +8,7 @@ import {
   universities,
   programs,
   getRecommendations,
+  getAdmissionChances,
   normalizeAssessment
 } from './db_data.js';
 
@@ -137,6 +138,37 @@ app.get('/api/universities/:id', (req, res) => {
       programs: uniPrograms,
       program_count: uniPrograms.length
     }
+  });
+});
+
+// 3b. POST /api/universities/:id/chances (estimated admission chance per program)
+app.post('/api/universities/:id/chances', (req, res) => {
+  const param = req.params.id;
+  const uni = universities.find(u => String(u.university_id) === param)
+    || universities.find(u => u.code && u.code.toLowerCase() === param.toLowerCase());
+
+  if (!uni) {
+    return res.status(404).json({
+      success: false,
+      status: 'error',
+      message: `University not found with identifier: ${param}`
+    });
+  }
+
+  const { gender, stream, marks } = req.body || {};
+  const markValues = Object.values(marks || {});
+  if (markValues.length === 0 || markValues.some(m => !Number.isInteger(m) || m < 0 || m > 100)) {
+    return res.status(400).json({
+      success: false,
+      status: 'error',
+      message: 'Marks must be whole numbers from 0 to 100.'
+    });
+  }
+
+  res.json({
+    success: true,
+    status: 'success',
+    data: getAdmissionChances(uni, { gender, stream, marks })
   });
 });
 
