@@ -1029,6 +1029,18 @@ export function getRecommendations(options = {}) {
     });
   }
 
+  // UM1/UM2 also require Eng+Chem+Bio, so they're harder to get into than
+  // their total cutoff suggests. Rank them level with the most selective
+  // medical program the student qualifies for (and ahead of it on a tie), so
+  // they come before e.g. Medical Technology without jumping other fields.
+  const MEDICINE_FIELD_ID = 3;
+  const topMedicalSelectivity = Math.max(0, ...candidates
+    .filter(c => c.rec.eligible && c.rec.field_id === MEDICINE_FIELD_ID)
+    .map(c => c.selectivity));
+  candidates.forEach(c => {
+    if (c.rec.is_top_tier_medical) c.selectivity = Math.max(c.selectivity, topMedicalSelectivity);
+  });
+
   candidates.sort((a, b) => {
     const matchedA = a.rec.interest_rank > 0;
     const matchedB = b.rec.interest_rank > 0;
@@ -1037,11 +1049,10 @@ export function getRecommendations(options = {}) {
     if (groupDiff) return groupDiff;
     const rankDiff = (a.rec.interest_rank || MAX_INTERESTS + 1) - (b.rec.interest_rank || MAX_INTERESTS + 1);
     if (rankDiff) return rankDiff;
-    // UM1/UM2 priority applies to interest matches only; universities outside
-    // the student's interests are ordered strictly by cutoff.
-    const medicalPriority = matchedA || interests.length === 0;
-    if (medicalPriority && a.rec.is_top_tier_medical !== b.rec.is_top_tier_medical) return a.rec.is_top_tier_medical ? -1 : 1;
-    return a.rec.eligible ? b.selectivity - a.selectivity : a.selectivity - b.selectivity;
+    const selectivityDiff = a.rec.eligible ? b.selectivity - a.selectivity : a.selectivity - b.selectivity;
+    if (selectivityDiff) return selectivityDiff;
+    // On a tie, UM1/UM2 first (see topMedicalSelectivity above)
+    return b.rec.is_top_tier_medical - a.rec.is_top_tier_medical;
   });
 
   // Top three: for each interest in order, the highest-cutoff university the

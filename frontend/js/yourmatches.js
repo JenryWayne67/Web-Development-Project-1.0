@@ -226,7 +226,7 @@ function renderCards() {
         ${showOutsideHeading ? `
         <div class="pt-4 border-t border-outline-variant/40">
             <h3 class="font-bold text-primary text-base sm:text-lg">Top universities you qualify for, outside your interests</h3>
-            <p class="text-xs sm:text-sm text-on-surface-variant">High-cutoff universities whose requirements you meet, highest cutoff first, added to complete your list of 20.</p>
+            <p class="text-xs sm:text-sm text-on-surface-variant">High-cutoff universities whose requirements you meet, most competitive first, added to complete your list of 20.</p>
         </div>` : ''}
         <div class="bg-surface-container-lowest rounded-2xl p-4 sm:p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.06)] border-l-[4px] sm:border-l-[6px] ${isBest ? 'border-l-gold' : 'border-l-primary'} border-y border-r border-outline-variant/30 relative overflow-hidden transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] pt-8 sm:pt-6">
             ${isBest ? `
