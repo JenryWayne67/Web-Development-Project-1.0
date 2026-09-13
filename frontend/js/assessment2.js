@@ -1,9 +1,11 @@
 // UniAdvisor - Assessment Step 2: Ranked Interests (2026)
 
-// Fields a student can rank. `value` must match a field_name in backend/db_data.js
-// exactly: recommendations only include programs in the chosen fields.
+// Interests a student can rank. `value` must match a field_name or a program
+// group name in backend/db_data.js exactly: recommendations only include
+// programs in the chosen interests.
 const INTEREST_OPTIONS = [
-    { value: 'Programming & Technology', label: '💻 Programming & Technology', description: 'Computer Science, Software Engineering, AI, Data Science (UIT, UCSY)' },
+    { value: 'Programming & Technology', label: '💻 IT & Computer Science', description: 'Computer Science, Software Engineering, AI, Data Science (UIT, UCSY, UY, Dagon)' },
+    { value: 'Computer Engineering & IT (CEIT)', label: '🖥️ Computer Engineering & IT (CEIT)', description: 'Engineering degree combining computer hardware, networks and software (YTU, WYTU, TTU, HBTU)' },
     { value: 'Engineering', label: '🔧 Engineering', description: 'Mechanical, Electrical, Civil, Mechatronics, Chemical, Architecture (YTU, WYTU, TTU)' },
     { value: 'Medicine and health', label: '🏥 Medicine & Health', description: 'Medicine (MBBS), Dental, Pharmacy, Nursing, Medical Technology, Public Health (UM1, UM2)' },
     { value: 'Economics', label: '📊 Business & Economics', description: 'Commerce, Business Administration, Accounting, Economics, Statistics, Finance (YUECO, NMDC, Co-op)' },
@@ -21,8 +23,8 @@ const INTEREST_OPTIONS = [
 const STREAM_FIELD_RESTRICTIONS = {
     eco: ["Medicine and health"],
     science_eco: ["Medicine and health"],
-    arts: ["Science", "Engineering", "Medicine and health", "Marine", "Programming & Technology"],
-    arts_humanities: ["Science", "Engineering", "Medicine and health", "Marine", "Programming & Technology"]
+    arts: ["Science", "Engineering", "Computer Engineering & IT (CEIT)", "Medicine and health", "Marine", "Programming & Technology"],
+    arts_humanities: ["Science", "Engineering", "Computer Engineering & IT (CEIT)", "Medicine and health", "Marine", "Programming & Technology"]
 };
 
 // interests[0] is the first (highest-ranked) interest; '' means not chosen.

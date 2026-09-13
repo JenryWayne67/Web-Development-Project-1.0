@@ -7,6 +7,14 @@ let currentSort = 'best';
 
 const RANK_LABELS = ['1st', '2nd', '3rd'];
 
+// Friendlier names for interest values whose stored name differs from the
+// label shown on step 2.
+const INTEREST_DISPLAY_NAMES = {
+    'Programming & Technology': 'IT & Computer Science',
+    'Medicine and health': 'Medicine & Health'
+};
+const displayInterest = name => INTEREST_DISPLAY_NAMES[name] || name;
+
 // Card styling for each admission status assigned by the backend.
 const STATUS_STYLES = {
     safe: { icon: '🌟', label: 'Safe', hint: 'Comfortably above the cutoff', badge: 'bg-emerald-100 text-emerald-800 border border-emerald-300', panel: 'bg-emerald-50 border-emerald-200' },
@@ -43,13 +51,13 @@ function renderInterestSummary(interests) {
     const summary = document.getElementById('summaryInterestsDisplay');
     if (summary) {
         summary.textContent = interests.length > 0
-            ? `Interests: ${interests.map((f, i) => `${RANK_LABELS[i]} ${f}`).join(' · ')}`
+            ? `Interests: ${interests.map((f, i) => `${RANK_LABELS[i]} ${displayInterest(f)}`).join(' · ')}`
             : 'No interests selected, showing all fields';
     }
     const chips = document.getElementById('interestFilterChips');
     if (chips) {
         chips.innerHTML = interests.map((f, i) =>
-            `<button data-filter="interest:${f}" class="${CHIP_INACTIVE}">🎯 ${RANK_LABELS[i]}: ${f}</button>`
+            `<button data-filter="interest:${f}" class="${CHIP_INACTIVE}">🎯 ${RANK_LABELS[i]}: ${displayInterest(f)}</button>`
         ).join('');
     }
 }
@@ -191,8 +199,10 @@ function renderCards() {
         return;
     }
 
-    container.innerHTML = list.map(item => {
+    container.innerHTML = list.map((item, index) => {
         const style = STATUS_STYLES[item.status] || STATUS_STYLES.meets;
+        // Heading before the first university that's outside the student's interests
+        const showOutsideHeading = currentSort === 'best' && item.outside_interests && (index === 0 || !list[index - 1].outside_interests);
         const suggestionNumber = item.suggestion_no;
         const isBest = suggestionNumber === 1;
         const detailUrl = getUniUrl(item);
@@ -213,6 +223,11 @@ function renderCards() {
             </div>` : '';
 
         return `
+        ${showOutsideHeading ? `
+        <div class="pt-4 border-t border-outline-variant/40">
+            <h3 class="font-bold text-primary text-base sm:text-lg">More universities outside your interests</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant">Added to complete your list of 20, ordered by how well you meet their cutoffs.</p>
+        </div>` : ''}
         <div class="bg-surface-container-lowest rounded-2xl p-4 sm:p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.06)] border-l-[4px] sm:border-l-[6px] ${isBest ? 'border-l-gold' : 'border-l-primary'} border-y border-r border-outline-variant/30 relative overflow-hidden transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] pt-8 sm:pt-6">
             ${isBest ? `
             <div class="absolute top-0 right-0 bg-gold text-primary px-3 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl font-bold text-[11px] sm:text-sm flex items-center gap-1 shadow-sm">
@@ -220,24 +235,24 @@ function renderCards() {
             </div>` : ''}
 
             <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:items-center">
-                <!-- Left: Rank and Admission Status -->
-                <div class="flex flex-row lg:flex-col items-center justify-between lg:justify-center gap-2 w-full lg:w-auto lg:min-w-[150px] p-3 sm:p-4 ${style.panel} rounded-xl sm:rounded-2xl border text-center">
-                    <div class="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-black text-[11px] sm:text-xs ${isBest ? 'bg-gold text-primary' : 'bg-primary-container text-white'} tracking-wider">
-                        No. ${suggestionNumber}
-                    </div>
-                    <div class="flex items-center lg:flex-col gap-2 lg:gap-0">
-                        <div class="text-xl sm:text-3xl leading-none">${style.icon}</div>
-                        <div class="text-left lg:text-center">
-                            <div class="text-sm sm:text-base font-extrabold text-primary lg:mt-1">${style.label}</div>
-                            <div class="text-[11px] text-on-surface-variant">${style.hint}</div>
+                <!-- Left: University Photo, Rank and Admission Status -->
+                <div class="w-full lg:w-[200px] shrink-0">
+                    <div class="relative h-40 lg:h-[130px] rounded-xl sm:rounded-2xl overflow-hidden bg-surface-container border border-outline-variant/30">
+                        <img src="${item.image_url || 'uit.jpg'}" alt="${item.university_name}" loading="lazy" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='uit.jpg';">
+                        <div class="absolute top-2 left-2 px-2 py-0.5 rounded-md font-black text-[11px] sm:text-xs ${isBest ? 'bg-gold text-primary' : 'bg-primary-container text-white'} tracking-wider shadow-sm">
+                            No. ${suggestionNumber}
                         </div>
+                    </div>
+                    <div class="mt-2 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs sm:text-sm font-bold ${style.badge}" title="${style.hint}">
+                        ${style.icon} ${style.label}
                     </div>
                 </div>
 
                 <!-- Center: University & Program Info -->
                 <div class="flex-1">
                     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
-                        ${rankLabel ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-bold bg-gold/15 text-primary border border-gold/30">🎯 ${rankLabel} interest: ${item.interest_field}</span>` : ''}
+                        ${rankLabel ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-bold bg-gold/15 text-primary border border-gold/30">🎯 ${rankLabel} interest: ${displayInterest(item.interest_field)}</span>` : ''}
+                        ${item.outside_interests ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-bold bg-surface-container-high text-on-surface-variant border border-outline-variant/40">➕ Outside your interests</span>` : ''}
                         ${item.field_name && item.field_name !== item.interest_field ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-medium bg-surface-container text-on-surface-variant">${item.field_icon || ''} ${item.field_name}</span>` : ''}
                         ${item.is_top_tier_medical ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-white shadow-xs">🏆 Top Medical</span>` : ''}
                     </div>
@@ -272,6 +287,156 @@ function renderCards() {
     }).join('');
 }
 
+// jsPDF's built-in fonts only cover basic Latin, so swap "≥" and drop emoji.
+const pdfText = value => String(value ?? '').replace(/≥/g, '>=').replace(/[^\x20-\x7E\n]/g, '').trim();
+
+const STATUS_PDF_COLORS = {
+    safe: [4, 120, 87],
+    meets: [21, 128, 61],
+    borderline: [180, 83, 9],
+    below: [190, 18, 60]
+};
+
+// Downloads the full suggestion list (ignoring the on-screen filter/search) as a
+// PDF, using jsPDF + AutoTable loaded from cdnjs in yourmatches.html.
+// Resolves with the loaded image, or null if it can't be loaded.
+function loadImage(src) {
+    return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+    });
+}
+
+async function downloadMatchesPdf() {
+    const jsPDF = window.jspdf && window.jspdf.jsPDF;
+    if (currentRecommendations.length === 0) {
+        alert('Your university list is still loading. Please try again in a moment.');
+        return;
+    }
+    // AutoTable registers on jsPDF.API (not the prototype); if it didn't
+    // auto-register, its UMD build leaves applyPlugin() on window.
+    if (jsPDF && typeof jsPDF.API.autoTable !== 'function' && typeof window.applyPlugin === 'function') {
+        window.applyPlugin(jsPDF);
+    }
+    if (!jsPDF || typeof jsPDF.API.autoTable !== 'function') {
+        alert('The PDF tool could not load. Check your internet connection and try again.');
+        return;
+    }
+
+    const assessment = JSON.parse(localStorage.getItem('advisor_assessment') || '{}');
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const marginX = 36;
+
+    // Header: title and student profile
+    const totalMarks = currentRecommendations[0].user_score ?? assessment.total_marks;
+    const gender = assessment.gender ? ` (${assessment.gender.charAt(0).toUpperCase()}${assessment.gender.slice(1)})` : '';
+    const interests = getInterests().map((f, i) => `${RANK_LABELS[i]} ${displayInterest(f)}`).join(', ');
+
+    // Logo (skipped if it fails to load) beside the title
+    const logo = await loadImage('assets/logo.png');
+    const logoSize = 40;
+    let titleX = marginX;
+    if (logo) {
+        const aspect = logo.naturalWidth / logo.naturalHeight || 1;
+        const logoWidth = logoSize * aspect;
+        // Downscale first: the source logo is 1024px, far more than a 40pt header needs
+        const canvas = document.createElement('canvas');
+        canvas.height = 160;
+        canvas.width = Math.round(160 * aspect);
+        canvas.getContext('2d').drawImage(logo, 0, 0, canvas.width, canvas.height);
+        doc.addImage(canvas.toDataURL('image/png'), 'PNG', marginX, 24, logoWidth, logoSize);
+        titleX = marginX + logoWidth + 10;
+    }
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(0, 33, 71);
+    doc.text('UniAdvisor', titleX, 41);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    doc.setTextColor(85, 95, 108);
+    doc.text('Your University Suggestions', titleX, 58);
+    doc.setFontSize(10);
+    doc.text(`Generated ${new Date().toLocaleDateString()}`, pageWidth - marginX, 41, { align: 'right' });
+    doc.text(`Total marks: ${totalMarks} / 600${gender}`, marginX, 86);
+    doc.text(`Interests: ${pdfText(interests) || 'All fields'}`, marginX, 100);
+
+    const describeRequirement = r => {
+        const hasMarks = r.student !== null && r.student !== undefined;
+        const diff = hasMarks ? r.student - r.required : null;
+        return `${pdfText(r.label)}: ${hasMarks ? r.student : '-'} / ${r.required}${diff === null ? '' : ` (${diff >= 0 ? '+' : ''}${diff})`}`;
+    };
+
+    const rows = currentRecommendations.map(item => [
+        item.suggestion_no,
+        pdfText(item.university_name),
+        pdfText(item.program_name),
+        item.interest_rank
+            ? `${RANK_LABELS[item.interest_rank - 1]}: ${pdfText(displayInterest(item.interest_field))}`
+            : (item.outside_interests ? `Outside your interests (${pdfText(displayInterest(item.field_name))})` : pdfText(displayInterest(item.field_name))),
+        pdfText(item.status_label),
+        (item.requirements || []).map(describeRequirement).join('\n') || 'No published cutoff'
+    ]);
+
+    doc.autoTable({
+        startY: 114,
+        rowPageBreak: 'avoid',
+        head: [['No.', 'University', 'Best program', 'Interest', 'Status', 'Cutoff check']],
+        body: rows,
+        margin: { left: marginX, right: marginX, bottom: 40 },
+        styles: { font: 'helvetica', fontSize: 8.5, cellPadding: 5, valign: 'top', textColor: [25, 28, 29], lineColor: [225, 227, 228], lineWidth: 0.5 },
+        headStyles: { fillColor: [0, 33, 71], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 249, 250] },
+        columnStyles: {
+            0: { cellWidth: 30, halign: 'center' },
+            1: { cellWidth: 180, fontStyle: 'bold' },
+            2: { cellWidth: 170 },
+            3: { cellWidth: 130 },
+            4: { cellWidth: 75, fontStyle: 'bold' }
+        },
+        didParseCell: data => {
+            if (data.section === 'body' && data.column.index === 4) {
+                const status = currentRecommendations[data.row.index].status;
+                data.cell.styles.textColor = STATUS_PDF_COLORS[status] || [25, 28, 29];
+            }
+        },
+        didDrawPage: () => {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(120, 120, 120);
+            doc.text('Cutoffs change every year. Always verify with the official university before applying.', marginX, pageHeight - 20);
+            doc.text(`Page ${doc.internal.getNumberOfPages()}`, pageWidth - marginX, pageHeight - 20, { align: 'right' });
+        }
+    });
+
+    // Status legend under the table
+    let y = doc.lastAutoTable.finalY + 22;
+    if (y > pageHeight - 90) {
+        doc.addPage();
+        y = 44;
+    }
+    doc.setFontSize(9);
+    [
+        ['safe', 'Safe: 15+ marks above the cutoff'],
+        ['meets', 'Meets Cutoff: at or just above the cutoff'],
+        ['borderline', 'Borderline: slightly below (within 15 marks)'],
+        ['below', 'Below Cutoff: further below, or a subject requirement not met']
+    ].forEach(([status, text], i) => {
+        doc.setTextColor(...STATUS_PDF_COLORS[status]);
+        doc.text(text, marginX, y + i * 13);
+    });
+    if (currentRecommendations.some(item => item.outside_interests)) {
+        doc.setTextColor(85, 95, 108);
+        doc.text('"Outside your interests" universities were added to complete your list of 20.', marginX, y + 4 * 13 + 4);
+    }
+
+    doc.save('UniAdvisor-University-List.pdf');
+}
+
 function setActiveChip(filter) {
     document.querySelectorAll('.filter-chip').forEach(c => {
         c.className = c.getAttribute('data-filter') === filter ? CHIP_ACTIVE : CHIP_INACTIVE;
@@ -289,6 +454,7 @@ function resetFilters() {
 }
 
 window.resetFilters = resetFilters;
+window.downloadMatchesPdf = downloadMatchesPdf;
 window.getUniUrl = getUniUrl;
 
 document.addEventListener('DOMContentLoaded', () => {

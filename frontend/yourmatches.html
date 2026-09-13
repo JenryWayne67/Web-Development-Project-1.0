@@ -224,6 +224,10 @@
                 <input id="scoreSimulatorInput" type="number" min="200" max="600" value="502" class="w-16 sm:w-20 px-2 py-1 bg-white border border-outline-variant rounded font-bold text-primary text-center text-xs sm:text-sm">
                 <button id="recalculateBtn" class="bg-primary text-white text-xs px-2.5 py-1.5 rounded font-bold hover:bg-primary/90">Recalculate</button>
             </div>
+            <button onclick="downloadMatchesPdf()" class="bg-gold text-primary text-xs px-3 py-1.5 rounded-lg font-bold hover:bg-yellow-400 transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px]">download</span>
+                Download PDF
+            </button>
             <button onclick="location.href='assessment1.html'" class="text-xs text-primary underline font-medium hover:text-gold">Edit Answers</button>
         </div>
     </div>
@@ -330,9 +334,9 @@
     Back to Preferences
 </button>
 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-    <button onclick="window.print()" class="w-full sm:w-auto bg-transparent border-2 border-primary text-primary font-label-md py-2.5 px-6 rounded-lg font-bold hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">print</span>
-        Print / Save Summary
+    <button onclick="downloadMatchesPdf()" class="w-full sm:w-auto bg-transparent border-2 border-primary text-primary font-label-md py-2.5 px-6 rounded-lg font-bold hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        Download University List (PDF)
     </button>
     <button onclick="location.href='assessment1.html'" class="w-full sm:w-auto bg-gold text-primary font-label-md py-2.5 px-6 rounded-lg font-bold hover:bg-yellow-400 transition-colors shadow-sm flex items-center justify-center gap-2">
         <span class="material-symbols-outlined text-[18px]">restart_alt</span>
@@ -344,5 +348,8 @@
 <!-- Footer -->
 <footer class="w-full mt-auto bg-[#00142D] text-white py-8 px-6"><div class="max-w-[1200px] mx-auto flex flex-col items-center gap-6"><div class="text-xl font-bold text-gold flex items-center gap-2"><img src="assets/logo.png" alt="UniAdvisor logo" class="w-6 h-6 object-contain"> UniAdvisor</div><div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400"> <a class="hover:text-white transition-colors" href="home.html">Home</a> <span class="text-gray-600">|</span> <a class="hover:text-white transition-colors" href="uniexp.html">Universities</a> <span class="text-gray-600">|</span> <a class="hover:text-white transition-colors" href="assessment1.html">Assessment</a> <span class="text-gray-600">|</span> <a class="hover:text-white transition-colors" href="about.html">About</a> <span class="text-gray-600">|</span></div><div class="text-center text-xs text-gray-400">🇲🇲 Serving students across Yangon, Myanmar</div><div class="text-xs text-gray-500 text-center">© 2026 UniAdvisor. Myanmar Student Success.</div></div></footer>
 
+<!-- PDF export (jsPDF + AutoTable) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="js/yourmatches.js"></script>
 </body></html>

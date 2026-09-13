@@ -832,12 +832,12 @@ const FIELD_ALIASES = {
   'marine & maritime': 'Marine'
 };
 
-// Programs that also belong in a second field's recommendations, listed
-// explicitly by name. Interest matching is otherwise strictly by field_id --
-// keyword matching used to pull e.g. "Medical Technology" into
-// Programming & Technology just because the name contains "tech".
-const CROSS_LISTED_PROGRAMS = [
-  { pattern: /computer engineering & information technology/i, field_id: 1 }
+// Interests narrower than a whole field, selected by explicit program name.
+// Everything else matches strictly by field_id -- keyword matching used to
+// pull e.g. "Medical Technology" into Programming & Technology just because
+// the name contains "tech".
+const PROGRAM_GROUP_INTERESTS = [
+  { name: 'Computer Engineering & IT (CEIT)', pattern: /computer engineering & information technology/i }
 ];
 
 const MAX_INTERESTS = 3;
@@ -860,17 +860,23 @@ const STATUS_LABELS = {
 // Safe and Meets Cutoff rank together (the student qualifies either way).
 const STATUS_GROUP = { safe: 0, meets: 0, borderline: 1, below: 2 };
 
-function resolveFieldId(value) {
+// Turns an interest value (field name or program group name) into
+// { name, matches(program) }, or null if unrecognised.
+function resolveInterest(value) {
   const key = String(value || '').trim().toLowerCase();
+  const group = PROGRAM_GROUP_INTERESTS.find(g => g.name.toLowerCase() === key);
+  if (group) return { name: group.name, matches: prog => group.pattern.test(prog.program_name) };
+
   const name = (FIELD_ALIASES[key] || key).toLowerCase();
   const field = fields.find(f => f.field_name.toLowerCase() === name);
-  return field ? field.field_id : null;
+  return field ? { name: field.field_name, matches: prog => prog.field_id === field.field_id } : null;
 }
 
 /**
  * Suggests up to 20 universities for the student's ranked interests
- * (fields[0] = 1st interest, up to 3). Only programs in an interest field are
- * considered. Each program gets an admission status (safe / meets /
+ * (fields[0] = 1st interest, up to 3). Universities with programs in the
+ * student's interests come first; if there are fewer than 20, the list is
+ * filled with other universities (flagged `outside_interests`). Each program gets an admission status (safe / meets /
  * borderline / below) from its gender-specific total cutoff and any
  * combined-subject requirements; each university is then represented by its
  * best program, with its other matching programs attached.
@@ -884,12 +890,12 @@ export function getRecommendations(options = {}) {
   const normGender = String(options.gender || 'any').toLowerCase();
 
   const rawInterests = Array.isArray(options.fields) ? options.fields : (options.field ? [options.field] : []);
-  const interestFieldIds = [];
+  const interests = [];
   for (const value of rawInterests) {
-    const id = resolveFieldId(value);
-    if (id && !interestFieldIds.includes(id)) interestFieldIds.push(id);
+    const interest = resolveInterest(value);
+    if (interest && !interests.some(i => i.name === interest.name)) interests.push(interest);
   }
-  interestFieldIds.splice(MAX_INTERESTS);
+  interests.splice(MAX_INTERESTS);
 
   // Academic-stream eligibility rules (Myanmar matriculation streams restrict which
   // university fields a student may even be shown, regardless of interests picked):
@@ -928,12 +934,9 @@ export function getRecommendations(options = {}) {
     if (restrictedFieldNames.includes(fObj.field_name.toLowerCase())) continue;
 
     // Which of the student's interests (if any) this program belongs to.
-    const programFieldIds = [
-      prog.field_id,
-      ...CROSS_LISTED_PROGRAMS.filter(c => c.pattern.test(prog.program_name)).map(c => c.field_id)
-    ];
-    const interestIndex = interestFieldIds.findIndex(id => programFieldIds.includes(id));
-    if (interestFieldIds.length > 0 && interestIndex === -1) continue;
+    // -1 = outside the student's interests; such programs are only used to
+    // fill the list up to 20 universities.
+    const interestIndex = interests.findIndex(i => i.matches(prog));
 
     const totalCutoff = resolveGenderRequirement(normGender, prog.min_score_male, prog.min_score_female, prog.min_score);
     const reqEngChemBio = resolveGenderRequirement(normGender, prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female);
@@ -1009,7 +1012,7 @@ export function getRecommendations(options = {}) {
         field_icon: fObj.icon,
         program_name: prog.program_name,
         interest_rank: interestIndex + 1,
-        interest_field: interestIndex >= 0 ? fieldMap.get(interestFieldIds[interestIndex]).field_name : null,
+        interest_field: interestIndex >= 0 ? interests[interestIndex].name : null,
         cutoff_label: cutoffLabel,
         user_score: studentScore,
         eligible,
@@ -1023,6 +1026,9 @@ export function getRecommendations(options = {}) {
   }
 
   candidates.sort((a, b) => {
+    const matchedA = a.rec.interest_rank > 0;
+    const matchedB = b.rec.interest_rank > 0;
+    if (matchedA !== matchedB) return matchedA ? -1 : 1;
     const groupDiff = STATUS_GROUP[a.rec.status] - STATUS_GROUP[b.rec.status];
     if (groupDiff) return groupDiff;
     const rankDiff = (a.rec.interest_rank || MAX_INTERESTS + 1) - (b.rec.interest_rank || MAX_INTERESTS + 1);
@@ -1032,10 +1038,18 @@ export function getRecommendations(options = {}) {
   });
 
   // One entry per university: its best program, plus its other matching programs.
+  // Candidates are sorted interest-matched first, so a university's entry is
+  // outside the student's interests only if none of its programs match.
   const byUniversity = new Map();
   for (const { rec } of candidates) {
     const uni = byUniversity.get(rec.university_id);
-    if (uni) {
+    if (!uni) {
+      byUniversity.set(rec.university_id, {
+        ...rec,
+        outside_interests: interests.length > 0 && rec.interest_rank === 0,
+        other_programs: []
+      });
+    } else if (interests.length === 0 || rec.interest_rank > 0) {
       uni.other_programs.push({
         program_name: rec.program_name,
         field_name: rec.field_name,
@@ -1044,8 +1058,6 @@ export function getRecommendations(options = {}) {
         status: rec.status,
         status_label: rec.status_label
       });
-    } else {
-      byUniversity.set(rec.university_id, { ...rec, other_programs: [] });
     }
   }
 
