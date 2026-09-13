@@ -550,7 +550,7 @@ export const universities = [
     university_name: "University of Yangon",
     location: "Kamayut, Yangon",
     region: "Yangon",
-    type: "Flagship National University",
+    type: "Center of Excellence (COE)",
     category: "Comprehensive Arts & Sciences",
     category_group: "Comprehensive / Arts",
     field_ids: [1, 2, 5, 6, 7, 8, 9, 10],

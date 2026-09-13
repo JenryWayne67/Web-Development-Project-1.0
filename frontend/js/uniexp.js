@@ -189,7 +189,7 @@ function renderUniList() {
 
                 <div class="pt-4 border-t border-gray-100 flex justify-between items-center mt-2">
                     <span class="text-xs text-gray-500 font-medium flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[15px] text-green-600">verified</span> Verified (2026)
+                        <span class="material-symbols-outlined text-[15px] text-amber-600">insights</span> Predicted (2026)
                     </span>
                     <a class="text-[#002147] font-bold text-[14px] hover:text-[#B37400] flex items-center gap-1 transition-colors" href="${detailUrl}">View Details <span class="text-base">→</span></a>
                 </div>
