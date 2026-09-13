@@ -232,6 +232,9 @@ function renderCards() {
             ${isBest ? `
             <div class="absolute top-0 right-0 bg-gold text-primary px-3 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl font-bold text-[11px] sm:text-sm flex items-center gap-1 shadow-sm">
                 👑 Best Suggestion
+            </div>` : item.top_pick && rankLabel ? `
+            <div class="absolute top-0 right-0 bg-[#002147] text-white px-3 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl font-bold text-[11px] sm:text-sm flex items-center gap-1 shadow-sm">
+                ⭐ Top pick for your ${rankLabel} interest
             </div>` : ''}
 
             <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:items-center">

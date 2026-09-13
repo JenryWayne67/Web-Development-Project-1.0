@@ -882,9 +882,11 @@ function resolveInterest(value) {
  * combined-subject requirements; each university is then represented by its
  * best program, with its other matching programs attached.
  *
- * Ordering: programs the student qualifies for first, then borderline, then
- * below cutoff; within each group by interest rank, then (if qualified) most
- * selective first, otherwise most reachable first.
+ * Ordering: the top three are the highest-cutoff university the student
+ * qualifies for in their 1st, 2nd and 3rd interest respectively (flagged
+ * `top_pick`). After that: programs the student qualifies for first, then
+ * borderline, then below cutoff; within each group by interest rank, then
+ * (if qualified) most selective first, otherwise most reachable first.
  */
 export function getRecommendations(options = {}) {
   const studentScore = toNumber(options.total_marks ?? options.score, DEFAULT_STUDENT_SCORE);
@@ -998,6 +1000,7 @@ export function getRecommendations(options = {}) {
 
     candidates.push({
       selectivity,
+      prog,
       rec: {
         program_id: prog.program_id,
         university_id: uObj.university_id,
@@ -1041,10 +1044,30 @@ export function getRecommendations(options = {}) {
     return a.rec.eligible ? b.selectivity - a.selectivity : a.selectivity - b.selectivity;
   });
 
-  // One entry per university: its best program, plus its other matching programs.
-  // Candidates are sorted interest-matched first, so a university's entry is
-  // outside the student's interests only if none of its programs match.
+  // Top three: for each interest in order, the highest-cutoff university the
+  // student qualifies for in that interest (UM1/UM2 first for Medicine),
+  // skipping universities already picked for an earlier interest.
   const byUniversity = new Map();
+  interests.forEach((interest, index) => {
+    const best = candidates
+      .filter(c => c.rec.eligible && interest.matches(c.prog) && !byUniversity.has(c.rec.university_id))
+      .sort((a, b) => (b.rec.is_top_tier_medical - a.rec.is_top_tier_medical) || (b.selectivity - a.selectivity))[0];
+    if (best) {
+      byUniversity.set(best.rec.university_id, {
+        ...best.rec,
+        interest_rank: index + 1,
+        interest_field: interest.name,
+        top_pick: true,
+        outside_interests: false,
+        other_programs: []
+      });
+    }
+  });
+
+  // Rest of the list: one entry per university, its best program plus its
+  // other matching programs. Candidates are sorted interest-matched first, so
+  // a university's entry is outside the student's interests only if none of
+  // its programs match.
   for (const { rec } of candidates) {
     const uni = byUniversity.get(rec.university_id);
     const outside = interests.length > 0 && rec.interest_rank === 0;
@@ -1058,7 +1081,7 @@ export function getRecommendations(options = {}) {
         outside_interests: outside,
         other_programs: []
       });
-    } else if (interests.length === 0 || rec.interest_rank > 0) {
+    } else if (rec.program_id !== uni.program_id && (interests.length === 0 || rec.interest_rank > 0)) {
       uni.other_programs.push({
         program_name: rec.program_name,
         field_name: rec.field_name,
