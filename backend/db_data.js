@@ -822,41 +822,79 @@ function resolveGenderRequirement(gender, maleVal, femaleVal, fallbackVal = 0) {
   return male || female || (Number(fallbackVal) || 0);
 }
 
+// Interest values saved by older versions of the assessment UI (display
+// labels) mapped to their canonical field_name.
+const FIELD_ALIASES = {
+  'medicine & health': 'Medicine and health',
+  'business & economics': 'Economics',
+  'pure & applied science': 'Science',
+  'foreign languages': 'Languages',
+  'marine & maritime': 'Marine'
+};
+
+// Programs that also belong in a second field's recommendations, listed
+// explicitly by name. Interest matching is otherwise strictly by field_id --
+// keyword matching used to pull e.g. "Medical Technology" into
+// Programming & Technology just because the name contains "tech".
+const CROSS_LISTED_PROGRAMS = [
+  { pattern: /computer engineering & information technology/i, field_id: 1 }
+];
+
+const MAX_INTERESTS = 3;
+const MAX_RECOMMENDED_UNIVERSITIES = 20;
+
+// Status thresholds. "Total" margins are total-marks points (out of 600);
+// "subject" margins apply to combined-subject requirements
+// (Eng+Chem+Bio, 4-Subject, Eng+Math).
+const SAFE_TOTAL_MARGIN = 15;
+const SAFE_SUBJECT_MARGIN = 10;
+const BORDERLINE_TOTAL_MARGIN = 15;
+const BORDERLINE_SUBJECT_MARGIN = 10;
+
+const STATUS_LABELS = {
+  safe: 'Safe',
+  meets: 'Meets Cutoff',
+  borderline: 'Borderline',
+  below: 'Below Cutoff'
+};
+// Safe and Meets Cutoff rank together (the student qualifies either way).
+const STATUS_GROUP = { safe: 0, meets: 0, borderline: 1, below: 2 };
+
+function resolveFieldId(value) {
+  const key = String(value || '').trim().toLowerCase();
+  const name = (FIELD_ALIASES[key] || key).toLowerCase();
+  const field = fields.find(f => f.field_name.toLowerCase() === name);
+  return field ? field.field_id : null;
+}
+
 /**
- * Calculates recommendations based on student marks, subject-specific criteria,
- * gender-based cutoffs, and selected interest fields.
- * Supports both object parameter ({ total_marks, gender, fields, ... }) and positional parameters.
+ * Suggests up to 20 universities for the student's ranked interests
+ * (fields[0] = 1st interest, up to 3). Only programs in an interest field are
+ * considered. Each program gets an admission status (safe / meets /
+ * borderline / below) from its gender-specific total cutoff and any
+ * combined-subject requirements; each university is then represented by its
+ * best program, with its other matching programs attached.
+ *
+ * Ordering: programs the student qualifies for first, then borderline, then
+ * below cutoff; within each group by interest rank, then (if qualified) most
+ * selective first, otherwise most reachable first.
  */
-export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldName = 'ALL', maybeOptions = {}) {
-  let studentScore;
-  let gender;
-  let fieldName;
-  let options;
+export function getRecommendations(options = {}) {
+  const studentScore = toNumber(options.total_marks ?? options.score, DEFAULT_STUDENT_SCORE);
+  const normGender = String(options.gender || 'any').toLowerCase();
 
-  if (typeof inputScore === 'object' && inputScore !== null) {
-    options = inputScore;
-    studentScore = toNumber(options.total_marks ?? options.studentScore ?? options.score ?? options.user_score, DEFAULT_STUDENT_SCORE);
-    gender = options.gender || 'any';
-    fieldName = options.field || options.field_name || (Array.isArray(options.fields) && options.fields.length > 0 ? options.fields[0] : 'ALL');
-  } else {
-    studentScore = toNumber(inputScore, DEFAULT_STUDENT_SCORE);
-    gender = maybeGender || 'any';
-    fieldName = maybeFieldName || 'ALL';
-    options = maybeOptions || {};
+  const rawInterests = Array.isArray(options.fields) ? options.fields : (options.field ? [options.field] : []);
+  const interestFieldIds = [];
+  for (const value of rawInterests) {
+    const id = resolveFieldId(value);
+    if (id && !interestFieldIds.includes(id)) interestFieldIds.push(id);
   }
-
-  const normGender = (gender || 'any').toLowerCase();
-  const normField = fieldName || 'ALL';
-  const selectedFields = Array.isArray(options.fields) && options.fields.length > 0
-    ? options.fields
-    : (normField !== 'ALL' ? [normField] : []);
-  const locationPref = (options.location || options.preferred_location || 'all').toLowerCase();
-  const learningStyle = (options.learning_style || options.learningStyle || 'practical').toLowerCase();
+  interestFieldIds.splice(MAX_INTERESTS);
 
   // Academic-stream eligibility rules (Myanmar matriculation streams restrict which
   // university fields a student may even be shown, regardless of interests picked):
   // - Eco-Science students are not eligible for Medicine & Health.
-  // - Arts & Humanities students are not eligible for Science, Engineering, Medicine & Health, or Marine.
+  // - Arts & Humanities students are not eligible for Science, Engineering, Medicine & Health, Marine, or Programming & Technology.
   const normStream = String(options.stream || options.academic_stream || '').toLowerCase();
   const STREAM_FIELD_RESTRICTIONS = {
     eco: ['medicine and health'],
@@ -866,423 +904,154 @@ export function getRecommendations(inputScore, maybeGender = 'any', maybeFieldNa
   };
   const restrictedFieldNames = STREAM_FIELD_RESTRICTIONS[normStream] || [];
 
-  // Subject-specific marks breakdown if provided
   const marks = options.marks || {};
-  const myanmarMark = parseInt(marks.myanmar ?? options.myanmar, 10) || 0;
   const englishMark = parseInt(marks.english ?? options.english, 10) || 0;
   const mathMark = parseInt(marks.mathematics ?? marks.math ?? options.mathematics ?? options.math, 10) || 0;
   const physicsMark = parseInt(marks.physics ?? options.physics, 10) || 0;
   const chemistryMark = parseInt(marks.chemistry ?? options.chemistry, 10) || 0;
   const biologyMark = parseInt(marks.biology ?? options.biology, 10) || 0;
-  const ecoMark = parseInt(marks.economics ?? options.economics, 10) || 0;
 
-  // Key combination scores used in Myanmar admissions:
-  // 1. Eng + Chem + Bio (for Medical / Dental / Pharmacy / Nursing admissions)
-  const studentEngChemBio = englishMark + chemistryMark + biologyMark;
-  // 2. Eng + Math + Chem + Physics (for Engineering / TU admissions)
-  const student4Sub = englishMark + mathMark + chemistryMark + physicsMark;
-  // 3. Eng + Math (alternative admission path, e.g. UCSY)
-  const studentEngMath = englishMark + mathMark;
+  // Combined-subject scores used in Myanmar admissions
+  const studentEngChemBio = englishMark + chemistryMark + biologyMark;       // Medicine / Dental
+  const student4Sub = englishMark + mathMark + chemistryMark + physicsMark;  // Engineering (TU)
+  const studentEngMath = englishMark + mathMark;                            // UCSY alternative path
 
   const uniMap = new Map(universities.map(u => [u.university_id, u]));
   const fieldMap = new Map(fields.map(f => [f.field_id, f]));
 
-  const results = [];
+  const candidates = [];
 
   for (const prog of programs) {
     const fObj = fieldMap.get(prog.field_id);
     const uObj = uniMap.get(prog.university_id);
     if (!fObj || !uObj) continue;
+    if (restrictedFieldNames.includes(fObj.field_name.toLowerCase())) continue;
 
-    const fName = fObj.field_name;
+    // Which of the student's interests (if any) this program belongs to.
+    const programFieldIds = [
+      prog.field_id,
+      ...CROSS_LISTED_PROGRAMS.filter(c => c.pattern.test(prog.program_name)).map(c => c.field_id)
+    ];
+    const interestIndex = interestFieldIds.findIndex(id => programFieldIds.includes(id));
+    if (interestFieldIds.length > 0 && interestIndex === -1) continue;
 
-    // Hard stream restriction: skip fields the student's academic stream is not eligible for,
-    // no matter what interest fields were selected.
-    if (restrictedFieldNames.includes(fName.toLowerCase())) continue;
-
-    // Check if program matches user's chosen interest fields
-    const isInterestMatched = selectedFields.length === 0 || selectedFields.some(sf => {
-      if (!sf || sf === 'ALL' || sf === 'all') return true;
-      const sfStr = String(sf).toLowerCase().trim();
-      const fnNorm = (fName || '').toLowerCase().trim();
-      const progNorm = (prog.program_name || '').toLowerCase().trim();
-
-      // Direct or substring match
-      if (sfStr === fnNorm || fnNorm.includes(sfStr) || sfStr.includes(fnNorm)) return true;
-
-      // Cleaned strings (handles hyphens, slashes, ampersands: eco-science, art/humanities, arts & humanities)
-      const sfClean = sfStr.replace(/[^a-z0-9]/g, ' ');
-      const fnClean = fnNorm.replace(/[^a-z0-9]/g, ' ');
-
-      // Eco-Science / Economics / Business / Commerce
-      const isEcoUser = sfStr.includes('eco') || sfStr.includes('business') || sfStr.includes('commerce') || sfStr.includes('finance') || sfStr.includes('accounting') || sfStr.includes('bba') || sfStr.includes('bcom');
-      const isEcoProgram = fnNorm.includes('economics') || progNorm.includes('economics') || progNorm.includes('commerce') || progNorm.includes('business') || progNorm.includes('accounting') || progNorm.includes('co-operative') || progNorm.includes('public administration');
-      if (isEcoUser && isEcoProgram) return true;
-
-      // Arts & Humanities / Social Science / Law / Literature / History
-      const isArtsUser = sfStr.includes('art') || sfStr.includes('humanities') || sfStr.includes('social') || sfStr.includes('law') || sfStr.includes('history') || sfStr.includes('philosophy') || sfStr.includes('international') || sfStr.includes('language');
-      const isArtsProgram = fnNorm.includes('arts') || fnNorm.includes('humanities') || fnNorm.includes('language') || fnNorm.includes('environment') || fnNorm.includes('education') || progNorm.includes('law') || progNorm.includes('international relations') || progNorm.includes('history') || progNorm.includes('philosophy') || progNorm.includes('geography') || progNorm.includes('literature') || progNorm.includes('political') || progNorm.includes('oriental');
-      if (isArtsUser && isArtsProgram) return true;
-
-      // Programming & Tech
-      if ((sfStr.includes('tech') || sfStr.includes('computer') || sfStr.includes('programming') || sfStr.includes('it') || sfStr.includes('software')) && (fnNorm.includes('programming') || fnNorm.includes('tech') || progNorm.includes('computer') || progNorm.includes('tech') || progNorm.includes('software'))) return true;
-
-      // Engineering
-      if (sfStr.includes('engineer') && (fnNorm.includes('engineer') || progNorm.includes('engineering') || progNorm.includes('architecture'))) return true;
-
-      // Medicine & Health
-      if ((sfStr.includes('med') || sfStr.includes('health') || sfStr.includes('nurs') || sfStr.includes('pharm') || sfStr.includes('dent') || sfStr.includes('bio')) && (fnNorm.includes('medicine') || fnNorm.includes('health') || progNorm.includes('m.b.,b.s.') || progNorm.includes('b.d.s.') || progNorm.includes('pharm') || progNorm.includes('nursing'))) return true;
-
-      // Science
-      if ((sfStr.includes('sci') || sfStr.includes('pure science')) && (fnNorm.includes('science') || fnNorm.includes('mathematics') || progNorm.includes('physics') || progNorm.includes('chemistry') || progNorm.includes('biology') || progNorm.includes('geology') || progNorm.includes('botany') || progNorm.includes('zoology'))) return true;
-
-      // Marine
-      if (sfStr.includes('marin') && (fnNorm.includes('marine') || progNorm.includes('nautical') || progNorm.includes('marine') || progNorm.includes('harbour') || progNorm.includes('naval'))) return true;
-
-      // Word intersection
-      const sfWords = sfClean.split(/\s+/).filter(w => w.length > 2);
-      const fnWords = fnClean.split(/\s+/).filter(w => w.length > 2);
-      if (sfWords.some(w => fnWords.includes(w))) return true;
-
-      return false;
-    });
-
-    // 1. Determine overall cutoff score based on gender. Falls back to the
-    // 4-subject cutoff for display when the program has no total-score cutoff.
-    let requiredCutoff = toNumber(prog.min_score);
-    if (normGender === 'male' && prog.min_score_male > 0) {
-      requiredCutoff = prog.min_score_male;
-    } else if (normGender === 'female' && prog.min_score_female > 0) {
-      requiredCutoff = prog.min_score_female;
-    } else if (requiredCutoff === 0) {
-      if (prog.min_score_male > 0 && prog.min_score_female > 0) {
-        requiredCutoff = Math.min(prog.min_score_male, prog.min_score_female);
-      } else if (prog.min_4sub_male > 0) {
-        requiredCutoff = prog.min_4sub_male;
-      }
-    }
-
-    // 2. Check subject-specific requirements (Eng+Chem+Bio for Medicine/Dental,
-    // 4-Subject for Engineering, Eng+Math as UCSY's alternative admission path)
+    const totalCutoff = resolveGenderRequirement(normGender, prog.min_score_male, prog.min_score_female, prog.min_score);
     const reqEngChemBio = resolveGenderRequirement(normGender, prog.min_eng_chem_bio_male, prog.min_eng_chem_bio_female);
     const req4Sub = resolveGenderRequirement(normGender, prog.min_4sub_male, prog.min_4sub_female);
     const reqEngMath = resolveGenderRequirement(normGender, prog.min_eng_math_male, prog.min_eng_math_female, prog.min_eng_math);
 
-    // 3. Evaluate eligibility
-    let eligible = false;
-    let cutoffMet = false;
-    let subjectCriteriaMet = true;
-    let subjectCriteriaDetail = "";
+    // `student` is null when the student's marks for a requirement weren't
+    // provided; such a requirement isn't held for or against them.
+    const requirements = [];
+    if (totalCutoff > 0) requirements.push({ key: 'total', label: 'Total marks', required: totalCutoff, student: studentScore });
+    if (reqEngMath > 0) requirements.push({ key: 'eng_math', label: 'Eng+Math (alternative path)', required: reqEngMath, student: studentEngMath || null });
+    if (reqEngChemBio > 0) requirements.push({ key: 'eng_chem_bio', label: 'Eng+Chem+Bio', required: reqEngChemBio, student: studentEngChemBio || null });
+    if (req4Sub > 0) requirements.push({ key: 'four_subject', label: '4-Subject (Eng+Math+Chem+Phys)', required: req4Sub, student: student4Sub || null });
+    requirements.forEach(r => { r.met = r.student === null ? null : r.student >= r.required; });
 
-    // Overall cutoff check
-    if (prog.min_score === 0 && (!prog.min_score_male || prog.min_score_male === 0) && (!prog.min_score_female || prog.min_score_female === 0)) {
-      cutoffMet = true;
-    } else if (prog.min_score > 0 && studentScore >= prog.min_score) {
-      cutoffMet = true;
-    } else if (normGender === 'male' && prog.min_score_male > 0 && studentScore >= prog.min_score_male) {
-      cutoffMet = true;
-    } else if (normGender === 'female' && prog.min_score_female > 0 && studentScore >= prog.min_score_female) {
-      cutoffMet = true;
-    } else if (normGender === 'any') {
-      const minApplicable = (prog.min_score > 0 ? prog.min_score : Math.min(prog.min_score_male || 999, prog.min_score_female || 999));
-      if (minApplicable < 999 && studentScore >= minApplicable) {
-        cutoffMet = true;
-      }
-    }
+    const marginOf = key => {
+      const r = requirements.find(x => x.key === key);
+      return r && r.student !== null ? r.student - r.required : null;
+    };
+    const totalMargin = marginOf('total');
+    const engMathMargin = marginOf('eng_math');
+    const subjectMargins = ['eng_chem_bio', 'four_subject'].map(marginOf).filter(m => m !== null);
 
-    // Check specific Eng+Chem+Bio criteria for Medicine/Dental (Strict Dual Requirement)
-    let isMedicineOrDental = (reqEngChemBio > 0) || (prog.field_id === 3 && (uObj.type.includes('Medical') || prog.program_name.includes('M.B.,B.S.') || prog.program_name.includes('B.D.S.')));
-    let engChemBioMet = true;
+    const totalMet = totalMargin === null || totalMargin >= 0;
+    // UCSY-style OR rule: Eng+Math qualifies even when the total is short.
+    const viaEngMath = !totalMet && engMathMargin !== null && engMathMargin >= 0;
+    const eligible = (totalMet || viaEngMath) && subjectMargins.every(m => m >= 0);
 
-    if (reqEngChemBio > 0) {
-      if (studentEngChemBio > 0) {
-        if (studentEngChemBio >= reqEngChemBio) {
-          engChemBioMet = true;
-          subjectCriteriaMet = true;
-          subjectCriteriaDetail = `Eng+Chem+Bio: ${studentEngChemBio}/${reqEngChemBio} (Met ✓)`;
-        } else {
-          engChemBioMet = false;
-          subjectCriteriaMet = false;
-          subjectCriteriaDetail = `Eng+Chem+Bio: ${studentEngChemBio}/${reqEngChemBio} (Failed: ${reqEngChemBio - studentEngChemBio} marks short)`;
-        }
-      } else {
-        subjectCriteriaDetail = `Req. Eng+Chem+Bio: ≥ ${reqEngChemBio}`;
-      }
-    }
-
-    // Check 4-Subject criteria for Engineering
-    if (req4Sub > 0) {
-      if (student4Sub > 0) {
-        if (student4Sub >= req4Sub) {
-          subjectCriteriaMet = true;
-          subjectCriteriaDetail = `4-Subject: ${student4Sub}/${req4Sub} (Met ✓)`;
-        } else {
-          subjectCriteriaMet = false;
-          subjectCriteriaDetail = `4-Subject: ${student4Sub}/${req4Sub} (Failed: ${req4Sub - student4Sub} marks short)`;
-        }
-      } else {
-        subjectCriteriaDetail = `Req. 4-Subject: ≥ ${req4Sub}`;
-      }
-    }
-
-    eligible = cutoffMet && subjectCriteriaMet;
-    const eligibleViaTotal = eligible;
-
-    // Eng+Math alternative admission path (e.g. UCSY: Total >= 450 OR Eng+Math >= 145)
-    let engMathMet = false;
-    if (reqEngMath > 0) {
-      if (studentEngMath > 0) {
-        engMathMet = studentEngMath >= reqEngMath;
-        if (!eligible && engMathMet && subjectCriteriaMet) {
-          eligible = true;
-          cutoffMet = true; // satisfied via the alternative Eng+Math path
-        }
-        if (eligibleViaTotal) {
-          subjectCriteriaDetail = `Total: ${studentScore}/${requiredCutoff} (Met ✓ — Total cutoff alone qualifies)`;
-        } else if (engMathMet) {
-          subjectCriteriaDetail = `Eng+Math: ${studentEngMath}/${reqEngMath} (Met ✓ — alternative path qualifies)`;
-        } else {
-          subjectCriteriaDetail = `Total: ${studentScore}/${requiredCutoff} or Eng+Math: ${studentEngMath}/${reqEngMath} (Neither met)`;
-        }
-      } else {
-        subjectCriteriaDetail = `Eligible via Total ≥ ${requiredCutoff} OR Eng+Math ≥ ${reqEngMath}`;
-      }
-    }
-
-    // When a program has an OR-alternative path (e.g. UCSY), once the student
-    // qualifies through ONE side (total OR Eng+Math), the other side is not
-    // held against them for scoring purposes — use whichever side actually
-    // qualified them to drive the match tier below.
-    const qualifiedViaEngMathOnly = reqEngMath > 0 && !eligibleViaTotal && engMathMet;
-
-    // 4. Calculate Profile Match Score (0 - 100%) and Admission Probability
-    const baselineCutoff = requiredCutoff > 0 ? requiredCutoff : 300;
-    const diff = Number.isNaN(studentScore - baselineCutoff) ? 0 : (studentScore - baselineCutoff);
-    const engMathDiff = studentEngMath - reqEngMath;
-    const effectiveDiff = qualifiedViaEngMathOnly ? engMathDiff : diff;
-    let profileMatch = 70;
-    let admissionChance = "Moderate";
-    let admissionRate = "80%";
-    let tier = "Target Program";
-
-    // Hard Rule for Medical University: Must achieve BOTH Total >= 450 AND Eng+Chem+Bio >= 252
-    if (isMedicineOrDental && reqEngChemBio > 0) {
-      if (!cutoffMet || !engChemBioMet) {
-        eligible = false;
-        admissionChance = "Ineligible (No Chance)";
-        admissionRate = "0%";
-        tier = "Ineligible - Criteria Unmet";
-        profileMatch = 30;
-      } else {
-        // Both conditions met!
-        const engDiff = studentEngChemBio - reqEngChemBio;
-        if (diff >= 30 && engDiff >= 15) {
-          profileMatch = 98;
-          admissionChance = "Very High";
-          admissionRate = "95%";
-          tier = "Top Medical Match";
-        } else if (diff >= 10 && engDiff >= 5) {
-          profileMatch = 92;
-          admissionChance = "High";
-          admissionRate = "88%";
-          tier = "Strong Medical Match";
-        } else {
-          profileMatch = 85;
-          admissionChance = "Moderate";
-          admissionRate = "78%";
-          tier = "Competitive Target";
-        }
-      }
-    } else if (requiredCutoff > 0) {
-      if (!eligible) {
-        profileMatch = 45;
-        admissionChance = "Low / Ineligible";
-        admissionRate = "15%";
-        tier = "Criteria Not Met";
-      } else if (effectiveDiff >= 35) {
-        profileMatch = 96;
-        admissionChance = "Very High";
-        admissionRate = "98%";
-        tier = "Safe Match";
-      } else if (effectiveDiff >= 15) {
-        profileMatch = 91;
-        admissionChance = "High";
-        admissionRate = "92%";
-        tier = "Top Match";
-      } else if (effectiveDiff >= 0) {
-        profileMatch = 85;
-        admissionChance = "Moderate";
-        admissionRate = "82%";
-        tier = "Target Match";
-      } else if (effectiveDiff >= -15) {
-        profileMatch = 73;
-        admissionChance = "Reach";
-        admissionRate = "60%";
-        tier = "Reach Program";
-      } else {
-        profileMatch = 52;
-        admissionChance = "Competitive";
-        admissionRate = "35%";
-        tier = "Highly Competitive";
-      }
+    let status;
+    if (eligible) {
+      const qualifyingMarginSafe = viaEngMath
+        ? engMathMargin >= SAFE_SUBJECT_MARGIN
+        : (totalMargin === null ? subjectMargins.length > 0 : totalMargin >= SAFE_TOTAL_MARGIN);
+      status = qualifyingMarginSafe && subjectMargins.every(m => m >= SAFE_SUBJECT_MARGIN) ? 'safe' : 'meets';
     } else {
-      profileMatch = 86;
-      admissionChance = "High";
-      admissionRate = "90%";
-      tier = "Open Admission";
+      const totalShortfall = totalMet ? 0 : -totalMargin;
+      const subjectShortfall = Math.max(0, ...subjectMargins.map(m => -m));
+      status = totalShortfall <= BORDERLINE_TOTAL_MARGIN && subjectShortfall <= BORDERLINE_SUBJECT_MARGIN ? 'borderline' : 'below';
     }
 
-    // Boost/adjust for Interest match
-    if (isInterestMatched) {
-      profileMatch = Math.min(99, profileMatch + 4);
-    } else {
-      profileMatch = Math.max(40, profileMatch - 15);
+    let note = '';
+    if (viaEngMath && eligible) {
+      note = 'Qualifies through the Eng+Math alternative path, so the total-marks cutoff does not apply.';
+    } else if (requirements.length === 0) {
+      note = 'No published cutoff for this program.';
     }
 
-    // Top-tier Medical University special handling for UM1 and UM2
-    const isUM1orUM2 = (uObj.code === 'UM1' || uObj.code === 'UM2');
-    if (isUM1orUM2 && eligible && isInterestMatched) {
-      profileMatch = (uObj.code === 'UM1') ? 99 : 98;
-      admissionChance = "Very High";
-      admissionRate = "96%";
-      tier = (uObj.code === 'UM1') ? "No. 1 Top-Tier Medical University" : "No. 2 Top-Tier Medical University";
-    }
+    const cutoffLabel = totalCutoff > 0 ? `Total ≥ ${totalCutoff}`
+      : req4Sub > 0 ? `4-Subject ≥ ${req4Sub}`
+      : reqEngChemBio > 0 ? `Eng+Chem+Bio ≥ ${reqEngChemBio}`
+      : 'Open admission';
 
-    // Boost/adjust for Location preference
-    let locationMatched = false;
-    if (locationPref === 'yangon' && uObj.region === 'Yangon') {
-      profileMatch = Math.min(99, profileMatch + 2);
-      locationMatched = true;
-    } else if (locationPref.includes('mandalay') && uObj.location.toLowerCase().includes('mandalay')) {
-      profileMatch = Math.min(99, profileMatch + 3);
-      locationMatched = true;
-    } else if (locationPref === 'anywhere' || locationPref === 'all' || locationPref === 'no preference') {
-      locationMatched = true;
-    }
+    // Rough selectivity for ordering: cutoff as a share of its maximum possible score.
+    const selectivity = totalCutoff > 0 ? totalCutoff / 600
+      : req4Sub > 0 ? req4Sub / 400
+      : reqEngChemBio > 0 ? reqEngChemBio / 300
+      : 0;
 
-    // Boost for practical learning style on engineering/tech/applied campuses
-    if (learningStyle.includes('practical') && (fName.includes('Engineering') || fName.includes('Technology') || fName.includes('Marine'))) {
-      profileMatch = Math.min(99, profileMatch + 2);
-    }
-
-    // Ensure profileMatch is a clean integer
-    profileMatch = Math.min(99, Math.max(30, Math.round(profileMatch) || 75));
-
-    // Generate specific reasoning bullet points
-    const matchReasons = [];
-
-    if (isMedicineOrDental && reqEngChemBio > 0) {
-      if (studentEngChemBio > 0) {
-        if (cutoffMet && engChemBioMet) {
-          if (isUM1orUM2) {
-            matchReasons.push(`🏆 ${uObj.code} is Myanmar's Top-Tier Premier Medical University — you meet 100% of the rigorous entrance requirements.`);
-          }
-          matchReasons.push(`✅ Satisfies both mandatory Medical University criteria: Total Marks (${studentScore} ≥ ${requiredCutoff}) and Eng+Chem+Bio (${studentEngChemBio} ≥ ${reqEngChemBio}).`);
-        } else {
-          matchReasons.push(`🚫 Ineligible for University of Medicine: Admission requires achieving BOTH Total Marks ≥ ${requiredCutoff} and Eng+Chem+Bio ≥ ${reqEngChemBio}. Failing either condition disqualifies the application.`);
-        }
-      } else {
-        if (cutoffMet) {
-          matchReasons.push(`Total marks (${studentScore} ≥ ${requiredCutoff}) satisfy the aggregate cutoff. Note: Admission also requires Eng+Chem+Bio ≥ ${reqEngChemBio}.`);
-        } else {
-          matchReasons.push(`Total marks (${studentScore}) are below the required medical cutoff (${requiredCutoff}).`);
-        }
+    candidates.push({
+      selectivity,
+      rec: {
+        program_id: prog.program_id,
+        university_id: uObj.university_id,
+        university_name: uObj.university_name,
+        university_code: uObj.code,
+        university_location: uObj.location,
+        university_region: uObj.region,
+        university_type: uObj.type,
+        detail_url: uObj.detail_url,
+        image_url: uObj.image_url,
+        field_id: fObj.field_id,
+        field_name: fObj.field_name,
+        field_icon: fObj.icon,
+        program_name: prog.program_name,
+        interest_rank: interestIndex + 1,
+        interest_field: interestIndex >= 0 ? fieldMap.get(interestFieldIds[interestIndex]).field_name : null,
+        cutoff_label: cutoffLabel,
+        user_score: studentScore,
+        eligible,
+        status,
+        status_label: STATUS_LABELS[status],
+        is_top_tier_medical: (uObj.code === 'UM1' || uObj.code === 'UM2') && eligible,
+        requirements,
+        note
       }
-    }
-
-    if (qualifiedViaEngMathOnly) {
-      matchReasons.push(`Eng+Math (${studentEngMath}) exceeds the required ${reqEngMath} by +${engMathDiff} points — qualifies via the alternative path, so the total-marks shortfall isn't counted against you.`);
-    } else if (diff >= 0) {
-      matchReasons.push(`Total marks (${studentScore}) exceed the required cutoff (${requiredCutoff}) by +${diff} points.`);
-    } else {
-      matchReasons.push(`Total marks (${studentScore}) are ${Math.abs(diff)} points below the historical cutoff (${requiredCutoff}).`);
-    }
-
-    if (isInterestMatched) {
-      matchReasons.push(`Directly matches your selected field interest: ${fName}.`);
-    }
-
-    if (subjectCriteriaDetail) {
-      matchReasons.push(subjectCriteriaDetail);
-    }
-
-    if (locationMatched && locationPref !== 'anywhere' && locationPref !== 'all') {
-      matchReasons.push(`Campus in ${uObj.location} matches your preferred location.`);
-    }
-
-    results.push({
-      program_id: prog.program_id,
-      university_id: uObj.university_id,
-      university_name: uObj.university_name,
-      university_code: uObj.code,
-      university_location: uObj.location,
-      university_region: uObj.region,
-      university_type: uObj.type,
-      detail_url: uObj.detail_url,
-      image_url: uObj.image_url,
-      field_id: fObj.field_id,
-      field_name: fName,
-      field_icon: fObj.icon,
-      program_name: prog.program_name,
-      required_cutoff_score: Number(requiredCutoff) || 0,
-      user_score: Number(studentScore) || 0,
-      min_score_male: Number(prog.min_score_male) || 0,
-      min_score_female: Number(prog.min_score_female) || 0,
-      min_eng_chem_bio_male: Number(prog.min_eng_chem_bio_male) || 0,
-      min_eng_chem_bio_female: Number(prog.min_eng_chem_bio_female) || 0,
-      min_4sub_male: Number(prog.min_4sub_male) || 0,
-      min_4sub_female: Number(prog.min_4sub_female) || 0,
-      min_eng_math: Number(reqEngMath) || 0,
-      score_difference: Number(diff) || 0,
-      eligible: Boolean(eligible),
-      is_interest_matched: Boolean(isInterestMatched),
-      is_top_tier_medical: Boolean(isUM1orUM2 && eligible),
-      profile_match_percent: profileMatch,
-      admission_chance: admissionChance,
-      admission_rate: admissionRate,
-      tier,
-      subject_criteria_detail: subjectCriteriaDetail,
-      match_reasons: matchReasons
     });
   }
 
-  // Sort results:
-  // 1. Interest-matched & Eligible first
-  // 2. If student is interested in Medicine and eligible for UM1/UM2, prioritize UM1 first then UM2
-  // 3. Highest profile match percent
-  // 4. Highest required cutoff
-  results.sort((a, b) => {
-    if (a.is_interest_matched !== b.is_interest_matched) {
-      return a.is_interest_matched ? -1 : 1;
-    }
-    if (a.eligible !== b.eligible) {
-      return a.eligible ? -1 : 1;
-    }
-
-    // Top-tier Medical Priority: UM1 and UM2 rank #1 and #2 when student likes medicine and meets requirements
-    const isTopMedA = a.eligible && (a.university_code === 'UM1' || a.university_code === 'UM2') && a.is_interest_matched;
-    const isTopMedB = b.eligible && (b.university_code === 'UM1' || b.university_code === 'UM2') && b.is_interest_matched;
-    if (isTopMedA !== isTopMedB) {
-      return isTopMedA ? -1 : 1;
-    }
-    if (isTopMedA && isTopMedB) {
-      if (a.university_code === 'UM1') return -1;
-      if (b.university_code === 'UM1') return 1;
-    }
-
-    if (b.profile_match_percent !== a.profile_match_percent) {
-      return b.profile_match_percent - a.profile_match_percent;
-    }
-    return b.required_cutoff_score - a.required_cutoff_score;
+  candidates.sort((a, b) => {
+    const groupDiff = STATUS_GROUP[a.rec.status] - STATUS_GROUP[b.rec.status];
+    if (groupDiff) return groupDiff;
+    const rankDiff = (a.rec.interest_rank || MAX_INTERESTS + 1) - (b.rec.interest_rank || MAX_INTERESTS + 1);
+    if (rankDiff) return rankDiff;
+    if (a.rec.is_top_tier_medical !== b.rec.is_top_tier_medical) return a.rec.is_top_tier_medical ? -1 : 1;
+    return a.rec.eligible ? b.selectivity - a.selectivity : a.selectivity - b.selectivity;
   });
 
-  // Assign recommendation suggestion numbering (No. 1, No. 2, No. 3, ...)
-  results.forEach((item, index) => {
-    item.suggestion_no = index + 1;
-    item.rank_label = `No. ${index + 1}`;
-  });
+  // One entry per university: its best program, plus its other matching programs.
+  const byUniversity = new Map();
+  for (const { rec } of candidates) {
+    const uni = byUniversity.get(rec.university_id);
+    if (uni) {
+      uni.other_programs.push({
+        program_name: rec.program_name,
+        field_name: rec.field_name,
+        interest_field: rec.interest_field,
+        interest_rank: rec.interest_rank,
+        status: rec.status,
+        status_label: rec.status_label
+      });
+    } else {
+      byUniversity.set(rec.university_id, { ...rec, other_programs: [] });
+    }
+  }
 
-  return results;
+  return [...byUniversity.values()]
+    .slice(0, MAX_RECOMMENDED_UNIVERSITIES)
+    .map((uni, index) => ({ ...uni, suggestion_no: index + 1 }));
 }
 
 /**

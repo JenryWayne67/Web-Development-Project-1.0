@@ -314,7 +314,7 @@ async function loadRelatedUniversities(currentUniObj) {
                 otherMatches.forEach(m => {
                     const img = m.image_url || fallbackImageMap[m.university_code] || (m.university_code === 'YU' ? 'yangonuniversity.jpg' : 'uit.jpg');
                     const suggestionNo = m.suggestion_no || (savedMatches.indexOf(m) + 1);
-                    const matchPercent = m.profile_match_percent || 85;
+                    const statusLabel = m.status_label || 'Suggested';
                     const card = document.createElement('div');
                     card.className = 'bg-white rounded-2xl overflow-hidden border border-outline-variant/20 shadow-xs hover:shadow-lg transition-all group flex flex-col justify-between';
                     
@@ -326,7 +326,7 @@ async function loadRelatedUniversities(currentUniObj) {
                                     No. ${suggestionNo}
                                 </div>
                                 <div class="absolute top-2 right-2 bg-prompt-gold text-primary-container text-[11px] font-bold px-2 py-0.5 rounded shadow-xs">
-                                    ${matchPercent}% Match
+                                    ${statusLabel}
                                 </div>
                             </div>
                             <div class="p-4 space-y-1.5">
@@ -336,7 +336,7 @@ async function loadRelatedUniversities(currentUniObj) {
                                 <div class="flex items-center gap-2 pt-1 text-[11px] text-on-surface-variant">
                                     <span>📍 ${m.university_location || 'Yangon'}</span>
                                     <span>•</span>
-                                    <span class="font-semibold text-primary">Cutoff: ${m.required_cutoff_score || 400}</span>
+                                    <span class="font-semibold text-primary">${m.cutoff_label || 'See details'}</span>
                                 </div>
                             </div>
                         </div>

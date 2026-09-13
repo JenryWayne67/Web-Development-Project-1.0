@@ -1,6 +1,20 @@
-// UniAdvisor - Assessment Step 2: Interests (2026)
+// UniAdvisor - Assessment Step 2: Ranked Interests (2026)
 
-let selectedFields = ["Programming & Technology", "Engineering"];
+// Fields a student can rank. `value` must match a field_name in backend/db_data.js
+// exactly: recommendations only include programs in the chosen fields.
+const INTEREST_OPTIONS = [
+    { value: 'Programming & Technology', label: '💻 Programming & Technology', description: 'Computer Science, Software Engineering, AI, Data Science (UIT, UCSY)' },
+    { value: 'Engineering', label: '🔧 Engineering', description: 'Mechanical, Electrical, Civil, Mechatronics, Chemical, Architecture (YTU, WYTU, TTU)' },
+    { value: 'Medicine and health', label: '🏥 Medicine & Health', description: 'Medicine (MBBS), Dental, Pharmacy, Nursing, Medical Technology, Public Health (UM1, UM2)' },
+    { value: 'Economics', label: '📊 Business & Economics', description: 'Commerce, Business Administration, Accounting, Economics, Statistics, Finance (YUECO, NMDC, Co-op)' },
+    { value: 'Science', label: '🔬 Pure & Applied Science', description: 'Biology, Chemistry, Physics, Biochemistry, Industrial Chemistry (UY, East, West)' },
+    { value: 'Mathematics', label: '📐 Mathematics', description: 'Pure Mathematics, Applied Mathematics, Computational Statistics' },
+    { value: 'Languages', label: '🗣️ Foreign Languages', description: 'English, Japanese, Chinese, Korean, French, German, Russian (YUFL)' },
+    { value: 'Arts & Humanities', label: '🏛️ Arts & Humanities', description: 'Law (LLB), International Relations, Political Science, History, Philosophy, Psychology (UY, Dagon, NUAC)' },
+    { value: 'Education', label: '🎓 Education', description: 'Educational Science (BSc), Educational Arts (BA), Library Studies' },
+    { value: 'Environment & Geography', label: '🌿 Environment & Geography', description: 'Environmental Studies, Geography, Fisheries, Water Resource Studies' },
+    { value: 'Marine', label: '⚓ Marine & Maritime', description: 'Nautical Science, Marine Engineering, Port & Harbour (MMU Thanlyin)' }
+];
 
 // Academic-stream eligibility rules: a Myanmar matriculation stream restricts which
 // fields a student is even allowed to select, regardless of personal interest.
@@ -11,6 +25,8 @@ const STREAM_FIELD_RESTRICTIONS = {
     arts_humanities: ["Science", "Engineering", "Medicine and health", "Marine", "Programming & Technology"]
 };
 
+// interests[0] is the first (highest-ranked) interest; '' means not chosen.
+let interests = ['', '', ''];
 let restrictedFields = [];
 
 function getRestrictedFields() {
@@ -19,86 +35,46 @@ function getRestrictedFields() {
     return STREAM_FIELD_RESTRICTIONS[stream] || [];
 }
 
-function updateCardStyles() {
-    document.querySelectorAll('.field-card').forEach(card => {
-        const fieldName = card.getAttribute('data-field');
-        const isRestricted = restrictedFields.includes(fieldName);
-        const isSelected = !isRestricted && selectedFields.includes(fieldName);
-        const checkIcon = card.querySelector('.card-check');
+function renderInterestSelects() {
+    interests.forEach((current, i) => {
+        const select = document.getElementById(`interest${i + 1}`);
+        if (!select) return;
 
-        if (isRestricted) {
-            card.className = 'field-card relative p-4 rounded-[16px] bg-surface-container border border-outline-variant/50 shadow-none cursor-not-allowed opacity-50 group';
-            if (checkIcon) {
-                checkIcon.className = 'card-check absolute top-4 right-4';
-                checkIcon.innerHTML = `<span class="material-symbols-outlined text-outline" title="Not available for your academic stream">block</span>`;
-            }
-        } else if (isSelected) {
-            card.className = 'field-card relative p-4 rounded-[16px] bg-white border-2 border-gold shadow-[0_4px_14px_rgba(255,184,0,0.15)] cursor-pointer hover:shadow-md transition-all group';
-            if (checkIcon) {
-                checkIcon.className = 'card-check absolute top-4 right-4';
-                checkIcon.innerHTML = `<span class="material-symbols-outlined text-gold" style="font-variation-settings: 'FILL' 1;">check_circle</span>`;
-            }
-        } else {
-            card.className = 'field-card relative p-4 rounded-[16px] bg-white border border-outline-variant shadow-sm cursor-pointer hover:border-primary hover:shadow-md transition-all group';
-            if (checkIcon) {
-                checkIcon.className = 'card-check absolute top-4 right-4 opacity-0 group-hover:opacity-30';
-                checkIcon.innerHTML = `<span class="material-symbols-outlined text-outline">add_circle</span>`;
-            }
-        }
+        const chosenElsewhere = interests.filter((v, j) => j !== i && v);
+        const options = INTEREST_OPTIONS.map(opt => {
+            const restricted = restrictedFields.includes(opt.value);
+            const taken = chosenElsewhere.includes(opt.value);
+            const note = restricted ? ' (not available for your stream)' : taken ? ' (already chosen)' : '';
+            return `<option value="${opt.value}"${restricted || taken ? ' disabled' : ''}${opt.value === current ? ' selected' : ''}>${opt.label}${note}</option>`;
+        });
+        select.innerHTML = `<option value="">${i === 0 ? 'Choose your top interest…' : 'None'}</option>` + options.join('');
+        // The 2nd and 3rd choices unlock once the one above them is chosen
+        select.disabled = i > 0 && !interests[i - 1];
+
+        const desc = document.getElementById(`interest${i + 1}Desc`);
+        if (desc) desc.textContent = INTEREST_OPTIONS.find(o => o.value === current)?.description || '';
     });
 
-    const countDisplay = document.getElementById('selectedCountDisplay');
-    if (countDisplay) {
-        countDisplay.innerText = `${selectedFields.length} field${selectedFields.length === 1 ? '' : 's'} selected`;
-    }
+    const continueBtn = document.getElementById('continueStep3Btn');
+    if (continueBtn) continueBtn.disabled = !interests[0];
 }
 
-function toggleField(fieldName) {
-    if (restrictedFields.includes(fieldName)) {
-        return; // Not eligible for this field under the student's academic stream
-    }
-    if (selectedFields.includes(fieldName)) {
-        selectedFields = selectedFields.filter(f => f !== fieldName);
-    } else {
-        selectedFields.push(fieldName);
-    }
-    updateCardStyles();
-    saveFields();
+function setInterest(index, value) {
+    interests[index] = value;
+    // Keep choices contiguous: clearing the 2nd moves the 3rd up
+    interests = [...interests.filter(Boolean), '', '', ''].slice(0, 3);
+    renderInterestSelects();
+    saveInterests();
 }
 
-function saveFields() {
+function saveInterests() {
     const assessment = JSON.parse(localStorage.getItem('advisor_assessment') || '{}');
-    assessment.fields = selectedFields;
-    assessment.passions = selectedFields;
+    assessment.fields = interests.filter(Boolean);
+    delete assessment.passions;
     localStorage.setItem('advisor_assessment', JSON.stringify(assessment));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.field-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const field = card.getAttribute('data-field');
-            if (field) toggleField(field);
-        });
-    });
-
-    document.getElementById('selectAllOrUnsureBtn')?.addEventListener('click', () => {
-        const allCards = Array.from(document.querySelectorAll('.field-card'))
-            .map(c => c.getAttribute('data-field'))
-            .filter(f => f && !restrictedFields.includes(f));
-        if (selectedFields.length === allCards.length) {
-            selectedFields = [];
-        } else {
-            selectedFields = allCards;
-        }
-        updateCardStyles();
-        saveFields();
-    });
-
-    document.getElementById('continueStep3Btn')?.addEventListener('click', () => {
-        saveFields();
-        window.location.href = 'assessment3.html';
-    });
-
     restrictedFields = getRestrictedFields();
 
     const restrictionNotice = document.getElementById('streamRestrictionNotice');
@@ -111,27 +87,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Restore saved choices, dropping anything unknown, duplicated, or restricted
     const saved = JSON.parse(localStorage.getItem('advisor_assessment') || '{}');
-    if (Array.isArray(saved.fields) && saved.fields.length > 0) {
-        selectedFields = saved.fields;
-    } else if (Array.isArray(saved.passions) && saved.passions.length > 0) {
-        selectedFields = saved.passions;
-    } else {
-        const stream = saved.stream || saved.academic_stream;
-        if (stream === 'science_eco' || stream === 'eco') {
-            selectedFields = ["Economics"];
-        } else if (stream === 'arts') {
-            selectedFields = ["Arts & Humanities"];
-        } else if (stream === 'science_bio' || stream === 'bio') {
-            selectedFields = ["Programming & Technology", "Engineering"];
-        }
-    }
+    const allowed = INTEREST_OPTIONS.map(o => o.value).filter(v => !restrictedFields.includes(v));
+    const savedFields = (Array.isArray(saved.fields) ? saved.fields : [])
+        .filter((f, i, arr) => allowed.includes(f) && arr.indexOf(f) === i);
+    interests = [...savedFields, '', '', ''].slice(0, 3);
+    saveInterests();
 
-    // Strip out any restricted field that slipped in from a saved/default selection
-    if (restrictedFields.length > 0) {
-        selectedFields = selectedFields.filter(f => !restrictedFields.includes(f));
-        saveFields();
-    }
+    interests.forEach((_, i) => {
+        document.getElementById(`interest${i + 1}`)?.addEventListener('change', e => setInterest(i, e.target.value));
+    });
 
-    updateCardStyles();
+    document.getElementById('continueStep3Btn')?.addEventListener('click', () => {
+        if (!interests[0]) return;
+        saveInterests();
+        window.location.href = 'assessment3.html';
+    });
+
+    renderInterestSelects();
 });
