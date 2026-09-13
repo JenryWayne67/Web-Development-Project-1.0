@@ -1044,8 +1044,9 @@ export function getAdmissionChances(university, options = {}) {
  * Ordering: the top three are the highest-cutoff university the student
  * qualifies for in their 1st, 2nd and 3rd interest respectively (flagged
  * `top_pick`). After that: programs the student qualifies for first, then
- * borderline, then below cutoff; within each group by interest rank, then
- * (if qualified) most selective first, otherwise most reachable first.
+ * borderline ones; within each group by interest rank, then (if qualified)
+ * most selective first, otherwise most reachable first. Programs below the
+ * cutoff are never suggested.
  */
 export function getRecommendations(options = {}) {
   const student = studentScores(options);
@@ -1077,6 +1078,10 @@ export function getRecommendations(options = {}) {
     const interestIndex = interests.findIndex(i => i.matches(prog));
 
     const { requirements, eligible, status, note, cutoffLabel, selectivity } = assessProgram(prog, student);
+
+    // Programs below the cutoff aren't suggested at all (the university page's
+    // chance checker still shows them).
+    if (status === 'below') continue;
 
     // UM1/UM2 are only suggested to students who meet both the total cutoff
     // and the Eng+Chem+Bio requirement -- never as Borderline/Below Cutoff.

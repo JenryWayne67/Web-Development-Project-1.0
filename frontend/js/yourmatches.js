@@ -426,15 +426,14 @@ async function downloadMatchesPdf() {
     [
         ['safe', 'Safe: 15+ marks above the cutoff'],
         ['meets', 'Meets Cutoff: at or just above the cutoff'],
-        ['borderline', 'Borderline: slightly below (within 15 marks)'],
-        ['below', 'Below Cutoff: further below, or a subject requirement not met']
+        ['borderline', 'Borderline: slightly below (within 15 marks)']
     ].forEach(([status, text], i) => {
         doc.setTextColor(...STATUS_PDF_COLORS[status]);
         doc.text(text, marginX, y + i * 13);
     });
     if (currentRecommendations.some(item => item.outside_interests)) {
         doc.setTextColor(85, 95, 108);
-        doc.text('"Outside your interests": top high-cutoff universities you qualify for, added to complete your list of 20.', marginX, y + 4 * 13 + 4);
+        doc.text('"Outside your interests": top high-cutoff universities you qualify for, added to complete your list of 20.', marginX, y + 3 * 13 + 4);
     }
 
     doc.save('UniAdvisor-University-List.pdf');
