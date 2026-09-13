@@ -876,7 +876,8 @@ function resolveInterest(value) {
  * Suggests up to 20 universities for the student's ranked interests
  * (fields[0] = 1st interest, up to 3). Universities with programs in the
  * student's interests come first; if there are fewer than 20, the list is
- * filled with other universities (flagged `outside_interests`). Each program gets an admission status (safe / meets /
+ * filled with the highest-cutoff other universities the student qualifies for
+ * (flagged `outside_interests`). Each program gets an admission status (safe / meets /
  * borderline / below) from its gender-specific total cutoff and any
  * combined-subject requirements; each university is then represented by its
  * best program, with its other matching programs attached.
@@ -1033,7 +1034,10 @@ export function getRecommendations(options = {}) {
     if (groupDiff) return groupDiff;
     const rankDiff = (a.rec.interest_rank || MAX_INTERESTS + 1) - (b.rec.interest_rank || MAX_INTERESTS + 1);
     if (rankDiff) return rankDiff;
-    if (a.rec.is_top_tier_medical !== b.rec.is_top_tier_medical) return a.rec.is_top_tier_medical ? -1 : 1;
+    // UM1/UM2 priority applies to interest matches only; universities outside
+    // the student's interests are ordered strictly by cutoff.
+    const medicalPriority = matchedA || interests.length === 0;
+    if (medicalPriority && a.rec.is_top_tier_medical !== b.rec.is_top_tier_medical) return a.rec.is_top_tier_medical ? -1 : 1;
     return a.rec.eligible ? b.selectivity - a.selectivity : a.selectivity - b.selectivity;
   });
 
@@ -1043,10 +1047,15 @@ export function getRecommendations(options = {}) {
   const byUniversity = new Map();
   for (const { rec } of candidates) {
     const uni = byUniversity.get(rec.university_id);
+    const outside = interests.length > 0 && rec.interest_rank === 0;
     if (!uni) {
+      // Extra universities outside the interests must be ones the student
+      // qualifies for (Safe / Meets Cutoff). A university's candidates are
+      // sorted eligible-first, so an ineligible first candidate means none qualify.
+      if (outside && !rec.eligible) continue;
       byUniversity.set(rec.university_id, {
         ...rec,
-        outside_interests: interests.length > 0 && rec.interest_rank === 0,
+        outside_interests: outside,
         other_programs: []
       });
     } else if (interests.length === 0 || rec.interest_rank > 0) {
